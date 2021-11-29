@@ -10,6 +10,11 @@ import { IngredientComponent } from './ingredient/ingredient.component';
 import { StockComponent } from './stock/stock.component';
 import { AccueilComponent } from './accueil/accueil.component';
 
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { environment } from 'src/environments/environment';
+import { provideFirestore, getFirestore} from '@angular/fire/firestore';
+import { FicheTechniqueService } from './services/fiche-technique.service';
+
 const appRoutes: Routes = [
   { path: '', component: AccueilComponent },
 
@@ -30,9 +35,11 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore())
   ],
-  providers: [],
+  providers: [FicheTechniqueService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
