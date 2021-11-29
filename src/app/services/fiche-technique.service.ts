@@ -6,7 +6,7 @@ import { FicheTechnique } from '../models/fiche-technique';
   providedIn: 'root'
 })
 export class FicheTechniqueService {
-  private path = '../fiche-technique/';
+  private path = '/fiche-technique/';
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
 
@@ -15,7 +15,7 @@ export class FicheTechniqueService {
     this.ficheTechniqueCollection = db.collection(this.path);
   }
 
-  addNewFicheTechnique(ft: FicheTechnique){
+  /*addNewFicheTechnique(ft: FicheTechnique){
     this.ficheTechniqueCollection.doc(ft.id).get()
     .subscribe(doc => {
       if(!doc.exists) {
@@ -23,7 +23,7 @@ export class FicheTechniqueService {
           ft));
       }
     });
-  }
+  }*/
 
   exampleGetCollection(){
     return this.ficheTechniqueStore.collection('ficheTechnique');

@@ -4,6 +4,7 @@ import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
 import { FicheTechnique } from './models/fiche-technique';
 import { FicheTechniqueService } from './services/fiche-technique.service';
+import { collection, getDocs } from '@firebase/firestore';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +17,15 @@ export class AppComponent {
 
   constructor(private ficheTechniqueService : FicheTechniqueService){}
 
-  //ngOnInit(){
-    //this.fichesTechniques = this.ficheTechniqueService.exampleGetCollection();
-  //}
+  async ngOnInit(){
+    this.fichesTechniques = this.ficheTechniqueService.exampleGetCollection();
+    console.log(this.fichesTechniques);
+
+  /*const querySnapshot = await getDocs(collection(this.fichesTechniques, "ficheTechnique"));
+querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data());
+});*/
+  }
 
 }

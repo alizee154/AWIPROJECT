@@ -14,6 +14,9 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment';
 import { provideFirestore, getFirestore} from '@angular/fire/firestore';
 import { FicheTechniqueService } from './services/fiche-technique.service';
+import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule} from '@angular/fire/compat/database';
 
 const appRoutes: Routes = [
   { path: '', component: AccueilComponent },
@@ -37,7 +40,10 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    AngularFirestoreModule
   ],
   providers: [FicheTechniqueService],
   bootstrap: [AppComponent]

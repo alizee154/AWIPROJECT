@@ -1,5 +1,3 @@
-import { Optional } from "@angular/core";
-
 export class FicheTechnique{
     public id: string;
     public name: string;
