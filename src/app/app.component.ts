@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
@@ -12,14 +12,17 @@ import { collection, getDocs } from '@firebase/firestore';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   title = 'MyRecipe';
   fichesTechniques: AngularFirestoreCollection;
+  recettes: any[];
 
   constructor(private ficheTechniqueService : FicheTechniqueService){}
 
   async ngOnInit(){
     this.fichesTechniques = this.ficheTechniqueService.exampleGetCollection();
     console.log(this.fichesTechniques);
+    this.recettes = this.ficheTechniqueService.ficheTechnicas;
 
   /*const querySnapshot = await getDocs(collection(this.fichesTechniques, "ficheTechnique"));
 querySnapshot.forEach((doc) => {

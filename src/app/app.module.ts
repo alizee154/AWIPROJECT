@@ -17,13 +17,21 @@ import { FicheTechniqueService } from './services/fiche-technique.service';
 import { AngularFirestore, AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule} from '@angular/fire/compat/database';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { ListFicheComponent } from './list-fiche/list-fiche.component';
+import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
+import { ListIngredientComponent } from './list-ingredient/list-ingredient.component';
 
 const appRoutes: Routes = [
   { path: '', component: AccueilComponent },
 
-  { path: 'fiche-technique', component: FicheTechniqueComponent },
-  { path: 'ingredient', component: IngredientComponent },
-  { path: 'stock', component: StockComponent }
+  { path: 'formRecette', component: FormAddRecetteComponent },
+
+  { path: 'fiche-technique', component: ListFicheComponent },
+  { path: 'ingredient', component: ListIngredientComponent },
+  { path: 'stock', component: StockComponent },
+  { path: 'not-found', component: FourOhFourComponent },
+  { path: '**', redirectTo: 'not-found' }
 
 ];
 @NgModule({
@@ -34,10 +42,15 @@ const appRoutes: Routes = [
     FormAddRecetteComponent,
     IngredientComponent,
     StockComponent,
-    AccueilComponent
+    AccueilComponent,
+    ListFicheComponent,
+    FourOhFourComponent,
+    ListIngredientComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
+    FormsModule,
     RouterModule.forRoot(appRoutes),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideFirestore(() => getFirestore()),

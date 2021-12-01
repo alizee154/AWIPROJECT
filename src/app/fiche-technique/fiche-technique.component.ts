@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
+import {Component, Input, OnInit} from '@angular/core';
+import {FicheTechnique} from "../models/fiche-technique";
+import {FicheTechniqueService} from "../services/fiche-technique.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-fiche-technique',
@@ -7,10 +9,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./fiche-technique.component.css']
 })
 export class FicheTechniqueComponent implements OnInit {
+  @Input() id : string = '1';
+  @Input() name : string ;
+  @Input() author : string = 'Alizée';
+  @Input() desc : string = 'pate chocolat';
 
-  constructor() { }
+  recettes: FicheTechnique[] = [];
+  recetteSubscription : Subscription;
 
-  ngOnInit(): void {
+
+  constructor(private ft: FicheTechniqueService) { }
+  getName() {
+    return this.name;
   }
+
+
+  ngOnInit() {}
+  /*ngOnInit() {
+    this.recetteSubscription = this.ft.recetteSubject.subscribe(
+      (recettes: FicheTechnique[]) => {
+        this.recettes = recettes;
+      }
+    );
+
+    this.ft.emitUsers();
+  }
+*/
+
+
+
 
 }

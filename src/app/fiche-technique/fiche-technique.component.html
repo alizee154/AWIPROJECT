@@ -1,4 +1,19 @@
 
-<h2>Consulter la liste des plats</h2>
-<button type="button" class="btn btn-danger">Rechercher une fiche technique</button>
-<button type="button" class="btn btn-danger">Ajouter une fiche technique</button>
+
+<!--<ul class="list-group">
+  <li class="list-group-item" *ngFor="let recette of recettes" [name]="recette.name">
+
+
+  </li>
+
+</ul>
+-->
+<li class="list-group-item">
+  <h4>Recette : {{ id }} --{{ getName() }} -- {{ author }} --{{ desc }} </h4>
+  <input type="text" class="form-control" [(ngModel)]="id">
+
+  <input type="text" class="form-control" [(ngModel)]="name">
+  <input type="text" class="form-control" [(ngModel)]="author">
+  <input type="text" class="form-control" [(ngModel)]="desc">
+</li>
+

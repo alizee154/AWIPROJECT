@@ -1,0 +1,21 @@
+<h2>Consulter la liste des plats</h2>
+<button type="button" class="btn btn-danger">Rechercher une fiche technique</button>
+<button type="button" class="btn btn-danger" (click)="onForm()">Ajouter une fiche technique</button>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Mes fiches</h2>
+      <ul class="list-group">
+        <app-fiche-technique *ngFor="let recette of recettes"
+                             [id]="recette.id"
+                             [name]="recette.name"
+                             [author]="recette.author"
+                             [desc]="recette.desc"></app-fiche-technique>
+
+      </ul>
+      <button class="btn btn-success"
+
+              (click)="onAllumer()">Tout allumer</button>
+    </div>
+  </div>
+</div>
