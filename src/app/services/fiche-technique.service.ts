@@ -18,6 +18,7 @@ export class FicheTechniqueService {
       name: 'couscous',
       author:'goug',
       desc:'hello'
+
     },
     {
       id:'2',

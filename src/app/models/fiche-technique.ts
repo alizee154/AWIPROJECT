@@ -4,6 +4,7 @@ export class FicheTechnique{
     public author: string;
     public desc: string;
 
+
     constructor(
         id: string,
         name: string,

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { FicheTechnique } from './models/fiche-technique';
 import { FicheTechniqueService } from './services/fiche-technique.service';
 import { collection, getDocs } from '@firebase/firestore';
+import {IngredientService} from "./services/ingredient.service";
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
   fichesTechniques: AngularFirestoreCollection;
   recettes: any[];
 
-  constructor(private ficheTechniqueService : FicheTechniqueService){}
+  constructor(private ficheTechniqueService : FicheTechniqueService,ing:IngredientService){}
 
   async ngOnInit(){
     this.fichesTechniques = this.ficheTechniqueService.exampleGetCollection();

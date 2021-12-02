@@ -1,0 +1,30 @@
+
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col"> Id  </th>
+    <th scope="col">Nom ing</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row">{{ id }} </th>
+    <td>{{ getName() }} </td>
+
+  </tr>
+
+
+  </tbody>
+</table>
+<li class="list-group-item">
+  <button type="button" class="btn btn-dark" ><h4>  Ingredient :{{ id }}  --{{ getName() }} </h4></button>
+  <input type="text" class="form-control" [(ngModel)]="id">
+
+  <input type="text" class="form-control" [(ngModel)]="name">
+
+  <input type="text" class="form-control" [(ngModel)]="unit">
+  <input type="text" class="form-control" [(ngModel)]="quantity">
+  <input type="text" class="form-control" [(ngModel)]="unitprice">
+  <input type="text" class="form-control" [(ngModel)]="allergene">
+</li>

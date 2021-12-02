@@ -1,3 +1,25 @@
 <h2>Consulter la liste des ingrédients</h2>
 <button type="button" class="btn btn-danger">Rechercher un ingrédient</button>
 <button type="button" class="btn btn-danger" (click)="onForm()" >Ajouter un ingrédient</button>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Mes Ingrédients</h2>
+      <ul class="list-group">
+        <app-ingredient  *ngFor="let ingredient of ingredients"
+                              [id]="ingredient.id"
+                              [name]="ingredient.name"
+                              [unit]="ingredient.unit"
+                              [quantity]="ingredient.quantity"
+                              [unitprice]="ingredient.unitprice"
+                              [allergene]="ingredient.allergene"
+
+        ></app-ingredient>
+
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+

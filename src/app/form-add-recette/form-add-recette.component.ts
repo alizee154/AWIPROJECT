@@ -33,6 +33,7 @@ export class FormAddRecetteComponent implements OnInit {
     });
 
   }*/
+
   onSubmit(form: NgForm) {
     const name = form.value['name'];
     const author = form.value['author'];
