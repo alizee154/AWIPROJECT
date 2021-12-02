@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FicheTechnique} from "../models/fiche-technique";
 import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-fiche-technique',
@@ -18,13 +19,16 @@ export class FicheTechniqueComponent implements OnInit {
   recetteSubscription : Subscription;
 
 
-  constructor(private ft: FicheTechniqueService) { }
+  constructor(private ft: FicheTechniqueService, private router: Router) { }
   getName() {
     return this.name;
   }
 
 
   ngOnInit() {}
+  onView(){
+    this.router.navigate(['view']);
+  }
   /*ngOnInit() {
     this.recetteSubscription = this.ft.recetteSubject.subscribe(
       (recettes: FicheTechnique[]) => {

@@ -11,7 +11,8 @@ export class FicheTechniqueService {
   private path = '/fiche-technique/';
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
-  recettes = [
+  recetteSubject = new Subject<any[]>();
+  private recettes = [
     {
       id:'4',
       name: 'couscous',
@@ -26,6 +27,12 @@ export class FicheTechniqueService {
     }
 
   ];
+  recette = {
+    id:'5',
+    name: 'riz cantonais',
+    author:'chris',
+    desc:'hello wd'
+  };
   ficheTechnicas: FicheTechnique[] = [{
     id: '4',
     name: 'cookies',
@@ -44,7 +51,7 @@ export class FicheTechniqueService {
   }
   public listMessage: string[];
 
-  recetteSubject = new Subject<FicheTechnique[]>();
+
 
   /*emitUsers() {
     this.recetteSubject.next(this.ficheTechnicas.slice());
@@ -55,29 +62,31 @@ export class FicheTechniqueService {
     const author = form.value['author'];
     const desc = form.value['desc'];
   }
+  emitrecetteSubject() {
+    this.recetteSubject.next(this.recettes.slice());
+  }
 
   /*addRecette(recette: FicheTechnique) {
     this.ficheTechnicas.push(recette);
     this.emitUsers();
   }*/
+
   addRecette(id : string, desc : string,name: string, author: string) {
     const recetteObject = {
       id: '0',
-      name: 'cookies',
-      desc: 'hello',
-      author: 'alizee'
+      name: '',
+      desc: '',
+      author: ''
     };
     recetteObject.id = id;
     recetteObject.name = name;
     recetteObject.author = author;
     recetteObject.desc = desc;
 
-    this.ficheTechnicas.push(recetteObject);
+    this.recettes.push(recetteObject);
     this.emitrecetteSubject();
   }
-  emitrecetteSubject() {
-    this.recetteSubject.next(this.ficheTechnicas.slice());
-  }
+
 
 
   /*log(value: string) {

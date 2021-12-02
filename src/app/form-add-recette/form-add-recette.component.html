@@ -31,29 +31,54 @@
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <div class="form-group">
         <label for="id">
-          id
+          Identifiant :
         </label>
         <input type="text" id="id" class="form-control" name="id" ngModel>
       </div>
       <div class="form-group">
         <label for="name">
-          Nom du plat
+          Nom du plat :
         </label>
         <input type="text" id="name" class="form-control" name="name" ngModel>
       </div>
       <div class="form-group">
         <label for="author">
-          author
+          Auteur :
         </label>
         <input type="text" id="author" class="form-control" name="author" ngModel>
       </div>
+      <button class="btn btn-danger">Ajouter une photo</button>
+
+      <div class="form-group">
+        <label for="steptitle">
+          Titre de l'étape :
+        </label>
+        <input type="text" id="steptitle" class="form-control" name="steptitle" ngModel>
+      </div>
       <div class="form-group">
         <label for="desc">
-          description
+          Description :
         </label>
         <input type="text" id="desc" class="form-control" name="desc" ngModel>
       </div>
-      <button class="btn btn-danger" type="submit">Enregistrer</button>
+      <div class="form-group">
+        <label for="usedIng">Ingrédients utilisés dans l'étape : </label>
+        <select class="form-control" id="usedIng">
+          <option>beurre</option>
+          <option>sucre</option>
+          <option>chocolat</option>
+
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="quantity">
+          Quantité :
+        </label>
+        <input type="text" id="quantity" class="form-control" name="quantity" ngModel>
+      </div>
+      <button class="btn btn-danger">+   Ajouter un ingrédient</button>
+      <button class="btn btn-danger">+   Ajouter une étape</button>
+      <button class="btn btn-dark" type="submit">Enregistrer</button>
     </form>
   </div>
 </div>

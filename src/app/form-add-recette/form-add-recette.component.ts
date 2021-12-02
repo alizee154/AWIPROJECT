@@ -38,28 +38,11 @@ export class FormAddRecetteComponent implements OnInit {
     const author = form.value['author'];
     const id = form.value['id'];
     const desc = form.value['desc'];
-    this.ft.addRecette(id,name,author,desc);
+
+    console.log(form.value);
+    this.ft.addRecette(id,desc,name,author);
     this.router.navigate(['/fiche-technique']);
   }
-
-  /*onSubmitForm() {
-    const formValue = this.recetteForm.value;
-    const newFT = new FicheTechnique(
-      formValue['id'],
-      formValue['name'],
-      formValue['author'],
-      formValue['desc']
-
-    );
-    this.ft.log(formValue['id']);
-    this.ft.addRecette(newFT);
-
-    this.router.navigate(['/fiche-technique']);
-  }*/
-
-
-
-
 
 
 

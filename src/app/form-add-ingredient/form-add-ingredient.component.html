@@ -1,0 +1,62 @@
+<h2>Ajouter un ingrédient : </h2>
+
+
+
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2">
+    <form>
+      <div class="form-group">
+        <label for="name">
+          Nom de l'ingrédient
+        </label>
+        <input type="text" id="name" class="form-control" name="name" >
+      </div>
+      <div class="form-group">
+        <label for="category">
+          Catégorie
+        </label>
+        <input type="text" id="category" class="form-control" name="category" ngModel>
+      </div>
+      <div class="form-group">
+        <label for="unit">
+          Unité
+        </label>
+        <input type="text" id="unit" class="form-control" name="unit" ngModel>
+      </div>
+      <div class="form-group">
+        <label for="quantity">
+          Quantité :
+        </label>
+        <input type="text" id="quantity" class="form-control" name="quantity" ngModel>
+      </div>
+
+
+      <div class="form-group">
+        <label for="unitprice">
+          Prix Unitaire :
+        </label>
+        <input type="text" id="unitprice" class="form-control" name="unitprice" ngModel>
+      </div>
+      <label for="unitprice">
+        Allergène :
+      </label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="yes" id="yes" value="option1" checked>
+        <label class="form-check-label" for="yes">
+          Oui
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="no" id="no" value="option2">
+        <label class="form-check-label" for="no">
+          Non
+        </label>
+      </div>
+
+
+
+
+      <button class="btn btn-danger" type="submit">Enregistrer</button>
+    </form>
+  </div>
+</div>

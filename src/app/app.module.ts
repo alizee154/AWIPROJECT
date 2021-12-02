@@ -21,12 +21,15 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { ListFicheComponent } from './list-fiche/list-fiche.component';
 import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 import { ListIngredientComponent } from './list-ingredient/list-ingredient.component';
+import { ViewFicheComponent } from './view-fiche/view-fiche.component';
+import { FormAddIngredientComponent } from './form-add-ingredient/form-add-ingredient.component';
 
 const appRoutes: Routes = [
   { path: '', component: AccueilComponent },
 
   { path: 'formRecette', component: FormAddRecetteComponent },
-
+  { path: 'view', component: ViewFicheComponent },
+  { path: 'formIng', component: FormAddIngredientComponent },
   { path: 'fiche-technique', component: ListFicheComponent },
   { path: 'ingredient', component: ListIngredientComponent },
   { path: 'stock', component: StockComponent },
@@ -45,7 +48,9 @@ const appRoutes: Routes = [
     AccueilComponent,
     ListFicheComponent,
     FourOhFourComponent,
-    ListIngredientComponent
+    ListIngredientComponent,
+    ViewFicheComponent,
+    FormAddIngredientComponent
   ],
   imports: [
     BrowserModule,
