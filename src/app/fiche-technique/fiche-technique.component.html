@@ -19,14 +19,16 @@
 
   </tbody>
 </table>
-<li class="list-group-item">
-  <button type="button" class="btn btn-dark" (click)="onView()"><h4>  Recette :{{ id }}  --{{ getName() }} -- {{ author }} --{{ desc }} </h4></button>
+<li class="list-group-item" >
+  <a [routerLink]="[id]">Consulter</a>
+  <button type="button" class="btn btn-dark" ><h4>  Recette :{{ id }}  --{{ getName() }} -- {{ author }} --{{ desc }} </h4></button>
   <input type="text" class="form-control" [(ngModel)]="id">
 
   <input type="text" class="form-control" [(ngModel)]="name">
 
   <input type="text" class="form-control" [(ngModel)]="author">
   <input type="text" class="form-control" [(ngModel)]="desc">
+  <input type="text" class="form-control" [(ngModel)]="listEtape">
 </li>
 
 

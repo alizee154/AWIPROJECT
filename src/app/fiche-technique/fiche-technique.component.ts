@@ -1,8 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FicheTechnique} from "../models/fiche-technique";
 import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
+import {Etape} from "../models/etape";
 
 @Component({
   selector: 'app-fiche-technique',
@@ -14,6 +15,7 @@ export class FicheTechniqueComponent implements OnInit {
   @Input() name : string ;
   @Input() author : string = 'Alizée';
   @Input() desc : string = 'pate chocolat';
+  @Input() listEtape : Etape [] = [];
 
   recettes: FicheTechnique[] = [];
   recetteSubscription : Subscription;
@@ -26,9 +28,7 @@ export class FicheTechniqueComponent implements OnInit {
 
 
   ngOnInit() {}
-  onView(){
-    this.router.navigate(['view']);
-  }
+
   /*ngOnInit() {
     this.recetteSubscription = this.ft.recetteSubject.subscribe(
       (recettes: FicheTechnique[]) => {

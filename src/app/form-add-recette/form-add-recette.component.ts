@@ -39,9 +39,10 @@ export class FormAddRecetteComponent implements OnInit {
     const author = form.value['author'];
     const id = form.value['id'];
     const desc = form.value['desc'];
+    const listEtape = form.value['listEtape'];
 
     console.log(form.value);
-    this.ft.addRecette(id,desc,name,author);
+    this.ft.addRecette(id,desc,name,author, listEtape);
     this.router.navigate(['/fiche-technique']);
   }
 

@@ -28,7 +28,7 @@ const appRoutes: Routes = [
   { path: '', component: AccueilComponent },
 
   { path: 'formRecette', component: FormAddRecetteComponent },
-  { path: 'view', component: ViewFicheComponent },
+  { path: 'fiche-technique/:id', component: ViewFicheComponent },
   { path: 'formIng', component: FormAddIngredientComponent },
   { path: 'fiche-technique', component: ListFicheComponent },
   { path: 'ingredient', component: ListIngredientComponent },

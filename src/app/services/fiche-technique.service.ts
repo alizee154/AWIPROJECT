@@ -3,6 +3,8 @@ import { AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compa
 import { FicheTechnique } from '../models/fiche-technique';
 import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
+import {Ingredient} from "../models/ingredient";
+import {Etape} from "../models/etape";
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +14,22 @@ export class FicheTechniqueService {
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
   recetteSubject = new Subject<any[]>();
+
   private recettes = [
     {
       id:'4',
       name: 'couscous',
       author:'goug',
-      desc:'hello'
+      desc:'hello',
+      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']]
 
     },
     {
       id:'2',
       name: 'sushi',
       author:'gaetan',
-      desc:'hello world'
+      desc:'hello world',
+      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']]
     }
 
   ];
@@ -32,13 +37,15 @@ export class FicheTechniqueService {
     id:'5',
     name: 'riz cantonais',
     author:'chris',
-    desc:'hello wd'
+    desc:'hello wd',
+    listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']]
   };
   ficheTechnicas: FicheTechnique[] = [{
-    id: '4',
+    id: '8',
     name: 'cookies',
     author: 'alizee',
-    desc :'hello'
+    desc :'hello',
+    listEtape : []
   },
 
     ];
@@ -72,20 +79,31 @@ export class FicheTechniqueService {
     this.emitUsers();
   }*/
 
-  addRecette(id : string, desc : string,name: string, author: string) {
+  addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {
     const recetteObject = {
       id: '0',
       name: '',
       desc: '',
-      author: ''
+      author: '',
+      listEtape :  []
     };
     recetteObject.id = id;
     recetteObject.name = name;
     recetteObject.author = author;
     recetteObject.desc = desc;
+    recetteObject.listEtape = listEtape;
 
     this.recettes.push(recetteObject);
     this.emitrecetteSubject();
+  }
+
+  getRecetteById(id : string){
+    const recette = this.recettes.find(
+      (recetteObject) => {
+        return recetteObject.id === id;
+    }
+    );
+    return recette;
   }
 
 

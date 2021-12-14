@@ -1,6 +1,26 @@
+<form>
+  <div>
+    <input type="search" id="maRecherche" name="q"
+           placeholder="Rechercher une recette">
+    <button>Rechercher</button>
+  </div>
+</form>
+<input type="button" value="Download PDF" class="btn btn-danger" (click)="SavePDF()">
+<div class="container" id="content" #content>
+
 <header class="centre" >
-  <h3 >{{recette.name}}</h3>
-  <h4 >{{recette.author}}</h4>
+  <h3 >{{name}}</h3>
+  <h4 >{{author}}</h4>
+  <div class="form-group">
+    <label for="nbcouverts">Nombre de couverts : </label>
+    <select class="form-control" id="nbcouverts">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
+  </div>
 </header>
 
 <table class="table">
@@ -18,7 +38,7 @@
   <tbody>
   <tr>
     <th scope="row">1</th>
-    <td>Mark</td>
+    <td >{{recette.id}}</td>
     <td>Otto</td>
     <td>@mdo</td>
   </tr>
@@ -27,4 +47,15 @@
   </tbody>
 </table>
 
+<p>Coût matière : </p>
+<p>Coût de production : </p>
+<p>Coût de production par portion: </p>
+<p>Coût des charges : </p>
+<p>Coût du personnel : </p>
+<p>Coût des fluides : </p>
+<p>Prix de vente : </p>
+<p>Prix de vente par portion : </p>
+<p>Bénéfice par portion : </p>
+<p>Seuil de rentabilité : </p>
+</div>
 

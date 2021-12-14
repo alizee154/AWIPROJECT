@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {FicheTechnique} from "../models/fiche-technique";
 
 @Component({
   selector: 'app-list-fiche',
@@ -9,6 +10,9 @@ import {Subscription} from "rxjs";
   styleUrls: ['./list-fiche.component.css']
 })
 export class ListFicheComponent implements OnInit {
+  @Output() public selectedRecette = new EventEmitter<FicheTechnique>();
+  @Input() id : string;
+
   recetteOne = 'couscous';
   recetteTwo = 'sushi';
   recetteSubscription : Subscription;
@@ -25,6 +29,14 @@ export class ListFicheComponent implements OnInit {
   }
   onForm(){
     this.router.navigate(['formRecette']);
+  }
+  onView(recette : FicheTechnique){
+    //this.router.navigate(['fiche-technique/:id']);
+    this.selectedRecette.emit(recette);
+    console.log(recette.name)
+
+
+
   }
 
 }
