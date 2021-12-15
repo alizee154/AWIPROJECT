@@ -23,6 +23,7 @@ import { FourOhFourComponent } from './four-oh-four/four-oh-four.component';
 import { ListIngredientComponent } from './list-ingredient/list-ingredient.component';
 import { ViewFicheComponent } from './view-fiche/view-fiche.component';
 import { FormAddIngredientComponent } from './form-add-ingredient/form-add-ingredient.component';
+import { FormAddEtapeComponent } from './form-add-etape/form-add-etape.component';
 
 const appRoutes: Routes = [
   { path: '', component: AccueilComponent },
@@ -50,7 +51,8 @@ const appRoutes: Routes = [
     FourOhFourComponent,
     ListIngredientComponent,
     ViewFicheComponent,
-    FormAddIngredientComponent
+    FormAddIngredientComponent,
+    FormAddEtapeComponent
   ],
   imports: [
     BrowserModule,

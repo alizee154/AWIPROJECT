@@ -1,84 +1,79 @@
 <h2>Ajouter une fiche technique : </h2>
 
 
-<!--
-<div class="col-sm-8 col-sm-offset-2">
-  <form [formGroup]="recetteForm" (ngSubmit)="onSubmitForm()">
-    <div class="form-group">
-      <label for="id">id</label>
-      <input type="text" id="id" class="form-control" formControlName="id">
-    </div>
-    <div class="form-group">
-      <label for="name">Nom : </label>
-      <input type="text" id="name" class="form-control" formControlName="name">
-    </div>
-    <div class="form-group">
-      <label for="author">author</label>
-      <input type="text" id="author" class="form-control" formControlName="author">
-    </div>
-    <div class="form-group">
-      <label for="desc">desc</label>
-      <input type="text" id="desc" class="form-control" formControlName="desc">
-    </div>
 
-
-    <button type="submit" class="btn btn-danger">Soumettre</button>
-  </form>
-</div>
--->
 <div class="row">
   <div class="col-sm-8 col-sm-offset-2">
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-      <div class="form-group">
-        <label for="id">
-          Identifiant :
-        </label>
-        <input type="text" id="id" class="form-control" name="id" ngModel>
-      </div>
-      <div class="form-group">
-        <label for="name">
-          Nom du plat :
-        </label>
-        <input type="text" id="name" class="form-control" name="name" ngModel>
-      </div>
-      <div class="form-group">
-        <label for="author">
-          Auteur :
-        </label>
-        <input type="text" id="author" class="form-control" name="author" ngModel>
-      </div>
-      <button class="btn btn-danger">Ajouter une photo</button>
+    <!--<form (ngSubmit)="onSubmit(f)"  #f="ngForm">-->
+      <form [formGroup]="recetteForm" (ngSubmit)="onSubmitForm()">
+        <div class="form-group">
+          <label for="id">
+            Identifiant :
+          </label>
+          <input type="text" id="id"  class="form-control"  formControlName="id">
+        </div>
+        <div class="form-group">
+          <label for="name">
+            Nom du plat :
+          </label>
+          <input type="text" id="name" class="form-control" formControlName="name">
+        </div>
+        <div class="form-group">
+          <label for="author">
+            Auteur :
+          </label>
+          <input type="text" id="author" class="form-control"  formControlName="author">
+        </div>
+        <div class="form-group">
+          <label for="desc">
+            Description :
+          </label>
+          <input type="text" id="desc" class="form-control" formControlName="desc">
+        </div>
+        <button class="btn btn-danger">Ajouter une photo</button>
+  <div formArrayName="tags">
+    <div *ngFor=" let tag of tags.controls; let i=index let k = index">
+      <div [id]="i" >
+        <label [attr.for]="i">{{'etape'+i}}</label>
+        <div class="form-group" >
 
-      <div class="form-group">
-        <label for="steptitle">
-          Titre de l'étape :
-        </label>
-        <input type="text" id="steptitle" class="form-control" name="steptitle" ngModel>
-      </div>
-      <div class="form-group">
-        <label for="desc">
-          Description :
-        </label>
-        <input type="text" id="desc" class="form-control" name="desc" ngModel>
-      </div>
-      <div class="form-group">
-        <label for="usedIng">Ingrédients utilisés dans l'étape : </label>
-        <select class="form-control" id="usedIng">
-          <option>beurre</option>
-          <option>sucre</option>
-          <option>chocolat</option>
+          <label for="title" >
+            {{'Titre de l\'étape :' + i}}
+          </label>
+          <input type="text" id="title"placeholder="{{'Titre de l\'étape :' + i}}" class="form-control"  [formControlName]="i">
+        </div>
+        <div class="form-group">
+          <label for="time">
+            Temps nécessaire :
+          </label>
+          <input type="text" id="time" class="form-control" [formControlName]="k">
+        </div>
 
-        </select>
+
+        <div class="form-group" *ngFor=" let ing of ings.controls; let j=index">
+          <label [attr.for]="j">{{'Ingrédient ' + j}} </label>
+          <select class="form-control" [id]="j"  [formControlName]="j">
+            <option>beurre</option>
+            <option>sucre</option>
+            <option>chocolat</option>
+
+          </select>
+          <div class="form-group">
+            <label for="quantity">
+              Quantité :
+            </label>
+            <input type="text" id="quantity" class="form-control" [formControlName]="j">
+          </div>
+        </div>
+
+
       </div>
-      <div class="form-group">
-        <label for="quantity">
-          Quantité :
-        </label>
-        <input type="text" id="quantity" class="form-control" name="quantity" ngModel>
-      </div>
-      <button class="btn btn-danger">+   Ajouter un ingrédient</button>
-      <button class="btn btn-danger">+   Ajouter une étape</button>
+    </div>
+  </div>
+      <button class="btn btn-danger" type ="button" (click)="addIngs()">+   Ajouter un ingrédient</button>
+      <button class="btn btn-danger" type ="button" (click)="addSteps()" >+   Ajouter une étape</button>
       <button class="btn btn-dark" type="submit">Enregistrer</button>
+
     </form>
   </div>
 </div>

@@ -13,7 +13,17 @@ export class FicheTechniqueService {
   private path = '/fiche-technique/';
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
-  recetteSubject = new Subject<any[]>();
+  private recettas : FicheTechnique[] = [
+    {
+      id : 'e',
+      name:'moule',
+      author:'ee',
+      desc:'hey',
+      listEtape:[]
+
+    }
+  ];
+  recetteSubject = new Subject<FicheTechnique[]>();
 
   private recettes = [
     {
@@ -71,15 +81,15 @@ export class FicheTechniqueService {
     const desc = form.value['desc'];
   }
   emitrecetteSubject() {
-    this.recetteSubject.next(this.recettes.slice());
+    this.recetteSubject.next(this.recettas.slice());
   }
 
-  /*addRecette(recette: FicheTechnique) {
-    this.ficheTechnicas.push(recette);
-    this.emitUsers();
-  }*/
+  addRecette(recette: FicheTechnique) {
+    this.recettas.push(recette);
+    this.emitrecetteSubject();
+  }
 
-  addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {
+  /*addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {
     const recetteObject = {
       id: '0',
       name: '',
@@ -95,10 +105,29 @@ export class FicheTechniqueService {
 
     this.recettes.push(recetteObject);
     this.emitrecetteSubject();
-  }
+  }*/
+  /*addEtape(titreEtape,descEtape,listeIng,duree){
+    const etapeObject : Etape = {
+      titreEtape : '',
+      descEtape: '',
+      duree : '',
+      listeIng :  []
+    };
+    etapeObject.titreEtape = titreEtape;
+    etapeObject.descEtape = descEtape;
+    etapeObject.duree = duree;
+    etapeObject.listeIng = listeIng;
+
+
+
+    this.recetteSubject.listEtape.push( titreEtape,descEtape,listeIng, duree);//trouver comment appeler la bonne recette
+    console.log(this.recetteSubject.listEtape);
+    this.emitrecetteSubject();
+
+  }*/
 
   getRecetteById(id : string){
-    const recette = this.recettes.find(
+    const recette = this.recettas.find(
       (recetteObject) => {
         return recetteObject.id === id;
     }

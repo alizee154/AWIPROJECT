@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
@@ -9,20 +9,27 @@ import {FicheTechnique} from "../models/fiche-technique";
   templateUrl: './list-fiche.component.html',
   styleUrls: ['./list-fiche.component.css']
 })
-export class ListFicheComponent implements OnInit {
+export class ListFicheComponent implements OnInit, OnDestroy {
   @Output() public selectedRecette = new EventEmitter<FicheTechnique>();
   @Input() id : string;
 
+  recettas : FicheTechnique[];
+  recetteSubscription : Subscription;
+
   recetteOne = 'couscous';
   recetteTwo = 'sushi';
-  recetteSubscription : Subscription;
+
   recettes :any[];
 
   constructor(private ft: FicheTechniqueService,private router: Router) { }
 
   ngOnInit(): void {
-    this.recetteSubscription = this.ft.recetteSubject.subscribe((recettes :any[]) => {this.recettes = recettes;});
+    this.recetteSubscription = this.ft.recetteSubject.subscribe((recettas :FicheTechnique[]) => {this.recettas = recettas;});
     this.ft.emitrecetteSubject();
+
+  }
+  ngOnDestroy(){
+    this.recetteSubscription.unsubscribe();
   }
   onAllumer() {
     console.log('On allume tout !');

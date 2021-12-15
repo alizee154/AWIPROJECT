@@ -1,8 +1,9 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import jsPDF from "jspdf";
 import {FicheTechnique} from "../models/fiche-technique";
+import {Etape} from "../models/etape";
 
 
 @Component({
@@ -12,9 +13,12 @@ import {FicheTechnique} from "../models/fiche-technique";
 })
 export class ViewFicheComponent implements OnInit {
   @Input() ficheTechnique : FicheTechnique;
+  @Output() etape : Etape;
 
   name : string = 'recette';
   author : string = 'author';
+  desc : string = 'desc';
+  title : string = 'etape.title';
 
   recette :any;
   @ViewChild('content') content:ElementRef;
@@ -26,6 +30,7 @@ export class ViewFicheComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     this.name = this.ft.getRecetteById(id).name;
     this.author = this.ft.getRecetteById(id).author;
+    this.desc = this.ft.getRecetteById(id).desc;
   }
   public SavePDF():void{
     let content=this.content.nativeElement;

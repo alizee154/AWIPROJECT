@@ -2,8 +2,8 @@ export class Ingredient{
   public id: string;
   public name: string;
   public unit: string;
-  public quantity: string;
-  public unitprice: string;
+  public quantity: number;
+  public unitprice: number;
   public allergene : boolean;
 
 
@@ -11,8 +11,8 @@ export class Ingredient{
     id: string,
     name: string,
     unit: string,
-    quantity: string,
-    unitprice: string,
+    quantity: number,
+    unitprice: number,
     allergene: boolean
   ){
     this.id = id;
