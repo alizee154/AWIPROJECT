@@ -19,11 +19,14 @@ export class FicheTechniqueService {
       name:'moule',
       author:'ee',
       desc:'hey',
-      listEtape:[]
+      listEtape:[],
+      url:''
 
     }
   ];
   recetteSubject = new Subject<FicheTechnique[]>();
+  ingSubject = new Subject<any[]>();
+
 
   private recettes = [
     {
@@ -31,7 +34,8 @@ export class FicheTechniqueService {
       name: 'couscous',
       author:'goug',
       desc:'hello',
-      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']]
+      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']],
+      url: ''
 
     },
     {
@@ -39,7 +43,8 @@ export class FicheTechniqueService {
       name: 'sushi',
       author:'gaetan',
       desc:'hello world',
-      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']]
+      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']],
+      url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.leparisien.fr%2Fculture-loisirs%2Ftv%2Fsur-6ter-une-journee-speciale-chats-ce-mercredi-08-08-2018-7846734.php&psig=AOvVaw2Vx1mvrZSfuE0bCm7Kunj7&ust=1639687151172000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJCqxuTU5vQCFQAAAAAdAAAAABAF'
     }
 
   ];
@@ -48,14 +53,16 @@ export class FicheTechniqueService {
     name: 'riz cantonais',
     author:'chris',
     desc:'hello wd',
-    listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']]
+    listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']],
+    url:''
   };
   ficheTechnicas: FicheTechnique[] = [{
     id: '8',
     name: 'cookies',
     author: 'alizee',
     desc :'hello',
-    listEtape : []
+    listEtape : [],
+    url:''
   },
 
     ];
@@ -83,6 +90,7 @@ export class FicheTechniqueService {
   emitrecetteSubject() {
     this.recetteSubject.next(this.recettas.slice());
   }
+
 
   addRecette(recette: FicheTechnique) {
     this.recettas.push(recette);
@@ -137,19 +145,7 @@ export class FicheTechniqueService {
 
 
 
-  /*log(value: string) {
-    this.listMessage.push(value);
-  }*/
 
-  /*addNewFicheTechnique(ft: FicheTechnique){
-    this.ficheTechniqueCollection.doc(ft.id).get()
-    .subscribe(doc => {
-      if(!doc.exists) {
-        this.ficheTechniqueCollection.doc(ft.id).set(Object.assign({},
-          ft));
-      }
-    });
-  }*/
 
   exampleGetCollection(){
     return this.ficheTechniqueStore.collection('ficheTechnique');

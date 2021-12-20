@@ -30,7 +30,8 @@
           </label>
           <input type="text" id="desc" class="form-control" formControlName="desc">
         </div>
-        <button class="btn btn-danger">Ajouter une photo</button>
+
+
   <div formArrayName="tags">
     <div *ngFor=" let tag of tags.controls; let i=index let k = index">
       <div [id]="i" >
@@ -53,9 +54,9 @@
         <div class="form-group" *ngFor=" let ing of ings.controls; let j=index">
           <label [attr.for]="j">{{'Ingrédient ' + j}} </label>
           <select class="form-control" [id]="j"  [formControlName]="j">
-            <option>beurre</option>
-            <option>sucre</option>
-            <option>chocolat</option>
+            <option [ngValue]="null">Select Option</option>
+            <option *ngFor="let ingredient of ingredients" >{{ingredient.name}}</option>
+
 
           </select>
           <div class="form-group">
@@ -70,6 +71,13 @@
       </div>
     </div>
   </div>
+        <div style="text-align:center">
+          <div [innerHtml]='msg' *ngIf="msg" style="color: red;"></div>
+          <div formControlName="url"><img [src]="url" *ngIf="url"></div>
+          <p>
+            <input type="file" (change)="selectFile($event)">
+          </p>
+        </div>
       <button class="btn btn-danger" type ="button" (click)="addIngs()">+   Ajouter un ingrédient</button>
       <button class="btn btn-danger" type ="button" (click)="addSteps()" >+   Ajouter une étape</button>
       <button class="btn btn-dark" type="submit">Enregistrer</button>

@@ -16,8 +16,7 @@ export class ListFicheComponent implements OnInit, OnDestroy {
   recettas : FicheTechnique[];
   recetteSubscription : Subscription;
 
-  recetteOne = 'couscous';
-  recetteTwo = 'sushi';
+
 
   recettes :any[];
 

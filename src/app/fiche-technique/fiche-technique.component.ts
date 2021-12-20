@@ -29,16 +29,7 @@ export class FicheTechniqueComponent implements OnInit {
 
   ngOnInit() {}
 
-  /*ngOnInit() {
-    this.recetteSubscription = this.ft.recetteSubject.subscribe(
-      (recettes: FicheTechnique[]) => {
-        this.recettes = recettes;
-      }
-    );
 
-    this.ft.emitUsers();
-  }
-*/
 
 
 

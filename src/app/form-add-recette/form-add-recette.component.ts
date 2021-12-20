@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FicheTechniqueComponent} from "../fiche-technique/fiche-technique.component";
 import {FicheTechnique} from "../models/fiche-technique";
 import {FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
@@ -6,26 +6,37 @@ import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Router} from "@angular/router";
 import {NgModel} from "@angular/forms";
 import {Etape} from "../models/etape";
+import * as url from "url";
+import {Subscription} from "rxjs";
+import {Ingredient} from "../models/ingredient";
+import {IngredientService} from "../services/ingredient.service";
+
 
 @Component({
   selector: 'app-form-add-recette',
   templateUrl: './form-add-recette.component.html',
   styleUrls: ['./form-add-recette.component.css']
 })
-export class FormAddRecetteComponent implements OnInit {
+export class FormAddRecetteComponent implements OnInit, OnDestroy {
   @Input() ficheTechnique : FicheTechnique;
   @Input() etape : Etape;
+  @Output() url : any;
 
+  ingredients : Ingredient[];
+  ingSubscription : Subscription;
 
+  recetteSubscription : Subscription;
   nameControl : FormControl;
   authorControl : FormControl;
   recetteForm : FormGroup;
   private form: any;
 
-  constructor(private formBuilder: FormBuilder,private ft:FicheTechniqueService,private router: Router) { }
+  constructor(private formBuilder: FormBuilder,private ft:FicheTechniqueService,private router: Router, private ins : IngredientService) { }
 
   ngOnInit() {
     this.initForm();
+    this.ingSubscription = this.ins.ingSubject.subscribe((ingredients :Ingredient[]) => {this.ingredients = ingredients;});
+    this.ins.emitingSubject();
     /*this.recetteForm =  this.formBuilder.group({
       name: ['', Validators.required],
       author: ['', Validators.required],
@@ -40,7 +51,8 @@ export class FormAddRecetteComponent implements OnInit {
       author:'',
       desc:'',
       tags:this.formBuilder.array([]), //ne contient que la duree de l'etape
-      ings :this.formBuilder.array([])
+      ings :this.formBuilder.array([]),
+      url: ''
     })
   }
   public get tags() : FormArray {
@@ -66,7 +78,8 @@ export class FormAddRecetteComponent implements OnInit {
       formValue['name'],
       formValue['author'],
       formValue['desc'],
-      formValue['tags']
+      formValue['tags'],
+      formValue['url']
 
     );
     this.ft.addRecette(newRecette);
@@ -74,8 +87,27 @@ export class FormAddRecetteComponent implements OnInit {
     console.log(newRecette);
 
   }
+  dept = [
+    'Administrative Computer',
+    'Agosta Laboratory',
+    'Allis Laboratory',
+    'Bargaman Laboratory',
+    'Bio-Imaging Resource Center',
+    'Capital Projects',
+    'Casanova Laboratory',
+    'Darst Laboratory',
+    'Darnell James Laboratory',
+    'Deans Office',
+    'Energy Consultant',
+    'Electronic Shop',
+    'Facilities Management',
+    'Field Laboratory'
+  ];
 
 
+  ngOnDestroy(){
+    this.recetteSubscription.unsubscribe();
+  }
 
 
 
@@ -102,6 +134,34 @@ export class FormAddRecetteComponent implements OnInit {
   }*/
   onSubmit(){
     console.log(this.recetteForm.value);
+  }
+
+  //url: any;
+  msg = "";
+
+
+  selectFile(event: any) {
+    if(!event.target.files[0] || event.target.files[0].length == 0) {
+      this.msg = 'Vous devez sélectionner une image';
+      return;
+    }
+
+    var mimeType = event.target.files[0].type;
+
+    if (mimeType.match(/image\/*/) == null) {
+      this.msg = "Seul les images sont supportées";
+      return;
+    }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+
+    reader.onload = (_event) => {
+      this.msg = "";
+      this.url = reader.result;
+    }
+    console.log(url);
+
   }
 
 

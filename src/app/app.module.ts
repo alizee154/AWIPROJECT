@@ -64,6 +64,7 @@ const appRoutes: Routes = [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFirestoreModule
+
   ],
   providers: [FicheTechniqueService],
   bootstrap: [AppComponent]
