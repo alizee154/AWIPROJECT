@@ -50,7 +50,7 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       name:'',
       author:'',
       desc:'',
-      tags:this.formBuilder.array([]), //ne contient que la duree de l'etape
+      tags:this.formBuilder.array([]), //ne contient que la duree de l'etape et le champ suivant
       ings :this.formBuilder.array([]),
       url: ''
     })
@@ -83,26 +83,11 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
 
     );
     this.ft.addRecette(newRecette);
-    this.router.navigate(['/fiche-technique']);
-    console.log(newRecette);
+    //console.log(newRecette);
+    this.router.navigate(['/fiche-technique']).then(() => {window.location.reload();});//probleme de redirection
+
 
   }
-  dept = [
-    'Administrative Computer',
-    'Agosta Laboratory',
-    'Allis Laboratory',
-    'Bargaman Laboratory',
-    'Bio-Imaging Resource Center',
-    'Capital Projects',
-    'Casanova Laboratory',
-    'Darst Laboratory',
-    'Darnell James Laboratory',
-    'Deans Office',
-    'Energy Consultant',
-    'Electronic Shop',
-    'Facilities Management',
-    'Field Laboratory'
-  ];
 
 
   ngOnDestroy(){

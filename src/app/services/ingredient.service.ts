@@ -3,6 +3,7 @@ import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat
 import {FicheTechnique} from "../models/fiche-technique";
 import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
+import {Ingredient} from "../models/ingredient";
 
 @Injectable({
   providedIn: 'root'
@@ -11,23 +12,23 @@ export class IngredientService {
 
 
   ingSubject = new Subject<any[]>();
-  private ingredients = [
+  private ingredients : Ingredient []= [
     {
       id:'4',
-      name: 'couscous',
-      unit:'goug',
-      quantity:'hello',
-      unitprice:'hello',
-      allergene:'hello'
+      name: 'farine',
+      unit:'g',
+      quantity:3,
+      unitprice:2,
+      allergene:true
 
     },
     {
       id:'2',
-      name: 'sushi',
-      unit:'goug',
-      quantity:'hello',
-      unitprice:'hello',
-      allergene:'hello'
+      name: 'beurre',
+      unit:'g',
+      quantity:3,
+      unitprice:2,
+      allergene:true
     }
 
   ];
@@ -35,9 +36,9 @@ export class IngredientService {
     id:'5',
     name: 'riz cantonais',
    unit:'goug',
-   quantity:'hello',
-   unitprice:'hello',
-   allergene:'hello'
+   quantity:3,
+   unitprice:2,
+   allergene:true
   };
 
 
@@ -72,14 +73,14 @@ export class IngredientService {
     this.emitUsers();
   }*/
 
-  addIng(id : string, name: string, unit: string, quantity: string, unitprice: string, allergene: string) {
+  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, allergene: boolean) {
     const ingredientObject = {
       id: '0',
       name: '',
       unit: '',
-      quantity: '',
-      unitprice:'',
-      allergene:''
+      quantity: 0,
+      unitprice:0,
+      allergene: true
     };
     ingredientObject.id = id;
     ingredientObject.name = name;
