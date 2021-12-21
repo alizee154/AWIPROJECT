@@ -22,7 +22,10 @@ export class ListIngredientComponent implements OnInit {
 
   ngOnInit(): void {
     this.ingSubscription = this.ing.ingSubject.subscribe((ingredients :any[]) => {this.ingredients = ingredients;});
+    this.ing.getAllIngredients();
     this.ing.emitingSubject();
+    console.log("salut")
+
   }
 
 

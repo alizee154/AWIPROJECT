@@ -3,6 +3,7 @@ import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat
 import {FicheTechnique} from "../models/fiche-technique";
 import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
+import {addDoc, collection, getDocs, getFirestore} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +13,6 @@ export class IngredientService {
 
   ingSubject = new Subject<any[]>();
   private ingredients = [
-    {
-      id:'4',
-      name: 'couscous',
-      unit:'goug',
-      quantity:'hello',
-      unitprice:'hello',
-      allergene:'hello'
-
-    },
-    {
-      id:'2',
-      name: 'sushi',
-      unit:'goug',
-      quantity:'hello',
-      unitprice:'hello',
-      allergene:'hello'
-    }
 
   ];
  ingredient = {
@@ -49,7 +33,35 @@ export class IngredientService {
   }
   public listMessage: string[];
 
+  getAllIngredients(){
+    this.ingredients.splice(0, this.ingredients.length);
+    const db = getFirestore();
+    const colRef = collection(db, 'ingredients');
+    getDocs(colRef).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        this.ingredients.push({...doc.data(), id: doc.id})
+        this.emitingSubject();
+      })
+      console.log(this.ingredients);
+    })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
 
+  saveIngrédients(ing){
+    console.log("bguifez")
+    const db = getFirestore();
+    const colRef = collection(db, 'ingredients');
+    addDoc(colRef, {
+      name : ing.name,
+      unit : ing.unit,
+      quantity : ing.quantity,
+      unitprice : ing.unitprice,
+      allergene : false
+    }).then(() => {console.log("bhfezv")})
+      .catch(err => console.error(err))
+  }
 
   /*emitUsers() {
     this.recetteSubject.next(this.ficheTechnicas.slice());

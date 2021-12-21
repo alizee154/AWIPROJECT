@@ -82,8 +82,9 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       formValue['url']
 
     );
+    this.ft.saveFichesTechniques(newRecette);
     this.ft.addRecette(newRecette);
-    this.router.navigate(['/fiche-technique']);
+    this.router.navigate(['/fiche-technique']).catch(err => console.error(err));
     console.log(newRecette);
 
   }
@@ -106,7 +107,7 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy(){
-    this.recetteSubscription.unsubscribe();
+  //  this.recetteSubscription.unsubscribe();
   }
 
 

@@ -36,15 +36,32 @@ export class FormAddIngredientComponent implements OnInit {
   }*/
 
   onSubmit(form: NgForm) {
-    const name = form.value['name'];
+   const name = form.value['name'];
     const unit = form.value['unit'];
     const id = form.value['id'];
     const quantity = form.value['quantity'];
     const unitprice = form.value['unitprice'];
     const allergene = form.value['allergene'];
 
-    console.log(form.value);
-    this.ing.addIng(id,name,unit,quantity,unitprice,allergene);
+    //const formValue = this.ingredientForm.value;
+    const newIngredient = new Ingredient(
+      id,
+      name,
+      unit,
+      quantity,
+      unitprice,
+      allergene
+      /*formValue['id'],
+      formValue['name'],
+      formValue['unit'],
+      formValue['quantity'],
+      formValue['unitprice'],
+      formValue['allergene']
+*/
+    );
+    console.log(newIngredient);
+    this.ing.saveIngrédients(newIngredient);
+    //.ing.addIng(id,name,unit,quantity,unitprice,allergene);
     this.router.navigate(['ingredient']);
   }
 }

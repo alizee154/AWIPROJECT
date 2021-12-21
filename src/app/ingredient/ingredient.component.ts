@@ -32,7 +32,9 @@ export class IngredientComponent implements OnInit {
   }
 
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
   onView(){
     this.router.navigate(['/ingredient']);
   }

@@ -5,6 +5,8 @@ import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {Ingredient} from "../models/ingredient";
 import {Etape} from "../models/etape";
+import {addDoc, collection, getDocs, getFirestore} from "@angular/fire/firestore";
+import {getDatabase} from "@angular/fire/database";
 
 @Injectable({
   providedIn: 'root'
@@ -14,38 +16,13 @@ export class FicheTechniqueService {
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
   private recettas : FicheTechnique[] = [
-    {
-      id : 'e',
-      name:'moule',
-      author:'ee',
-      desc:'hey',
-      listEtape:[],
-      url:''
 
-    }
   ];
   recetteSubject = new Subject<FicheTechnique[]>();
   ingSubject = new Subject<any[]>();
 
 
   private recettes = [
-    {
-      id:'4',
-      name: 'couscous',
-      author:'goug',
-      desc:'hello',
-      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']],
-      url: ''
-
-    },
-    {
-      id:'2',
-      name: 'sushi',
-      author:'gaetan',
-      desc:'hello world',
-      listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']],
-      url: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.leparisien.fr%2Fculture-loisirs%2Ftv%2Fsur-6ter-une-journee-speciale-chats-ce-mercredi-08-08-2018-7846734.php&psig=AOvVaw2Vx1mvrZSfuE0bCm7Kunj7&ust=1639687151172000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJCqxuTU5vQCFQAAAAAdAAAAABAF'
-    }
 
   ];
   recette = {
@@ -76,11 +53,33 @@ export class FicheTechniqueService {
   }
   public listMessage: string[];
 
+  getAllFichesTechniques(){
+   this.recettes.splice(0, this.recettes.length);
+    const db = getFirestore();
+    const colRef = collection(db, 'ficheTechnique');
+    getDocs(colRef).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        this.recettes.push({...doc.data(), id: doc.id})
+        this.emitrecetteSubject();
+      })
+      console.log(this.recettes);
+    })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
+  saveFichesTechniques(fiche){
+    const db = getFirestore();
+    const colRef = collection(db, 'ficheTechnique');
+    addDoc(colRef, {
+      author : fiche.author,
+      name: fiche.name,
+      desc: fiche.desc
+    }).catch(err => console.error(err))
+  }
 
 
-  /*emitUsers() {
-    this.recetteSubject.next(this.ficheTechnicas.slice());
-  }*/
   onSubmit(form: NgForm) {
     const id = form.value['id'];
     const name = form.value['name'];
@@ -88,7 +87,7 @@ export class FicheTechniqueService {
     const desc = form.value['desc'];
   }
   emitrecetteSubject() {
-    this.recetteSubject.next(this.recettas.slice());
+    this.recetteSubject.next(this.recettes.slice());
   }
 
 
@@ -97,42 +96,7 @@ export class FicheTechniqueService {
     this.emitrecetteSubject();
   }
 
-  /*addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {
-    const recetteObject = {
-      id: '0',
-      name: '',
-      desc: '',
-      author: '',
-      listEtape :  []
-    };
-    recetteObject.id = id;
-    recetteObject.name = name;
-    recetteObject.author = author;
-    recetteObject.desc = desc;
-    recetteObject.listEtape = listEtape;
 
-    this.recettes.push(recetteObject);
-    this.emitrecetteSubject();
-  }*/
-  /*addEtape(titreEtape,descEtape,listeIng,duree){
-    const etapeObject : Etape = {
-      titreEtape : '',
-      descEtape: '',
-      duree : '',
-      listeIng :  []
-    };
-    etapeObject.titreEtape = titreEtape;
-    etapeObject.descEtape = descEtape;
-    etapeObject.duree = duree;
-    etapeObject.listeIng = listeIng;
-
-
-
-    this.recetteSubject.listEtape.push( titreEtape,descEtape,listeIng, duree);//trouver comment appeler la bonne recette
-    console.log(this.recetteSubject.listEtape);
-    this.emitrecetteSubject();
-
-  }*/
 
   getRecetteById(id : string){
     const recette = this.recettas.find(
@@ -147,7 +111,5 @@ export class FicheTechniqueService {
 
 
 
-  exampleGetCollection(){
-    return this.ficheTechniqueStore.collection('ficheTechnique');
-  }
+
 }

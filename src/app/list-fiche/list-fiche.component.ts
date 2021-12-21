@@ -23,7 +23,9 @@ export class ListFicheComponent implements OnInit, OnDestroy {
   constructor(private ft: FicheTechniqueService,private router: Router) { }
 
   ngOnInit(): void {
-    this.recetteSubscription = this.ft.recetteSubject.subscribe((recettas :FicheTechnique[]) => {this.recettas = recettas;});
+    this.ft.getAllFichesTechniques();
+    this.recetteSubscription = this.ft.recetteSubject.subscribe((recettes :FicheTechnique[]) => {this.recettes = recettes;});
+
     this.ft.emitrecetteSubject();
 
   }
