@@ -5,8 +5,9 @@ export class FicheTechnique{
     public name: string;
     public author: string;
     public desc: string;
-    public listEtape : Etape[];
-    public url: any;
+  public listDureesEtapes: [];
+    public listTitresEtapes : [];
+
 
 
     constructor(
@@ -14,14 +15,16 @@ export class FicheTechnique{
         name: string,
         author: string,
         desc: string,
-        listEtape : Etape[],
-        url:any
+        listTitresEtapes : [],
+        listDureesEtapes: []
+
     ){
         this.id = id;
         this.name = name;
         this.author = author;
         this.desc = desc;
-        this.listEtape = listEtape;
-        this.url = url;
+        this.listTitresEtapes = listTitresEtapes;
+        this.listDureesEtapes = listDureesEtapes;
+
     }
 }

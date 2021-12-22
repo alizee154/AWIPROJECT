@@ -13,12 +13,12 @@ import {Etape} from "../models/etape";
 })
 export class ViewFicheComponent implements OnInit {
   @Input() ficheTechnique : FicheTechnique;
-  @Output() etape : Etape;
 
   name : string = 'recette';
   author : string = 'author';
   desc : string = 'desc';
-  title : string = 'etape.title';
+  listTitresEtapes = [];
+  listDureesEtapes = [];
 
   recette :any;
   @ViewChild('content') content:ElementRef;
@@ -31,6 +31,8 @@ export class ViewFicheComponent implements OnInit {
     this.name = this.ft.getRecetteById(id).name;
     this.author = this.ft.getRecetteById(id).author;
     this.desc = this.ft.getRecetteById(id).desc;
+    this.listTitresEtapes = this.ft.getRecetteById(id).listTitresEtapes;
+    this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
   }
   public SavePDF():void{
     let content=this.content.nativeElement;

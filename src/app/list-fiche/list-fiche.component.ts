@@ -30,9 +30,7 @@ export class ListFicheComponent implements OnInit, OnDestroy {
   ngOnDestroy(){
     this.recetteSubscription.unsubscribe();
   }
-  onAllumer() {
-    console.log('On allume tout !');
-  }
+
   onForm(){
     this.router.navigate(['formRecette']);
   }

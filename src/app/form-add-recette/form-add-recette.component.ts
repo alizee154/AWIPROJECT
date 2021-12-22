@@ -35,13 +35,19 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.ingSubscription = this.ins.ingSubject.subscribe((ingredients :Ingredient[]) => {this.ingredients = ingredients;});
-    this.ins.emitingSubject();
+    this.initIng();
+
     /*this.recetteForm =  this.formBuilder.group({
       name: ['', Validators.required],
       author: ['', Validators.required],
       desc: ['']
     });*/
+
+  }
+  initIng(){
+
+    this.ingSubscription = this.ins.ingSubject.subscribe((ingredients :Ingredient[]) => {this.ingredients = ingredients;});
+    this.ins.emitingSubject();
 
   }
   initForm(){
@@ -50,13 +56,29 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       name:'',
       author:'',
       desc:'',
-      tags:this.formBuilder.array([]), //ne contient que la duree de l'etape et le champ suivant
-      ings :this.formBuilder.array([]),
-      url: ''
+      titles:this.formBuilder.array([]),
+      times:this.formBuilder.array([]),
+
+
+      //titles:this.formBuilder.array([]),
+      //times:this.formBuilder.array([]), //ne contient que la duree de l'etape et le champ suivant
+      ings :this.formBuilder.array([])
+
     })
+
   }
-  public get tags() : FormArray {
+  public get times() : FormArray {
+    return this.recetteForm.get('times') as FormArray;
+
+  }
+  /*public get tags() : FormArray {
     return this.recetteForm.get('tags') as FormArray;
+
+  }
+  */
+
+  public get titles() : FormArray {
+    return this.recetteForm.get('titles') as FormArray;
 
   }
   public get ings() : FormArray {
@@ -65,8 +87,10 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   }
 
   public addSteps(): void{
-    this.tags.push(new FormControl());
+    this.titles.push(new FormControl());
+    this.times.push(new FormControl());
   }
+
   public addIngs():void{
     this.ings.push(new FormControl());
 
@@ -78,20 +102,23 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       formValue['name'],
       formValue['author'],
       formValue['desc'],
-      formValue['tags'],
-      formValue['url']
+      formValue['titles'],
+      formValue['times']
+
+
 
     );
     this.ft.addRecette(newRecette);
-    //console.log(newRecette);
-    this.router.navigate(['/fiche-technique']).then(() => {window.location.reload();});//probleme de redirection
-
+    console.log(newRecette);
+    //this.router.navigate(['/fiche-technique']).then(() => {window.location.reload();});//probleme de redirection
+    this.router.navigate(['/fiche-technique'])
 
   }
 
 
   ngOnDestroy(){
-    this.recetteSubscription.unsubscribe();
+    //this.recetteSubscription.unsubscribe();
+    this.ingSubscription.unsubscribe();
   }
 
 
@@ -145,7 +172,7 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       this.msg = "";
       this.url = reader.result;
     }
-    console.log(url);
+    console.log(this.url + "h");
 
   }
 
