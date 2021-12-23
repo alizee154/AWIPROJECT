@@ -53,7 +53,7 @@
           <input type="text" id="time" class="form-control" [formControlName]="m">
         </div>
         </div>
-
+        <div formArrayName="ings">
         <div class="form-group" *ngFor=" let ing of ings.controls; let j=index">
           <label [attr.for]="j">{{'Ingrédient ' + j}} </label>
           <select class="form-control" [id]="j"  [formControlName]="j">
@@ -68,6 +68,7 @@
             </label>
             <input type="text" id="quantity" class="form-control" [formControlName]="j">
           </div>
+        </div>
 
 
 

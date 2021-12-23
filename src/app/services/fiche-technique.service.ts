@@ -20,7 +20,9 @@ export class FicheTechniqueService {
       author:'ee',
       desc:'hey',
       listTitresEtapes:[],
-      listDureesEtapes:[]
+      listDureesEtapes:[],
+      listIngEtapes : []
+
 
     }
   ];
@@ -35,7 +37,8 @@ export class FicheTechniqueService {
       author:'goug',
       desc:'hello',
       listTitresEtapes:[],
-      listDureesEtapes:[]
+      listDureesEtapes:[],
+      listIngEtapes : []
 
     },
     {
@@ -44,7 +47,8 @@ export class FicheTechniqueService {
       author:'gaetan',
       desc:'hello world',
       listTitresEtapes:[],
-      listDureesEtapes:[]
+      listDureesEtapes:[],
+      listIngEtapes : []
     }
 
   ];
@@ -54,7 +58,8 @@ export class FicheTechniqueService {
     author:'chris',
     desc:'hello wd',
     listTitresEtapes:[],
-    listDureesEtapes:[]
+    listDureesEtapes:[],
+    listIngEtapes : []
   };
   ficheTechnicas: FicheTechnique[] = [{
     id: '8',
@@ -62,7 +67,8 @@ export class FicheTechniqueService {
     author: 'alizee',
     desc :'hello',
     listTitresEtapes:[],
-    listDureesEtapes:[]
+    listDureesEtapes:[],
+    listIngEtapes : []
   },
 
     ];
@@ -114,25 +120,7 @@ export class FicheTechniqueService {
     this.recettes.push(recetteObject);
     this.emitrecetteSubject();
   }*/
-  /*addEtape(titreEtape,descEtape,listeIng,duree){
-    const etapeObject : Etape = {
-      titreEtape : '',
-      descEtape: '',
-      duree : '',
-      listeIng :  []
-    };
-    etapeObject.titreEtape = titreEtape;
-    etapeObject.descEtape = descEtape;
-    etapeObject.duree = duree;
-    etapeObject.listeIng = listeIng;
 
-
-
-    this.recetteSubject.listEtape.push( titreEtape,descEtape,listeIng, duree);//trouver comment appeler la bonne recette
-    console.log(this.recetteSubject.listEtape);
-    this.emitrecetteSubject();
-
-  }*/
 
   getRecetteById(id : string){
     const recette = this.recettas.find(

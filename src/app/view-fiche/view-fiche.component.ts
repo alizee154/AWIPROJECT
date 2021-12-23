@@ -4,6 +4,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import jsPDF from "jspdf";
 import {FicheTechnique} from "../models/fiche-technique";
 import {Etape} from "../models/etape";
+import {IngredientService} from "../services/ingredient.service";
+import {Ingredient} from "../models/ingredient";
 
 
 @Component({
@@ -19,11 +21,13 @@ export class ViewFicheComponent implements OnInit {
   desc : string = 'desc';
   listTitresEtapes = [];
   listDureesEtapes = [];
+  listIngEtapes = [];
+  Ing : Ingredient[] = [];
 
   recette :any;
   @ViewChild('content') content:ElementRef;
 
-  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute) { }
+  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute, private ins: IngredientService) { }
 
   ngOnInit(): void {
     //this.recette = this.ft.recette;
@@ -33,7 +37,17 @@ export class ViewFicheComponent implements OnInit {
     this.desc = this.ft.getRecetteById(id).desc;
     this.listTitresEtapes = this.ft.getRecetteById(id).listTitresEtapes;
     this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
+    this.listIngEtapes = this.ft.getRecetteById(id).listIngEtapes;
+    let i=0;
+
+    for (var char of this.listIngEtapes){
+      this.Ing[i] = this.ins.getIngredientByName(char);
+      i++;
+
+    }
+
   }
+
   public SavePDF():void{
     let content=this.content.nativeElement;
     // @ts-ignore

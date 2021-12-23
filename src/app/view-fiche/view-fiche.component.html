@@ -1,4 +1,4 @@
-<form>
+<aside class=""fd><form>
   <div>
     <input type="search" id="maRecherche" name="q"
            placeholder="Rechercher une recette">
@@ -40,10 +40,10 @@
   <tr *ngFor="let titre of listTitresEtapes ; let i=index" >
 
 
-    <td ></td>
+    <td >{{listIngEtapes[i]}}</td>
+    <td>{{Ing[i].unit}}</td>
     <td></td>
-    <td></td>
-    <td></td>
+    <td>{{Ing[i].unitprice}}</td>
     <td>{{i+1}}</td>
     <td >{{titre}}</td>
     <td>{{listDureesEtapes[i]}}</td>
@@ -65,4 +65,4 @@
 <p>Bénéfice par portion : </p>
 <p>Seuil de rentabilité : </p>
 </div>
-
+</aside>

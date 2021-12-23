@@ -19,7 +19,7 @@ export class IngredientService {
       unit:'g',
       quantity:3,
       unitprice:2,
-      allergene:true
+      allergene:'oui'
 
     },
     {
@@ -28,7 +28,7 @@ export class IngredientService {
       unit:'g',
       quantity:3,
       unitprice:2,
-      allergene:true
+      allergene:'oui'
     }
 
   ];
@@ -38,7 +38,7 @@ export class IngredientService {
    unit:'goug',
    quantity:3,
    unitprice:2,
-   allergene:true
+   allergene:'oui'
   };
 
 
@@ -67,20 +67,28 @@ export class IngredientService {
   emitingSubject() {
     this.ingSubject.next(this.ingredients.slice());
   }
+  getIngredientByName(name : string){
+    const ingredient = this.ingredients.find(
+      (ingObject) => {
+        return ingObject.name === name;
+      }
+    );
+    return ingredient;
+  }
 
   /*addRecette(recette: FicheTechnique) {
     this.ficheTechnicas.push(recette);
     this.emitUsers();
   }*/
 
-  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, allergene: boolean) {
+  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, allergene: string) {
     const ingredientObject = {
       id: '0',
       name: '',
       unit: '',
       quantity: 0,
       unitprice:0,
-      allergene: true
+      allergene: ''
     };
     ingredientObject.id = id;
     ingredientObject.name = name;

@@ -6,7 +6,7 @@ import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Router} from "@angular/router";
 import {NgModel} from "@angular/forms";
 import {Etape} from "../models/etape";
-import * as url from "url";
+
 import {Subscription} from "rxjs";
 import {Ingredient} from "../models/ingredient";
 import {IngredientService} from "../services/ingredient.service";
@@ -34,8 +34,11 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,private ft:FicheTechniqueService,private router: Router, private ins : IngredientService) { }
 
   ngOnInit() {
+
     this.initForm();
     this.initIng();
+
+
 
     /*this.recetteForm =  this.formBuilder.group({
       name: ['', Validators.required],
@@ -47,7 +50,7 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   initIng(){
 
     this.ingSubscription = this.ins.ingSubject.subscribe((ingredients :Ingredient[]) => {this.ingredients = ingredients;});
-    this.ins.emitingSubject();
+    this.ins.emitingSubject();// il faut ecrire l'id dans le form pour que ca marche apres avoir cliqué sur ajouter un ingredient
 
   }
   initForm(){
@@ -59,9 +62,6 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       titles:this.formBuilder.array([]),
       times:this.formBuilder.array([]),
 
-
-      //titles:this.formBuilder.array([]),
-      //times:this.formBuilder.array([]), //ne contient que la duree de l'etape et le champ suivant
       ings :this.formBuilder.array([])
 
     })
@@ -103,14 +103,15 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       formValue['author'],
       formValue['desc'],
       formValue['titles'],
-      formValue['times']
+      formValue['times'],
+      formValue['ings']
+
 
 
 
     );
     this.ft.addRecette(newRecette);
     console.log(newRecette);
-    //this.router.navigate(['/fiche-technique']).then(() => {window.location.reload();});//probleme de redirection
     this.router.navigate(['/fiche-technique'])
 
   }
