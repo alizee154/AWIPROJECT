@@ -4,7 +4,7 @@ export class Ingredient{
   public unit: string;
   public quantity: number;
   public unitprice: number;
-  public allergene : boolean;
+  public allergene : string;
 
 
   constructor(
@@ -13,7 +13,7 @@ export class Ingredient{
     unit: string,
     quantity: number,
     unitprice: number,
-    allergene: boolean
+    allergene: string
   ){
     this.id = id;
     this.name = name;

@@ -4,6 +4,7 @@ import {FicheTechnique} from "../models/fiche-technique";
 import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {addDoc, collection, getDocs, getFirestore} from "@angular/fire/firestore";
+import {Ingredient} from "../models/ingredient";
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +20,9 @@ export class IngredientService {
     id:'5',
     name: 'riz cantonais',
    unit:'goug',
-   quantity:'hello',
-   unitprice:'hello',
-   allergene:'hello'
+   quantity:3,
+   unitprice:2,
+   allergene:'oui'
   };
 
 
@@ -78,20 +79,28 @@ export class IngredientService {
   emitingSubject() {
     this.ingSubject.next(this.ingredients.slice());
   }
+  getIngredientByName(name : string){
+    const ingredient = this.ingredients.find(
+      (ingObject) => {
+        return ingObject.name === name;
+      }
+    );
+    return ingredient;
+  }
 
   /*addRecette(recette: FicheTechnique) {
     this.ficheTechnicas.push(recette);
     this.emitUsers();
   }*/
 
-  addIng(id : string, name: string, unit: string, quantity: string, unitprice: string, allergene: string) {
+  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, allergene: string) {
     const ingredientObject = {
       id: '0',
       name: '',
       unit: '',
-      quantity: '',
-      unitprice:'',
-      allergene:''
+      quantity: 0,
+      unitprice:0,
+      allergene: ''
     };
     ingredientObject.id = id;
     ingredientObject.name = name;

@@ -19,7 +19,7 @@ export class IngredientComponent implements OnInit {
   @Input() quantity : string = 'pate chocolat';
   @Input() unitprice : string = 'pate chocolat';
 
-  @Input() allergene : boolean = true;
+  @Input() allergene : string = 'oui';
 
 
   ingredients: Ingredient[] = [];

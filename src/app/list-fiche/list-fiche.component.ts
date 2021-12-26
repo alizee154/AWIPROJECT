@@ -108,6 +108,7 @@ export class ListFicheComponent implements OnInit, OnDestroy {
     }
   }
 
+
   public onClick(){
     console.log(this.selectedCategory);
     if(this.selectedCategory === 'Toutes catégories'){
@@ -129,6 +130,9 @@ export class ListFicheComponent implements OnInit, OnDestroy {
     //this.router.navigate(['fiche-technique/:id']);
     this.selectedRecette.emit(recette);
     console.log(recette.name)
+
+
+
   }
 
 }

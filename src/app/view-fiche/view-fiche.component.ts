@@ -4,6 +4,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import jsPDF from "jspdf";
 import {FicheTechnique} from "../models/fiche-technique";
 import {Etape} from "../models/etape";
+import {IngredientService} from "../services/ingredient.service";
+import {Ingredient} from "../models/ingredient";
+import {Subscription} from "rxjs";
 import {FormGroup, NgForm} from "@angular/forms";
 
 
@@ -14,27 +17,91 @@ import {FormGroup, NgForm} from "@angular/forms";
 })
 export class ViewFicheComponent implements OnInit {
   @Input() ficheTechnique : FicheTechnique;
-  @Output() etape : Etape;
-
+  nbIngredientsByStep  : number[]= [] ;
+  newNbIngredientsByStep  : number[]= [] ;
+  nbSubscription : Subscription;
   name : string = 'recette';
   author : string = 'author';
   desc : string = 'desc';
-  title : string = 'etape.title';
+  listTitresEtapes = [];
+  listDureesEtapes = [];
+  listIngEtapes = [];
+  Ing : Ingredient[] = [];
+  Steps : Etape [] = [];
+  etape : Etape = {titreEtape : '',listeIng : [],duree : ''};
+
 
   recette :any;
   @ViewChild('content') content:ElementRef;
   researchForm : FormGroup;
 
-  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute) { }
+  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute, private ins: IngredientService) { }
 
   ngOnInit(): void {
-    //this.recette = this.ft.recette;
+
     const id = this.route.snapshot.params['id'];
     this.name = this.ft.getRecetteById(id).name;
     this.author = this.ft.getRecetteById(id).author;
     this.desc = this.ft.getRecetteById(id).desc;
     console.log(id);
+    this.listTitresEtapes = this.ft.getRecetteById(id).listTitresEtapes;
+    this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
+    this.listIngEtapes = this.ft.getRecetteById(id).listIngEtapes;
+    let i=0;
+
+    for (var char of this.listIngEtapes){
+      this.Ing[i] = this.ins.getIngredientByName(char);
+      i++;
+
+    }
+    this.nbIngredientsByStep = this.ft.getRecetteById(id).nbIngredientsByStep;
+    for (let index in this.nbIngredientsByStep){
+
+      if(index != '0'){
+        this.newNbIngredientsByStep.push(this.nbIngredientsByStep[index]);
+      }
+
+    }
+    console.log(this.newNbIngredientsByStep);
+    console.log(this.nbIngredientsByStep );
+    this.initSteps()
+
+
+
   }
+  listIng : Ingredient [] = [];
+  initSteps(){
+    console.log(this.newNbIngredientsByStep);
+    let j = 0;
+    for(var index in this.listTitresEtapes){
+      this.listIng = [];
+
+
+
+
+      while(this.newNbIngredientsByStep[index]>0){
+
+
+        this.listIng.push(this.Ing[j]);
+        j ++;
+        this.newNbIngredientsByStep[index]--;
+
+      }
+
+      const newStep = new Etape(
+        this.listTitresEtapes[index],
+        this.listIng,
+        this.listDureesEtapes[index],
+
+
+      )
+      this.Steps.push(newStep);
+
+    }
+    console.log(this.Steps);
+
+  }
+
   public SavePDF():void{
     let content=this.content.nativeElement;
     // @ts-ignore
@@ -49,6 +116,8 @@ export class ViewFicheComponent implements OnInit {
       callback: function nn  (doc) {
         doc.save();
       }
+
+
 
     });
 

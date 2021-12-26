@@ -13,9 +13,7 @@ export class FicheTechniqueService {
   private path = '/fiche-technique/';
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
-  private recettas : FicheTechnique[] = [
-
-  ];
+  tab : number[] = [];
   recetteSubject = new Subject<FicheTechnique[]>();
   categorySubject = new Subject<Categorie[]>();
   ingSubject = new Subject<any[]>();
@@ -23,6 +21,20 @@ export class FicheTechniqueService {
   private r = [];
   private recettesCategory = [];
   private category = [];
+  nbSubject = new Subject<any[]>();
+
+  ficheTechnicas: FicheTechnique[] = [{
+    id: '8',
+    name: 'cookies',
+    author: 'alizee',
+    desc :'hello',
+    listTitresEtapes:[],
+    listDureesEtapes:[],
+    listIngEtapes : [],
+    nbIngredientsByStep : []
+  },
+
+    ];
 
 
 
@@ -176,6 +188,27 @@ export class FicheTechniqueService {
     this.recettes.push(recette);
     this.emitrecetteSubject();
   }
+  addTab(tab : number[]){
+    this.tab = tab;
+  }
+
+  /*addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {
+    const recetteObject = {
+      id: '0',
+      name: '',
+      desc: '',
+      author: '',
+      listEtape :  []
+    };
+    recetteObject.id = id;
+    recetteObject.name = name;
+    recetteObject.author = author;
+    recetteObject.desc = desc;
+    recetteObject.listEtape = listEtape;
+
+    this.recettes.push(recetteObject);
+    this.emitrecetteSubject();
+  }*/
 
 
 
@@ -203,8 +236,5 @@ export class FicheTechniqueService {
     }
   }
 
+
 }
-const data = [
-  { "city": "Some city", "name": "Sacramento State" },
-  { "city": "Rocklin", "name": "Sierra College" }
-]

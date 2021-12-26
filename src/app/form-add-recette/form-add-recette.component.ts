@@ -6,7 +6,7 @@ import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Router} from "@angular/router";
 import {NgModel} from "@angular/forms";
 import {Etape} from "../models/etape";
-import * as url from "url";
+
 import {Subscription} from "rxjs";
 import {Ingredient} from "../models/ingredient";
 import {IngredientService} from "../services/ingredient.service";
@@ -30,18 +30,27 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   authorControl : FormControl;
   recetteForm : FormGroup;
   private form: any;
-
+  nbIngByStep : number[] = [];
+  somme : number = 0;
   constructor(private formBuilder: FormBuilder,private ft:FicheTechniqueService,private router: Router, private ins : IngredientService) { }
 
   ngOnInit() {
     this.initForm();
-    this.ingSubscription = this.ins.ingSubject.subscribe((ingredients :Ingredient[]) => {this.ingredients = ingredients;});
-    this.ins.emitingSubject();
+    this.initIng();
+
+
+
     /*this.recetteForm =  this.formBuilder.group({
       name: ['', Validators.required],
       author: ['', Validators.required],
       desc: ['']
     });*/
+
+  }
+  initIng(){
+
+    this.ingSubscription = this.ins.ingSubject.subscribe((ingredients :Ingredient[]) => {this.ingredients = ingredients;});
+    this.ins.emitingSubject();// il faut ecrire l'id dans le form pour que ca marche apres avoir cliqué sur ajouter un ingredient
 
   }
   initForm(){
@@ -50,38 +59,71 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       name:'',
       author:'',
       desc:'',
-      tags:this.formBuilder.array([]), //ne contient que la duree de l'etape
+      titles:this.formBuilder.array([]),
+      times:this.formBuilder.array([]),
       ings :this.formBuilder.array([]),
-      url: '',
       category: ''
+
     })
   }
-  public get tags() : FormArray {
+  public get times() : FormArray {
+    return this.recetteForm.get('times') as FormArray;
+
+  }
+  /*public get tags() : FormArray {
     return this.recetteForm.get('tags') as FormArray;
+
+  }
+  */
+
+  public get titles() : FormArray {
+    return this.recetteForm.get('titles') as FormArray;
 
   }
   public get ings() : FormArray {
     return this.recetteForm.get('ings') as FormArray;
 
   }
-
+step : boolean = false;
   public addSteps(): void{
-    this.tags.push(new FormControl());
+    this.titles.push(new FormControl());
+    this.times.push(new FormControl());
+    this.step = true;
+    this.addIngs();
+
+
   }
+
   public addIngs():void{
     this.ings.push(new FormControl());
 
+    if (this.step == true){
+      this.nbIngByStep.push(this.somme);//affihce la case 0 qui ne compte pas
+      this.step = false;
+      this.somme = 0;
+
+    }
+    this.somme ++;
+
+
+
   }
   onSubmitForm(){
+    this.nbIngByStep.push(this.somme);
     const formValue = this.recetteForm.value;
     const newRecette = new FicheTechnique(
       formValue['id'],
       formValue['name'],
       formValue['author'],
       formValue['desc'],
-      formValue['tags'],
-      formValue['url'],
+      formValue['titles'],
+      formValue['times'],
+      formValue['ings'],
+      this.nbIngByStep,
       formValue['category']
+
+
+
 
     );
     this.ft.saveFichesTechniques(newRecette);
@@ -90,26 +132,11 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
     console.log(newRecette);
 
   }
-  dept = [
-    'Administrative Computer',
-    'Agosta Laboratory',
-    'Allis Laboratory',
-    'Bargaman Laboratory',
-    'Bio-Imaging Resource Center',
-    'Capital Projects',
-    'Casanova Laboratory',
-    'Darst Laboratory',
-    'Darnell James Laboratory',
-    'Deans Office',
-    'Energy Consultant',
-    'Electronic Shop',
-    'Facilities Management',
-    'Field Laboratory'
-  ];
 
 
   ngOnDestroy(){
-  //  this.recetteSubscription.unsubscribe();
+    //this.recetteSubscription.unsubscribe();
+    this.ingSubscription.unsubscribe();
   }
 
 
@@ -163,7 +190,7 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       this.msg = "";
       this.url = reader.result;
     }
-    console.log(url);
+    console.log(this.url + "h");
 
   }
 

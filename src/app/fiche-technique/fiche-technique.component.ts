@@ -15,6 +15,7 @@ export class FicheTechniqueComponent implements OnInit {
   @Input() name : string ;
   @Input() author : string = 'Alizée';
   @Input() desc : string = 'pate chocolat';
+
   @Input() listEtape : Etape [] = [];
 
   recettes: FicheTechnique[] = [];

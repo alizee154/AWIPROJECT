@@ -1,4 +1,4 @@
-<form>
+<aside class=""fd><form>
   <div>
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <input type="text" id="maRecherche" name="q"
@@ -41,26 +41,71 @@
   </tr>
   </thead>
   <tbody>
-  <tr>
-    <th scope="row">1</th>
-    <td ></td>
-    <td></td>
-    <td>@mdo</td>
-  </tr>
+  <ng-container *ngFor="let step of Steps; let i=index;">
+  <tr *ngFor="  let ing of step.listeIng   ">
 
+
+
+    <td  >{{ing.name}}</td>
+    <td>{{ing.unit}}</td>
+    <td>{{ing.name}}</td>
+    <td>{{ing.unitprice}}</td>
+
+    <td>{{i+1}}</td>
+    <td >{{step.titreEtape}}</td>
+    <td>{{step.duree}}</td>
+
+
+
+
+  </tr>
+    </ng-container>
+  <!--<tr *ngFor="let titre of listTitresEtapes ; let i=index; " >
+
+
+
+      <td ></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>{{i+1}}</td>
+      <td >{{titre}}</td>
+      <td>{{listDureesEtapes[i]}}
+
+
+
+
+  </tr>
+  <tr *ngFor=" let ing of Ing ; let i=index " >
+
+
+
+    <td >{{ing.name}}</td>
+    <td>{{ing.unit}}</td>
+    <td></td>
+    <td>{{ing.unitprice}}</td>
+    <td>{{i+1}}</td>
+    <td ></td>
+    <td>{{listDureesEtapes[i]}}
+
+
+
+
+  </tr>
+-->
 
   </tbody>
 </table>
 
-<p>Coût matière : </p>
-<p>Coût de production : </p>
+<p>Coût matière : cout total des ingredients de la fiche + cout assaisonnement ( en euro ou 5% du cout matiere) </p>
+<p>Coût de production :  somme cout matiere (et eventuellement cout charges)</p>
 <p>Coût de production par portion: </p>
-<p>Coût des charges : </p>
-<p>Coût du personnel : </p>
-<p>Coût des fluides : </p>
+<p>Coût des charges : cout de personnel + cout des fluides</p>
+<p>Coût du personnel : cout horaire moyen + temps pour realiser le plat </p>
+<p>Coût des fluides : calcule a partir d'un coup horaire forfaitaire</p>
 <p>Prix de vente : </p>
 <p>Prix de vente par portion : </p>
 <p>Bénéfice par portion : </p>
 <p>Seuil de rentabilité : </p>
 </div>
-
+</aside>
