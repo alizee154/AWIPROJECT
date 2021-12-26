@@ -38,13 +38,13 @@
   </thead>
   <tbody>
   <ng-container *ngFor="let step of Steps; let i=index;">
-  <tr *ngFor="  let ing of step.listeIng   ">
+  <tr *ngFor="  let ing of step.listeIng ;let j =index;  ">
 
 
 
     <td  >{{ing.name}}</td>
     <td>{{ing.unit}}</td>
-    <td>{{ing.name}}</td>
+    <td>{{step.listeQuantity[j]}}</td>
     <td>{{ing.unitprice}}</td>
 
     <td>{{i+1}}</td>

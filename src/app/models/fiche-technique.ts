@@ -9,6 +9,7 @@ export class FicheTechnique{
     public listTitresEtapes : [];
     public listIngEtapes : [];
     public nbIngredientsByStep : number [];
+    public listQuantityIngredients : number [];
 
 
 
@@ -21,7 +22,8 @@ export class FicheTechnique{
         listTitresEtapes : [],
         listDureesEtapes: [],
         listIngEtapes : [],
-        nbIngredientsByStep : number []
+        nbIngredientsByStep : number [],
+        listQuantityIngredients : number []
 
     ){
         this.id = id;
@@ -32,6 +34,7 @@ export class FicheTechnique{
         this.listDureesEtapes = listDureesEtapes;
         this.listIngEtapes = listIngEtapes;
         this.nbIngredientsByStep = nbIngredientsByStep;
+        this.listQuantityIngredients = listQuantityIngredients;
 
     }
 }

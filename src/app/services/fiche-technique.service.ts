@@ -23,7 +23,8 @@ export class FicheTechniqueService {
       listTitresEtapes:[],
       listDureesEtapes:[],
       listIngEtapes : [],
-      nbIngredientsByStep : []
+      nbIngredientsByStep : [],
+      listQuantityIngredients : []
 
 
     }
@@ -57,28 +58,8 @@ export class FicheTechniqueService {
     }
 
   ];
-  recette = {
-    id:'5',
-    name: 'riz cantonais',
-    author:'chris',
-    desc:'hello wd',
-    listTitresEtapes:[],
-    listDureesEtapes:[],
-    listIngEtapes : [],
-    nbIngredientsByStep : []
-  };
-  ficheTechnicas: FicheTechnique[] = [{
-    id: '8',
-    name: 'cookies',
-    author: 'alizee',
-    desc :'hello',
-    listTitresEtapes:[],
-    listDureesEtapes:[],
-    listIngEtapes : [],
-    nbIngredientsByStep : []
-  },
 
-    ];
+
 
 
 

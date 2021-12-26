@@ -27,7 +27,8 @@ export class ViewFicheComponent implements OnInit {
   listIngEtapes = [];
   Ing : Ingredient[] = [];
   Steps : Etape [] = [];
-  etape : Etape = {titreEtape : '',listeIng : [],duree : ''};
+  etape : Etape = {titreEtape : '',listeIng : [],duree : '',listeQuantity : []};
+  listQuantityIngredients = [];
 
 
   recette :any;
@@ -59,6 +60,7 @@ export class ViewFicheComponent implements OnInit {
       }
 
     }
+    this.listQuantityIngredients = this.ft.getRecetteById(id).listQuantityIngredients;
     console.log(this.newNbIngredientsByStep);
     console.log(this.nbIngredientsByStep );
     this.initSteps()
@@ -67,11 +69,13 @@ export class ViewFicheComponent implements OnInit {
 
   }
   listIng : Ingredient [] = [];
+  listQuantity : number[]=[];
   initSteps(){
     console.log(this.newNbIngredientsByStep);
     let j = 0;
     for(var index in this.listTitresEtapes){
       this.listIng = [];
+      this.listQuantity = [];
 
 
 
@@ -80,6 +84,7 @@ export class ViewFicheComponent implements OnInit {
 
 
         this.listIng.push(this.Ing[j]);
+        this.listQuantity.push(this.listQuantityIngredients[j]);
         j ++;
         this.newNbIngredientsByStep[index]--;
 
@@ -89,6 +94,7 @@ export class ViewFicheComponent implements OnInit {
         this.listTitresEtapes[index],
         this.listIng,
         this.listDureesEtapes[index],
+        this.listQuantity
 
 
       )

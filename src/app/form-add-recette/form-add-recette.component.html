@@ -63,17 +63,20 @@
 
 
             </select>
-            <div class="form-group">
+          </div>
+        </div>
+            <div formArrayName="quantity">
+            <div class="form-group" *ngFor=" let quantit of quantity.controls; let t=index "[id]="t">
               <label for="quantity">
                 Quantité :
               </label>
-              <input type="text" id="quantity" class="form-control" [formControlName]="j">
+              <input type="text" id="quantity" class="form-control" [formControlName]="t">
             </div>
           </div>
 
 
 
-    </div>
+
 
         <div style="text-align:center">
           <div [innerHtml]='msg' *ngIf="msg" style="color: red;"></div>
