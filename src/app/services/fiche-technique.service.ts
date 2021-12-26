@@ -23,19 +23,6 @@ export class FicheTechniqueService {
   private category = [];
   nbSubject = new Subject<any[]>();
 
-  ficheTechnicas: FicheTechnique[] = [{
-    id: '8',
-    name: 'cookies',
-    author: 'alizee',
-    desc :'hello',
-    listTitresEtapes:[],
-    listDureesEtapes:[],
-    listIngEtapes : [],
-    nbIngredientsByStep : []
-  },
-
-    ];
-
 
 
   constructor(private db: AngularFirestore){

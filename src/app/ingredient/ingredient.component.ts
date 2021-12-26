@@ -22,7 +22,9 @@ export class IngredientComponent implements OnInit {
   @Input() allergene : string = 'oui';
 
 
-  ingredients: Ingredient[] = [];
+  ingredients: Ingredient[] = [
+
+  ];
   ingSubscription : Subscription;
 
 

@@ -23,9 +23,9 @@ export class ViewFicheComponent implements OnInit {
   name : string = 'recette';
   author : string = 'author';
   desc : string = 'desc';
-  listTitresEtapes = [];
-  listDureesEtapes = [];
-  listIngEtapes = [];
+  listTitresEtapes = ['a'];
+  listDureesEtapes = ['x'];
+  listIngEtapes = ['paprika'];
   Ing : Ingredient[] = [];
   Steps : Etape [] = [];
   etape : Etape = {titreEtape : '',listeIng : [],duree : ''};
@@ -42,17 +42,21 @@ export class ViewFicheComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     this.name = this.ft.getRecetteById(id).name;
     this.author = this.ft.getRecetteById(id).author;
+    console.log(this.author);
     this.desc = this.ft.getRecetteById(id).desc;
     console.log(id);
-    this.listTitresEtapes = this.ft.getRecetteById(id).listTitresEtapes;
-    this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
-    this.listIngEtapes = this.ft.getRecetteById(id).listIngEtapes;
+    this.listTitresEtapes = ['a']/*this.ft.getRecetteById(id).listTitresEtapes;*/
+    this.listDureesEtapes = ['x']/* this.ft.getRecetteById(id).listDureesEtapes;*/
+    this.listIngEtapes = ['paprika']/*this.ft.getRecetteById(id).listIngEtapes;*/
+    console.log(this.listIngEtapes);
+    console.log(this.listTitresEtapes);
+    console.log(this.listDureesEtapes);
+    console.log(this.name);
     let i=0;
 
     for (var char of this.listIngEtapes){
       this.Ing[i] = this.ins.getIngredientByName(char);
       i++;
-
     }
     this.nbIngredientsByStep = this.ft.getRecetteById(id).nbIngredientsByStep;
     for (let index in this.nbIngredientsByStep){
