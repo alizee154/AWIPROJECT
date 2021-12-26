@@ -13,6 +13,7 @@ export class FicheTechniqueService {
   private path = '/fiche-technique/';
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
+  tab : number[] = [];
   private recettas : FicheTechnique[] = [
     {
       id : 'e',
@@ -21,13 +22,15 @@ export class FicheTechniqueService {
       desc:'hey',
       listTitresEtapes:[],
       listDureesEtapes:[],
-      listIngEtapes : []
+      listIngEtapes : [],
+      nbIngredientsByStep : []
 
 
     }
   ];
   recetteSubject = new Subject<FicheTechnique[]>();
   ingSubject = new Subject<any[]>();
+  nbSubject = new Subject<any[]>();
 
 
   private recettes = [
@@ -38,7 +41,8 @@ export class FicheTechniqueService {
       desc:'hello',
       listTitresEtapes:[],
       listDureesEtapes:[],
-      listIngEtapes : []
+      listIngEtapes : [],
+      nbIngredientsByStep : []
 
     },
     {
@@ -48,7 +52,8 @@ export class FicheTechniqueService {
       desc:'hello world',
       listTitresEtapes:[],
       listDureesEtapes:[],
-      listIngEtapes : []
+      listIngEtapes : [],
+      nbIngredientsByStep : []
     }
 
   ];
@@ -59,7 +64,8 @@ export class FicheTechniqueService {
     desc:'hello wd',
     listTitresEtapes:[],
     listDureesEtapes:[],
-    listIngEtapes : []
+    listIngEtapes : [],
+    nbIngredientsByStep : []
   };
   ficheTechnicas: FicheTechnique[] = [{
     id: '8',
@@ -68,7 +74,8 @@ export class FicheTechniqueService {
     desc :'hello',
     listTitresEtapes:[],
     listDureesEtapes:[],
-    listIngEtapes : []
+    listIngEtapes : [],
+    nbIngredientsByStep : []
   },
 
     ];
@@ -101,6 +108,9 @@ export class FicheTechniqueService {
   addRecette(recette: FicheTechnique) {
     this.recettas.push(recette);
     this.emitrecetteSubject();
+  }
+  addTab(tab : number[]){
+    this.tab = tab;
   }
 
   /*addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {

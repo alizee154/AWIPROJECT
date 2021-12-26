@@ -6,6 +6,7 @@ import {FicheTechnique} from "../models/fiche-technique";
 import {Etape} from "../models/etape";
 import {IngredientService} from "../services/ingredient.service";
 import {Ingredient} from "../models/ingredient";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -15,7 +16,9 @@ import {Ingredient} from "../models/ingredient";
 })
 export class ViewFicheComponent implements OnInit {
   @Input() ficheTechnique : FicheTechnique;
-
+  nbIngredientsByStep  : number[]= [] ;
+  newNbIngredientsByStep  : number[]= [] ;
+  nbSubscription : Subscription;
   name : string = 'recette';
   author : string = 'author';
   desc : string = 'desc';
@@ -23,6 +26,9 @@ export class ViewFicheComponent implements OnInit {
   listDureesEtapes = [];
   listIngEtapes = [];
   Ing : Ingredient[] = [];
+  Steps : Etape [] = [];
+  etape : Etape = {titreEtape : '',listeIng : [],duree : ''};
+
 
   recette :any;
   @ViewChild('content') content:ElementRef;
@@ -30,7 +36,7 @@ export class ViewFicheComponent implements OnInit {
   constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute, private ins: IngredientService) { }
 
   ngOnInit(): void {
-    //this.recette = this.ft.recette;
+
     const id = this.route.snapshot.params['id'];
     this.name = this.ft.getRecetteById(id).name;
     this.author = this.ft.getRecetteById(id).author;
@@ -45,6 +51,51 @@ export class ViewFicheComponent implements OnInit {
       i++;
 
     }
+    this.nbIngredientsByStep = this.ft.getRecetteById(id).nbIngredientsByStep;
+    for (let index in this.nbIngredientsByStep){
+
+      if(index != '0'){
+        this.newNbIngredientsByStep.push(this.nbIngredientsByStep[index]);
+      }
+
+    }
+    console.log(this.newNbIngredientsByStep);
+    console.log(this.nbIngredientsByStep );
+    this.initSteps()
+
+
+
+  }
+  listIng : Ingredient [] = [];
+  initSteps(){
+    console.log(this.newNbIngredientsByStep);
+    let j = 0;
+    for(var index in this.listTitresEtapes){
+      this.listIng = [];
+
+
+
+
+      while(this.newNbIngredientsByStep[index]>0){
+
+
+        this.listIng.push(this.Ing[j]);
+        j ++;
+        this.newNbIngredientsByStep[index]--;
+
+      }
+
+      const newStep = new Etape(
+        this.listTitresEtapes[index],
+        this.listIng,
+        this.listDureesEtapes[index],
+
+
+      )
+      this.Steps.push(newStep);
+
+    }
+    console.log(this.Steps);
 
   }
 

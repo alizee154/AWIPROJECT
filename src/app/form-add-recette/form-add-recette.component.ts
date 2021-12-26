@@ -30,7 +30,8 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   authorControl : FormControl;
   recetteForm : FormGroup;
   private form: any;
-
+  nbIngByStep : number[] = [];
+  somme : number = 0;
   constructor(private formBuilder: FormBuilder,private ft:FicheTechniqueService,private router: Router, private ins : IngredientService) { }
 
   ngOnInit() {
@@ -85,17 +86,32 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
     return this.recetteForm.get('ings') as FormArray;
 
   }
-
+step : boolean = false;
   public addSteps(): void{
     this.titles.push(new FormControl());
     this.times.push(new FormControl());
+    this.step = true;
+    this.addIngs();
+
+
   }
 
   public addIngs():void{
     this.ings.push(new FormControl());
 
+    if (this.step == true){
+      this.nbIngByStep.push(this.somme);//affihce la case 0 qui ne compte pas
+      this.step = false;
+      this.somme = 0;
+
+    }
+    this.somme ++;
+
+
+
   }
   onSubmitForm(){
+    this.nbIngByStep.push(this.somme);
     const formValue = this.recetteForm.value;
     const newRecette = new FicheTechnique(
       formValue['id'],
@@ -104,14 +120,17 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       formValue['desc'],
       formValue['titles'],
       formValue['times'],
-      formValue['ings']
+      formValue['ings'],
+      this.nbIngByStep
 
 
 
 
     );
     this.ft.addRecette(newRecette);
+    //this.ft.addTab(this.nbIngByStep);
     console.log(newRecette);
+    console.log(this.nbIngByStep);
     this.router.navigate(['/fiche-technique'])
 
   }

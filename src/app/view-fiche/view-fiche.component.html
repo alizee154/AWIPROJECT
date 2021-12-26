@@ -37,19 +37,58 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let titre of listTitresEtapes ; let i=index" >
+  <ng-container *ngFor="let step of Steps; let i=index;">
+  <tr *ngFor="  let ing of step.listeIng   ">
 
 
-    <td >{{listIngEtapes[i]}}</td>
-    <td>{{Ing[i].unit}}</td>
-    <td></td>
-    <td>{{Ing[i].unitprice}}</td>
+
+    <td  >{{ing.name}}</td>
+    <td>{{ing.unit}}</td>
+    <td>{{ing.name}}</td>
+    <td>{{ing.unitprice}}</td>
+
     <td>{{i+1}}</td>
-    <td >{{titre}}</td>
-    <td>{{listDureesEtapes[i]}}</td>
+    <td >{{step.titreEtape}}</td>
+    <td>{{step.duree}}</td>
+
+
+
 
   </tr>
+    </ng-container>
+  <!--<tr *ngFor="let titre of listTitresEtapes ; let i=index; " >
 
+
+
+      <td ></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>{{i+1}}</td>
+      <td >{{titre}}</td>
+      <td>{{listDureesEtapes[i]}}
+
+
+
+
+  </tr>
+  <tr *ngFor=" let ing of Ing ; let i=index " >
+
+
+
+    <td >{{ing.name}}</td>
+    <td>{{ing.unit}}</td>
+    <td></td>
+    <td>{{ing.unitprice}}</td>
+    <td>{{i+1}}</td>
+    <td ></td>
+    <td>{{listDureesEtapes[i]}}
+
+
+
+
+  </tr>
+-->
 
   </tbody>
 </table>

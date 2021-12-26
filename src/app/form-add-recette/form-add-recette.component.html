@@ -53,22 +53,23 @@
           <input type="text" id="time" class="form-control" [formControlName]="m">
         </div>
         </div>
+
         <div formArrayName="ings">
-        <div class="form-group" *ngFor=" let ing of ings.controls; let j=index">
-          <label [attr.for]="j">{{'Ingrédient ' + j}} </label>
-          <select class="form-control" [id]="j"  [formControlName]="j">
-            <option [ngValue]="null">Select Option</option>
-            <option *ngFor="let ingredient of ingredients" >{{ingredient.name}}</option>
+          <div class="form-group" *ngFor=" let ing of ings.controls; let j=index">
+            <label [attr.for]="j">{{'Ingrédient ' + j}} </label>
+            <select class="form-control" [id]="j"  [formControlName]="j">
+              <option [ngValue]="null">Select Option</option>
+              <option *ngFor="let ingredient of ingredients" >{{ingredient.name}}</option>
 
 
-          </select>
-          <div class="form-group">
-            <label for="quantity">
-              Quantité :
-            </label>
-            <input type="text" id="quantity" class="form-control" [formControlName]="j">
+            </select>
+            <div class="form-group">
+              <label for="quantity">
+                Quantité :
+              </label>
+              <input type="text" id="quantity" class="form-control" [formControlName]="j">
+            </div>
           </div>
-        </div>
 
 
 
@@ -81,7 +82,7 @@
             <input type="file" (change)="selectFile($event)" name="url">
           </p>
         </div>
-      <button class="btn btn-danger" type ="button" (click)="addIngs()">+   Ajouter un ingrédient</button>
+      <button class="btn btn-danger" type ="button" (click)="addIngs() ">+   Ajouter un ingrédient</button>
       <button class="btn btn-danger" type ="button" (click)="addSteps()" >+   Ajouter une étape</button>
       <button class="btn btn-dark" type="submit">Enregistrer</button>
 
