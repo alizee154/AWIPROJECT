@@ -21,7 +21,7 @@ export class AppComponent {
   constructor(private ficheTechniqueService : FicheTechniqueService,ing:IngredientService){}
 
   async ngOnInit(){
-    this.recettes = this.ficheTechniqueService.ficheTechnicas;
+
 
   /*const querySnapshot = await getDocs(collection(this.fichesTechniques, "ficheTechnique"));
 querySnapshot.forEach((doc) => {

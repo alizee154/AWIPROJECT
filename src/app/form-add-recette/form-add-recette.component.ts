@@ -52,7 +52,8 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       desc:'',
       tags:this.formBuilder.array([]), //ne contient que la duree de l'etape
       ings :this.formBuilder.array([]),
-      url: ''
+      url: '',
+      category: ''
     })
   }
   public get tags() : FormArray {
@@ -79,7 +80,8 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       formValue['author'],
       formValue['desc'],
       formValue['tags'],
-      formValue['url']
+      formValue['url'],
+      formValue['category']
 
     );
     this.ft.saveFichesTechniques(newRecette);

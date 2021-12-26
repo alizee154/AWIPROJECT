@@ -7,6 +7,7 @@ export class FicheTechnique{
     public desc: string;
     public listEtape : Etape[];
     public url: any;
+    public category: string;
 
 
     constructor(
@@ -15,7 +16,8 @@ export class FicheTechnique{
         author: string,
         desc: string,
         listEtape : Etape[],
-        url:any
+        url:any,
+        category: string
     ){
         this.id = id;
         this.name = name;
@@ -23,5 +25,8 @@ export class FicheTechnique{
         this.desc = desc;
         this.listEtape = listEtape;
         this.url = url;
+        this.category = category;
     }
+
+
 }

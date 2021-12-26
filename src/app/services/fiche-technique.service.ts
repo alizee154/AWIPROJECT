@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import { FicheTechnique } from '../models/fiche-technique';
-import {Subject} from "rxjs";
+import {of, Subject, tap} from "rxjs";
 import {NgForm} from "@angular/forms";
-import {Ingredient} from "../models/ingredient";
-import {Etape} from "../models/etape";
-import {addDoc, collection, getDocs, getFirestore} from "@angular/fire/firestore";
-import {getDatabase} from "@angular/fire/database";
+import {addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
+import {Categorie} from "../models/category";
 
 @Injectable({
   providedIn: 'root'
@@ -19,30 +17,12 @@ export class FicheTechniqueService {
 
   ];
   recetteSubject = new Subject<FicheTechnique[]>();
+  categorySubject = new Subject<Categorie[]>();
   ingSubject = new Subject<any[]>();
-
-
-  private recettes = [
-
-  ];
-  recette = {
-    id:'5',
-    name: 'riz cantonais',
-    author:'chris',
-    desc:'hello wd',
-    listEtape : ['mixer','prendre tout',['0', '2', '3', '4','4','1']],
-    url:''
-  };
-  ficheTechnicas: FicheTechnique[] = [{
-    id: '8',
-    name: 'cookies',
-    author: 'alizee',
-    desc :'hello',
-    listEtape : [],
-    url:''
-  },
-
-    ];
+  private recettes = [];
+  private r = [];
+  private recettesCategory = [];
+  private category = [];
 
 
 
@@ -53,20 +33,99 @@ export class FicheTechniqueService {
   }
   public listMessage: string[];
 
-  getAllFichesTechniques(){
-   this.recettes.splice(0, this.recettes.length);
+  getAllFichesTechniques() {
+    this.recettes.splice(0, this.recettes.length);
     const db = getFirestore();
     const colRef = collection(db, 'ficheTechnique');
-    getDocs(colRef).then((snapshot) => {
+    getDocs(colRef)
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.recettes.push({...doc.data(), id: doc.id})
+          this.emitrecetteSubject();
+        })
+        console.log(this.recettes);
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
+  async getAllCategories() {
+    this.category.splice(0, this.category.length);
+    const db = getFirestore();
+    const colRef = collection(db, 'categorie');
+    await getDocs(colRef)
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.category.push({...doc.data(), id: doc.id})
+          this.emitCategorySubject();
+        })
+        console.log(this.category);
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
+
+  async getFichesByCategory(category) {
+    this.recettesCategory.splice(0, this.recettesCategory.length);
+    const db = getFirestore();
+    const colRef = collection(db, 'ficheTechnique');
+    const q = query(colRef, where("category", "==", category));
+    await getDocs(q).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        this.recettesCategory.push({...doc.data(), id: doc.id})
+        this.emitrecetteSubjectCategory();
+        console.log(doc.id, " => ", doc.data());
+      })
+      if(this.recettesCategory.length === 0){
+        this.emitrecetteSubjectCategory();
+      }
+      console.log(this.recettesCategory);
+    })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
+  async getFicheByID(id) {
+    const db = getFirestore();
+    const docRef = doc(db, "ficheTechnique", id);
+    const document = await getDoc(docRef);
+    if(document.exists()){
+      console.log("Document data :", document.data());
+    }
+    else{
+      console.log("Document not exists");
+      alert("La recette " + id + " n'existe pas !");
+    }
+  }
+
+  async getFichesByName(name) {
+    const db = getFirestore();
+    const colRef = collection(db, 'ficheTechnique');
+    const q = query(colRef, where("name", "==", name));
+    this.recettes.splice(0, this.recettes.length);
+    await getDocs(q).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         this.recettes.push({...doc.data(), id: doc.id})
         this.emitrecetteSubject();
+        console.log(doc.id, " => ", doc.data());
       })
       console.log(this.recettes);
     })
       .catch(err => {
         console.log(err.message);
       })
+   /* const document = await getDoc(docRef);
+    if(document.exists()){
+      console.log("Document data :", document.data());
+    }
+    else{
+      console.log("Document not exists");
+      alert("La recette " + name + " n'existe pas !");
+    }*/
   }
 
   saveFichesTechniques(fiche){
@@ -76,9 +135,23 @@ export class FicheTechniqueService {
       author : fiche.author,
       name: fiche.name,
       desc: fiche.desc
-    }).catch(err => console.error(err))
+    })
+      .then(() => {
+        console.log("success!")
+      })
+      .catch(err => console.error(err))
   }
 
+  deleteFicheTechnique(id){
+    const db = getFirestore();
+    //const colRef = collection(db, 'ficheTechnique');
+    deleteDoc(doc(db, "ficheTechnique", id))
+      .then(() => {
+      console.log("success!")
+    })
+      .catch(err => console.error(err));
+
+  }
 
   onSubmit(form: NgForm) {
     const id = form.value['id'];
@@ -90,16 +163,24 @@ export class FicheTechniqueService {
     this.recetteSubject.next(this.recettes.slice());
   }
 
+  emitrecetteSubjectCategory() {
+    this.recetteSubject.next(this.recettesCategory.slice());
+  }
+
+  emitCategorySubject() {
+    this.categorySubject.next(this.category.slice());
+  }
+
 
   addRecette(recette: FicheTechnique) {
-    this.recettas.push(recette);
+    this.recettes.push(recette);
     this.emitrecetteSubject();
   }
 
 
 
   getRecetteById(id : string){
-    const recette = this.recettas.find(
+    const recette = this.recettes.find(
       (recetteObject) => {
         return recetteObject.id === id;
     }
@@ -107,9 +188,23 @@ export class FicheTechniqueService {
     return recette;
   }
 
-
-
-
-
+  fetchRecettes(){
+    if(this.r && this.r.length){
+      console.log('1');
+      console.log(this.r.length);
+      return of(this.r)
+    }
+    else{
+      console.log('2');
+      console.log(this.recettes);
+      return of(this.recettes).pipe(
+        tap(r => this.r = r)
+      )
+    }
+  }
 
 }
+const data = [
+  { "city": "Some city", "name": "Sacramento State" },
+  { "city": "Rocklin", "name": "Sierra College" }
+]

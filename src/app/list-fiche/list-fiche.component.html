@@ -1,4 +1,61 @@
-<h2>Consulter la liste des plats</h2>
+<div>
+  <h2>Consulter la liste des plats</h2>
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <input type="text" id="maRecherche" name="q"
+           placeholder="Rechercher par nom" ngModel>
+    <button type="submit">Rechercher</button>
+  </form>
+
+  <div>
+    <mat-form-field style="width: 50vw; max-width: 400px;" appearance="outline">
+      <input #trigger="matAutocompleteTrigger" type="text" placeholder="Rechercher par nom" matInput [matAutocomplete]="auto" (input)="filterRecettes()" [(ngModel)]="searchModel">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let recette of recettesObs | async" [value]="recette.name" (onSelectionChange)="onResearch(recette, $event)">
+          <span>{{ recette.name }}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+</div>
+
+<!--
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <input type="text" placeholder="Rechercher par nom" matInput [formControl]="myControl" [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <option *ngFor="
+    let option of filteredRecettes | async" [value]="option">
+      {{option.name}}
+    </option>
+  </mat-autocomplete>
+  <button type="submit">Rechercher</button>
+</form>
+
+
+<p>bfiu</p>
+<form class="example-form">
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Rechercher par nom</mat-label>
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="
+let option of filteredRecettes | async" [value]="option">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+-->
+<p>uize</p>
+<form (ngSubmit)="onClick()">
+  <select class="form-control" [(ngModel)]="selectedCategory" name="categories"  >
+    <option [ngValue]="'Toutes catégories'">Toutes catégories</option>
+    <option type="submit" *ngFor="let cat of categories" >{{cat.category}}</option>
+  </select>
+  <button type="submit" class="btn btn-primary manage">Rechercher</button>
+</form>
+
+
+
 <button type="button" class="btn btn-danger">Rechercher une fiche technique</button>
 <button type="button" class="btn btn-danger" (click)="onForm()">Ajouter une fiche technique</button>
 <div class="container">
@@ -6,11 +63,12 @@
     <div class="col-xs-12">
       <h2>Mes fiches</h2>
       <ul class="list-group">
-        <app-fiche-technique  *ngFor="let recette of recettes"
+        <app-fiche-technique *ngFor="let recette of recettes"
                              [id]="recette.id"
                              [name]="recette.name"
                              [author]="recette.author"
-                             [desc]="recette.desc" (click)="onView(recette)"></app-fiche-technique>
+                             [desc]="recette.desc" (click)="onView(recette)">
+        </app-fiche-technique>
 
       </ul>
 

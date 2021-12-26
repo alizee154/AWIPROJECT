@@ -22,8 +22,15 @@ export class FicheTechniqueComponent implements OnInit {
 
 
   constructor(private ft: FicheTechniqueService, private router: Router) { }
+
   getName() {
     return this.name;
+  }
+
+  getRecetteID(){
+    //console.log(this.id);
+    return this.id;
+
   }
 
 

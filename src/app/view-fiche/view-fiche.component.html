@@ -1,11 +1,15 @@
 <form>
   <div>
-    <input type="search" id="maRecherche" name="q"
-           placeholder="Rechercher une recette">
-    <button>Rechercher</button>
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <input type="text" id="maRecherche" name="q"
+             placeholder="Rechercher une recette" ngModel>
+      <button type="submit">Rechercher</button>
+    </form>
+
   </div>
 </form>
 <input type="button" value="Download PDF" class="btn btn-danger" (click)="SavePDF()">
+<input type="button" value="Delete" class="btn btn-danger" (click)="deleteFiche()">
 <div class="container" id="content" #content>
 
 <header class="centre" >
