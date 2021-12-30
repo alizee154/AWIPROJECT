@@ -5,6 +5,7 @@ import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {Ingredient} from "../models/ingredient";
 import {Etape} from "../models/etape";
+import {Vente} from "../models/vente";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class FicheTechniqueService {
   private ficheTechniqueStore: AngularFirestore;
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
   tab : number[] = [];
+  //ventes : Vente[] = [{name : 'nouilles',nbPlat:'3'}];
+  ventes : Vente[] = [];
   private recettas : FicheTechnique[] = [
     {
       id : 'e',
@@ -89,9 +92,55 @@ export class FicheTechniqueService {
   addRecette(recette: FicheTechnique) {
     this.recettas.push(recette);
     this.emitrecetteSubject();
+
   }
+
   addTab(tab : number[]){
     this.tab = tab;
+  }
+  addVente(vente: Vente) {
+    this.ventes.push(vente);
+    this.emitrecetteSubject();
+    console.log(this.ventes);
+  }
+  fichesVendues: FicheTechnique [] = [{
+    id : 'e',
+    name:'moule',
+    author:'ee',
+    desc:'hey',
+    listTitresEtapes:[],
+    listDureesEtapes:[],
+    listIngEtapes : [],
+    nbIngredientsByStep : [],
+    listQuantityIngredients : []
+
+
+  }];
+  nbFichesVendues : String [] = [];
+  ingToDecrease : String[] = [];
+  ingNameToDecrease : String[] = [];
+  quantityToDecrease : number[] = [];
+
+  recupIngTodecrease(){ //on recupere les fiches techniques vendues
+    for(let index in this.ventes){
+       this.fichesVendues.push(this.getRecetteByname(this.ventes[index].name));
+       //this.nbFichesVendues.push(this.ventes[index].nbPlat);//mettre le meme nombre pour tous les ingredients d'une meme etape
+
+    }
+    console.log(this.fichesVendues + "hey");
+    for(let index in this.fichesVendues){
+      console.log(this.fichesVendues);
+      for(var ing of this.fichesVendues[index].listIngEtapes){
+        this.ingNameToDecrease.push(ing);
+        console.log(this.ingNameToDecrease);
+
+
+      }
+
+    }
+
+
+
   }
 
   /*addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {
@@ -120,6 +169,16 @@ export class FicheTechniqueService {
     }
     );
     return recette;
+  }
+
+  getRecetteByname(name : String ){
+    const recette = this.recettas.find(
+      (recetteObject) => {
+        return recetteObject.name=== name;
+      }
+    );
+    return recette;
+
   }
 
 

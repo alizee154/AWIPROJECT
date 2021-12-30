@@ -1,4 +1,5 @@
 import {Etape} from "./etape";
+import {Ingredient} from "./ingredient";
 
 export class FicheTechnique{
     public id: string;

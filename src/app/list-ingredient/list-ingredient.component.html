@@ -10,7 +10,7 @@
                               [id]="ingredient.id"
                               [name]="ingredient.name"
                               [unit]="ingredient.unit"
-                              [quantity]="ingredient.quantity"
+                              [stocks]="ingredient.stocks"
                               [unitprice]="ingredient.unitprice"
                               [allergene]="ingredient.allergene"
 
@@ -20,6 +20,10 @@
 
     </div>
   </div>
+</div>
+<div *ngFor="let ingredient of ingredientsToDecrease">
+  {{ingredient.name}}
+
 </div>
 
 

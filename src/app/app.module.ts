@@ -34,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'fiche-technique', component: ListFicheComponent },
   { path: 'ingredient', component: ListIngredientComponent },
   { path: 'stock', component: StockComponent },
+
   { path: 'not-found', component: FourOhFourComponent },
   { path: '**', redirectTo: 'not-found' }
 

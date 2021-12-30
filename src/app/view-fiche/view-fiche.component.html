@@ -12,16 +12,15 @@
   <h3 >{{name}}</h3>
   <h4 >{{author}}</h4>
   <h5>{{desc}}</h5>
-  <div class="form-group">
-    <label for="nbcouverts">Nombre de couverts : </label>
-    <select class="form-control" id="nbcouverts">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
+  <!--<div class="form-group" >
+
+    <select class="form-control" formControlName="nbCouverts">
+      <option [ngValue]="null">Nombre de couverts</option>
+      <option *ngFor="let i of listNombre"> (click)=" addCouvert()"{{i}}</option>
+
+
     </select>
-  </div>
+  </div>-->
 </header>
 
 <table class="table">
@@ -92,13 +91,17 @@
 
   </tbody>
 </table>
+<h2>Synthèse</h2>
+  <h3>Ingrédients utilisés dans cette fiche technique</h3>
+  <div *ngFor="let ing of Ing; let i =index;">{{ing.name }} -- cout brut : {{ing.unitprice * listQuantity[i]}} </div>
+<p>Coût matière : cout total des ingredients de la fiche + cout assaisonnement ( en euro ou 5% du cout matiere) {{calculCoutMatiere()}} euros</p>
+  <p>Coût du personnel : cout horaire moyen + temps pour realiser le plat  {{calculCoutPersonnel()}} euros</p>
+  <p>Coût des fluides : calcule a partir d'un coup horaire forfaitaire {{calculCoutFluide()}} euros</p>
+<p>Coût de production :  somme cout matiere (et eventuellement cout charges) {{coutFluide + coutPersonnel + coutMatiere}} euros</p>
+<p>Coût de production par portion: {{(coutFluide + coutPersonnel + coutMatiere)/nbCouverts}} euros</p>
 
-<p>Coût matière : cout total des ingredients de la fiche + cout assaisonnement ( en euro ou 5% du cout matiere) </p>
-<p>Coût de production :  somme cout matiere (et eventuellement cout charges)</p>
-<p>Coût de production par portion: </p>
-<p>Coût des charges : cout de personnel + cout des fluides</p>
-<p>Coût du personnel : cout horaire moyen + temps pour realiser le plat </p>
-<p>Coût des fluides : calcule a partir d'un coup horaire forfaitaire</p>
+<p>Coût des charges : cout de personnel + cout des fluides {{coutFluide + coutPersonnel}} euros</p>
+
 <p>Prix de vente : </p>
 <p>Prix de vente par portion : </p>
 <p>Bénéfice par portion : </p>

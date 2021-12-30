@@ -7,6 +7,7 @@ import {Etape} from "../models/etape";
 import {IngredientService} from "../services/ingredient.service";
 import {Ingredient} from "../models/ingredient";
 import {Subscription} from "rxjs";
+import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
 
 
 @Component({
@@ -29,12 +30,21 @@ export class ViewFicheComponent implements OnInit {
   Steps : Etape [] = [];
   etape : Etape = {titreEtape : '',listeIng : [],duree : '',listeQuantity : []};
   listQuantityIngredients = [];
+  coutMatiere = 0;
+  coutPersonnel = 0;
+  coutFluide = 0;
+  listNombre = [];
+  nbCouverts = 1;
+  //couvertForm :  FormGroup;
+
+
+
 
 
   recette :any;
   @ViewChild('content') content:ElementRef;
 
-  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute, private ins: IngredientService) { }
+  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute, private ins: IngredientService,private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
 
@@ -63,11 +73,25 @@ export class ViewFicheComponent implements OnInit {
     this.listQuantityIngredients = this.ft.getRecetteById(id).listQuantityIngredients;
     console.log(this.newNbIngredientsByStep);
     console.log(this.nbIngredientsByStep );
-    this.initSteps()
+    this.initSteps();
+    for (let i = 0; i < 25; i++) {
+      this.listNombre.push(i);
+    }
+    /*this.couvertForm = this.formBuilder.group({
+      nbCouverts:0,
+
+
+    })*/
+
 
 
 
   }
+ /* public addCouvert(){
+    const formValue = this.couvertForm.value;
+    this.nbCouverts = formValue['nbCouverts'] ;
+
+  }*/
   listIng : Ingredient [] = [];
   listQuantity : number[]=[];
   initSteps(){
@@ -84,7 +108,7 @@ export class ViewFicheComponent implements OnInit {
 
 
         this.listIng.push(this.Ing[j]);
-        this.listQuantity.push(this.listQuantityIngredients[j]);
+        this.listQuantity.push(this.listQuantityIngredients[j]*this.nbCouverts);//on multiplie par le nombre de couverts selectionnés
         j ++;
         this.newNbIngredientsByStep[index]--;
 
@@ -102,6 +126,47 @@ export class ViewFicheComponent implements OnInit {
 
     }
     console.log(this.Steps);
+
+  }
+
+  public calculCoutMatiere(){
+    //somme de tous les ingredients + 5% du cout matiere
+    for (let index in this.Ing){
+
+      this.coutMatiere += this.Ing[index].unitprice * this.listQuantityIngredients[index] / 1000;
+
+
+    }
+    this.coutMatiere+= 0.05* this.coutMatiere;
+    return this.coutMatiere ;
+
+
+}
+public calculCoutPersonnel(){
+    //on fixe le cout horaire moyen à 16,74
+  for (let index in this.listDureesEtapes){
+
+    this.coutPersonnel += this.listDureesEtapes[index] / 60;
+
+
+
+  }
+  return this.coutPersonnel * 16,74;
+
+
+}
+  public calculCoutFluide(){
+    //on fixe le cout horaire forfaitaire à 2 (revoir avec un vrai taux)
+
+    for (let index in this.listDureesEtapes){
+
+      this.coutFluide += this.listDureesEtapes[index] / 60;
+
+
+
+    }
+    return this.coutFluide * 2;
+
 
   }
 

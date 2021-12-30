@@ -4,7 +4,7 @@ export class Etape{
   public titreEtape : string;
   //public descEtape : string;
   public listeIng : Ingredient[];
-  public duree : string;
+  public duree : string;//peut-etre mettre number plutot
   public  listeQuantity : number[];
 
   constructor(titreEtape : string,

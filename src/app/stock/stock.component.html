@@ -1,17 +1,32 @@
 <h2>Gérer les stocks</h2>
 <h3>Enregistrer une vente</h3>
-<form>
+<button type="button" class="btn btn-danger">Enregister une vente </button>
+<button type="button" class="btn btn-danger">Imprimer une étiquette </button>
 
+<form [formGroup]="stockForm" (ngSubmit)="onSubmitForm()">
 
-  <div class="row">
-    <div class="col">
-      <label for="typeplat">Type de plat vendu :  </label>
-      <input type="text" class="form-control" id ="typeplat" placeholder="Enter type">
-    </div>
-    <div class="col">
-      <label for="nbplats">Nombre de plats vendus : </label>
-      <input type="text" class="form-control" id ="nbplats" placeholder="Enter nb">
-    </div>
+  <div class="form-group">
+    <select class="form-control"  formControlName="nameRecette">
+      <option [ngValue]="null">Nom du plat</option>
+      <option *ngFor="let recette of recettes"> {{recette.name}}</option>
+    </select>
   </div>
-  <button type="submit" class="btn btn-danger">Ajouter</button>
+
+
+    <div class="form-group">
+      <label for="nbplats">Nombre de plats vendus : </label>
+      <input type="text" id ="nbplats" class="form-control"  formControlName="nbplats">
+    </div>
+
+  <button type="submit" class="btn btn-danger">Ajouter la vente</button>
+
 </form>
+
+<h3>Imprimer une étiquette</h3>
+
+
+<button type="submit" class="btn btn-danger">Imprimer</button>
+
+
+
+

@@ -32,6 +32,7 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   private form: any;
   nbIngByStep : number[] = [];
   somme : number = 0;
+  categories = ['Entrée','Plat','Dessert' ,'Boisson'];
   constructor(private formBuilder: FormBuilder,private ft:FicheTechniqueService,private router: Router, private ins : IngredientService) { }
 
   ngOnInit() {

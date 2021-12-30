@@ -4,20 +4,25 @@ import {FicheTechnique} from "../models/fiche-technique";
 import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {Ingredient} from "../models/ingredient";
+import {Vente} from "../models/vente";
 
 @Injectable({
   providedIn: 'root'
 })
 export class IngredientService {
 
-
+  ventes : Vente[] = [{name : 'nouilles',nbPlat:'3'}];
+  ingToDecrease : Ingredient[];
+  private ing = [];
+  ingredientSubject = new Subject<any[]>()
   ingSubject = new Subject<any[]>();
+  ingDecreaseSubject = new Subject<any[]>();
   private ingredients : Ingredient []= [
     {
       id:'4',
       name: 'farine',
       unit:'g',
-      quantity:3,
+      stocks:3,
       unitprice:2,
       allergene:'oui'
 
@@ -26,7 +31,7 @@ export class IngredientService {
       id:'2',
       name: 'beurre',
       unit:'g',
-      quantity:3,
+      stocks:3,
       unitprice:2,
       allergene:'oui'
     }
@@ -36,7 +41,7 @@ export class IngredientService {
     id:'5',
     name: 'riz cantonais',
    unit:'goug',
-   quantity:3,
+   stocks:3,
    unitprice:2,
    allergene:'oui'
   };
@@ -59,9 +64,14 @@ export class IngredientService {
     const id = form.value['id'];
     const name = form.value['name'];
     const unit = form.value['unit'];
-    const quantity = form.value['quantity'];
+    const stocks = form.value['stocks'];
     const unitprice = form.value['unitprice'];
     const allergene = form.value['allergene'];
+
+  }
+
+  newEmitIngSubjetc(){
+    this.ingDecreaseSubject.next(this.ingToDecrease.slice());
 
   }
   emitingSubject() {
@@ -75,25 +85,30 @@ export class IngredientService {
     );
     return ingredient;
   }
+  addIngToDecrease(ingredients : Ingredient[]){
+    this.ingToDecrease = ingredients;
+
+  }
+
 
   /*addRecette(recette: FicheTechnique) {
     this.ficheTechnicas.push(recette);
     this.emitUsers();
   }*/
 
-  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, allergene: string) {
+  addIng(id : string, name: string, unit: string, stocks: number, unitprice: number, allergene: string) {
     const ingredientObject = {
       id: '0',
       name: '',
       unit: '',
-      quantity: 0,
+      stocks: 0,
       unitprice:0,
       allergene: ''
     };
     ingredientObject.id = id;
     ingredientObject.name = name;
     ingredientObject.unit = unit;
-    ingredientObject.quantity = quantity;
+    ingredientObject.stocks = stocks;
     ingredientObject.unitprice = unitprice;
     ingredientObject.allergene = allergene;
 
@@ -103,4 +118,19 @@ export class IngredientService {
     this.ingredients.push(ingredientObject);
     this.emitingSubject();
   }
+  getIngredientNoBackByName(name : string){
+    const ingredient = this.ingredients.find(
+      (ingObject) => {
+        return ingObject.name === name;
+      }
+    );
+    console.log(this.ingredients);
+    return ingredient;
+  }
+  addVente(vente: Vente) {
+    this.ventes.push(vente);
+    this.emitingSubject();
+    console.log(this.ventes);
+  }
+
 }

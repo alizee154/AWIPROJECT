@@ -39,12 +39,12 @@ export class FormAddIngredientComponent implements OnInit {
     const name = form.value['name'];
     const unit = form.value['unit'];
     const id = form.value['id'];
-    const quantity = form.value['quantity'];
+    const stocks = form.value['stocks'];
     const unitprice = form.value['unitprice'];
     const allergene = form.value['allergene'];
 
     console.log(form.value);
-    this.ing.addIng(id,name,unit,quantity,unitprice,allergene);
+    this.ing.addIng(id,name,unit,stocks,unitprice,allergene);
     this.router.navigate(['ingredient']);
   }
 }
