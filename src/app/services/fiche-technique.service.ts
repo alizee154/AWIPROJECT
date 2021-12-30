@@ -165,16 +165,16 @@ export class FicheTechniqueService {
       .catch(err => console.error(err))
   }
 
-  deleteFicheTechnique(id){
+  deleteFicheTechnique(id) {
     const db = getFirestore();
     //const colRef = collection(db, 'ficheTechnique');
     deleteDoc(doc(db, "ficheTechnique", id))
       .then(() => {
-      console.log("success!")
-    })
+        console.log("success!")
+      })
       .catch(err => console.error(err));
-
   }
+
 
   onSubmit(form: NgForm) {
     const id = form.value['id'];

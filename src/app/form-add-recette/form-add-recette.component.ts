@@ -79,14 +79,20 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       desc:'',
       titles:this.formBuilder.array([]),
       times:this.formBuilder.array([]),
+
       ings :this.formBuilder.array([]),
       category: '',
-      quantity: ''
+      quantity: this.formBuilder.array([])
 
     })
+
   }
   public get times() : FormArray {
     return this.recetteForm.get('times') as FormArray;
+
+  }
+  public get quantity() : FormArray {
+    return this.recetteForm.get('quantity') as FormArray;
 
   }
   /*public get tags() : FormArray {
@@ -108,19 +114,20 @@ step : boolean = false;
     this.titles.push(new FormControl());
     this.times.push(new FormControl());
     this.step = true;
-   // this.addIngs();
+    this.addIngs();
 
 
   }
 
   public addIngs():void{
     this.ings.push(new FormControl());
-
+    this.quantity.push(new FormControl());
 
     if (this.step == true){
       this.nbIngByStep.push(this.somme);//affihce la case 0 qui ne compte pas
       this.step = false;
       this.somme = 0;
+
     }
     this.somme ++;
 
@@ -155,7 +162,8 @@ step : boolean = false;
           formValue['times'],
           this.ing,
           this.nbIngByStep,
-          formValue['category']
+          formValue['category'],
+          formValue['quantity']
         );
         console.log(newRecette);
         this.ft.saveFichesTechniques(newRecette);

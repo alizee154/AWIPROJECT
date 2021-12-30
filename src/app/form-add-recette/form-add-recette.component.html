@@ -64,17 +64,22 @@
               <option [ngValue]="null">Select Option</option>
               <option *ngFor="let ingredient of ingredients" >{{ingredient.name}}</option>
 
+
             </select>
           </div>
         </div>
-        <div formArrayName="quantity">
-          <div class="form-group" *ngFor=" let ing of ings.controls; let x=index "[id]="x">
-            <label for="quantity">
-              Quantité :
-            </label>
-            <input type="text" id="quantity" class="form-control" [formControlName]="x">
+            <div formArrayName="quantity">
+            <div class="form-group" *ngFor=" let quantit of quantity.controls; let t=index "[id]="t">
+              <label for="quantity">
+                Quantité :
+              </label>
+              <input type="text" id="quantity" class="form-control" [formControlName]="t">
+            </div>
           </div>
-        </div>
+
+
+
+
 
 
 
