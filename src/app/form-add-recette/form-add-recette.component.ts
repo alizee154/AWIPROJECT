@@ -10,6 +10,7 @@ import {Etape} from "../models/etape";
 import {Subscription} from "rxjs";
 import {Ingredient} from "../models/ingredient";
 import {IngredientService} from "../services/ingredient.service";
+import {Categorie} from "../models/category";
 
 
 @Component({
@@ -23,7 +24,12 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   @Output() url : any;
 
   ingredients : Ingredient[];
+  ing : Ingredient[];
+  categories : any[];
+  selectedCategory: string;
   ingSubscription : Subscription;
+  ingredientSubscription : Subscription;
+  categorySubscription : Subscription;
 
   recetteSubscription : Subscription;
   nameControl : FormControl;
@@ -35,8 +41,11 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder,private ft:FicheTechniqueService,private router: Router, private ins : IngredientService) { }
 
   ngOnInit() {
+
     this.initForm();
     this.initIng();
+    console.log(this.ing);
+    console.log(this.ingredients);
 
 
 
@@ -51,9 +60,18 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
 
     this.ingSubscription = this.ins.ingSubject.subscribe((ingredients :Ingredient[]) => {this.ingredients = ingredients;});
     this.ins.emitingSubject();// il faut ecrire l'id dans le form pour que ca marche apres avoir cliqué sur ajouter un ingredient
+    //this.ingSubscription = this.ins.ingredientSubject.subscribe((ing :Ingredient[]) => {this.ing = ing;});
+    //this.ins.emitingIngSubject();
+    console.log(this.ingredients);
+    console.log(this.ing);
 
   }
   initForm(){
+    this.ft.getAllCategories();
+    this.categorySubscription = this.ft.categorySubject.subscribe(
+      (categories : Categorie[]) => {this.categories = categories}
+    );
+    this.ins.getAllIngredients();
     this.recetteForm = this.formBuilder.group({
       id:'',
       name:'',
@@ -62,7 +80,8 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       titles:this.formBuilder.array([]),
       times:this.formBuilder.array([]),
       ings :this.formBuilder.array([]),
-      category: ''
+      category: '',
+      quantity: ''
 
     })
   }
@@ -89,7 +108,7 @@ step : boolean = false;
     this.titles.push(new FormControl());
     this.times.push(new FormControl());
     this.step = true;
-    this.addIngs();
+   // this.addIngs();
 
 
   }
@@ -97,11 +116,11 @@ step : boolean = false;
   public addIngs():void{
     this.ings.push(new FormControl());
 
+
     if (this.step == true){
       this.nbIngByStep.push(this.somme);//affihce la case 0 qui ne compte pas
       this.step = false;
       this.somme = 0;
-
     }
     this.somme ++;
 
@@ -111,25 +130,42 @@ step : boolean = false;
   onSubmitForm(){
     this.nbIngByStep.push(this.somme);
     const formValue = this.recetteForm.value;
-    const newRecette = new FicheTechnique(
-      formValue['id'],
-      formValue['name'],
-      formValue['author'],
-      formValue['desc'],
-      formValue['titles'],
-      formValue['times'],
-      formValue['ings'],
-      this.nbIngByStep,
-      formValue['category']
+    console.log(this.selectedCategory);
+    console.log(formValue['category']);
+    if(formValue['category'] === undefined){
+      alert("Veuillez choisir une catégorie");
+    }
+    else{
+      let tab = [];
+      for(let i = 0; i<formValue['ings'].length; i++){
+        tab.push(formValue['ings'][i]);
+      }
+      console.log(tab);
+      this.ins.getIngredientByName(tab).then(r => {
+        this.ingSubscription = this.ins.ingredientSubject.subscribe((ing :Ingredient[]) => {this.ing = ing;});
+        this.ins.emitingIngSubject();
+        console.log(this.ing);
+
+        const newRecette = new FicheTechnique(
+          formValue['id'],
+          formValue['name'],
+          formValue['author'],
+          formValue['desc'],
+          formValue['titles'],
+          formValue['times'],
+          this.ing,
+          this.nbIngByStep,
+          formValue['category']
+        );
+        console.log(newRecette);
+        this.ft.saveFichesTechniques(newRecette);
+        this.ft.addRecette(newRecette);
+        this.router.navigate(['/fiche-technique']).catch(err => console.error(err));
 
 
+      });
+    }
 
-
-    );
-    this.ft.saveFichesTechniques(newRecette);
-    this.ft.addRecette(newRecette);
-    this.router.navigate(['/fiche-technique']).catch(err => console.error(err));
-    console.log(newRecette);
 
   }
 

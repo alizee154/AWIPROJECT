@@ -3,7 +3,7 @@ import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat
 import {FicheTechnique} from "../models/fiche-technique";
 import {Subject} from "rxjs";
 import {NgForm} from "@angular/forms";
-import {addDoc, collection, getDocs, getFirestore} from "@angular/fire/firestore";
+import {addDoc, collection, doc, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
 import {Ingredient} from "../models/ingredient";
 
 @Injectable({
@@ -13,9 +13,9 @@ export class IngredientService {
 
 
   ingSubject = new Subject<any[]>();
-  private ingredients = [
-
-  ];
+  ingredientSubject = new Subject<any[]>()
+  private ingredients = [];
+  private ing = [];
  ingredient = {
     id:'5',
     name: 'riz cantonais',
@@ -50,6 +50,49 @@ export class IngredientService {
       })
   }
 
+
+    async getIngredientByName(name) {
+    const db = getFirestore();
+    console.log(name);
+    const colRef = collection(db, 'ingredients');
+    this.ing.splice(0, this.ing.length);
+    for(let i = 0; i < name.length; i++){
+      console.log(name[i]);
+      const q = query(colRef, where("name", "==", name[i]));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        this.ing.push({...doc.data(), id: doc.id})
+        this.emitingIngSubject();
+        console.log(doc.id, " => ", doc.data());
+      });
+    }
+   /* const q = query(colRef, where("name", "==", name));
+    this.ing.splice(0, this.ing.length);
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      this.ing.push({...doc.data(), id: doc.id})
+      this.emitingIngSubject();
+      console.log(doc.id, " => ", doc.data());
+    });
+    /*await getDocs(q).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        this.ing.push({...doc.data(), id: doc.id})
+        this.emitingIngSubject();
+        console.log(doc.id, " => ", doc.data());
+      })
+      console.log(this.ing);
+    })
+      .catch(err => {
+        console.log(err.message);
+      })*/
+  }
+
+  /*addIngredientsInStep(id){
+    const db = getFirestore();
+    const docRef = collection(db, "étapes/" + id);
+    const newDoc = push()
+  }*/
+
   saveIngrédients(ing){
     console.log("bguifez")
     const db = getFirestore();
@@ -79,12 +122,19 @@ export class IngredientService {
   emitingSubject() {
     this.ingSubject.next(this.ingredients.slice());
   }
-  getIngredientByName(name : string){
+
+  emitingIngSubject() {
+    this.ingredientSubject.next(this.ing.slice());
+  }
+
+
+  getIngredientNoBackByName(name : string){
     const ingredient = this.ingredients.find(
       (ingObject) => {
         return ingObject.name === name;
       }
     );
+    console.log(this.ingredients);
     return ingredient;
   }
 

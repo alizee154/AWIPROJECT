@@ -56,7 +56,6 @@ export class ListFicheComponent implements OnInit, OnDestroy {
       (recettes :FicheTechnique[]) => {this.recettes = recettes;}
     );
     this.ft.emitrecetteSubject();
-    console.log('fkjhif');
 
   }
 

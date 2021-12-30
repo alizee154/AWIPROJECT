@@ -1,4 +1,5 @@
 import {Etape} from "./etape";
+import {Ingredient} from "./ingredient";
 
 export class FicheTechnique{
     public id: string;
@@ -7,25 +8,22 @@ export class FicheTechnique{
     public desc: string;
     public listDureesEtapes: [];
     public listTitresEtapes : [];
-    public listIngEtapes : [];
+    public listIngEtapes : Ingredient[];
     public nbIngredientsByStep : number [];
     public category: string;
 
 
-
-
-    constructor(
-        id: string,
-        name: string,
-        author: string,
-        desc: string,
-        listTitresEtapes : [],
-        listDureesEtapes: [],
-        listIngEtapes : [],
-        nbIngredientsByStep : number [],
-        category: string
-
-    ){
+  constructor(
+    id: string,
+    name: string,
+    author: string,
+    desc: string,
+    listTitresEtapes: [],
+    listDureesEtapes: [],
+    listIngEtapes: Ingredient[],
+    nbIngredientsByStep: number[],
+    category: string
+  ){
         this.id = id;
         this.name = name;
         this.author = author;

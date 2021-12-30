@@ -3,7 +3,18 @@ import { AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compa
 import { FicheTechnique } from '../models/fiche-technique';
 import {of, Subject, tap} from "rxjs";
 import {NgForm} from "@angular/forms";
-import {addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
+import {
+  addDoc,
+  collection,
+  collectionGroup,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  query,
+  where
+} from "@angular/fire/firestore";
 import {Categorie} from "../models/category";
 
 @Injectable({
@@ -47,6 +58,20 @@ export class FicheTechniqueService {
       .catch(err => {
         console.log(err.message);
       })
+  }
+
+  async getEtapes(id) {
+    const db = getFirestore();
+    const colRef = collection(db, 'ficheTechnique')
+    const docRef = doc(colRef, id, 'étapes')
+    const document = await getDoc(docRef);
+    if(document.exists()){
+      console.log("Document data :", document.data());
+    }
+    else{
+      console.log("Document not exists");
+      alert("L'étape " + id + " n'existe pas !");
+    }
   }
 
   async getAllCategories() {
@@ -93,6 +118,8 @@ export class FicheTechniqueService {
     const docRef = doc(db, "ficheTechnique", id);
     const document = await getDoc(docRef);
     if(document.exists()){
+      this.recettes.push({...document.data(), id: document.id})
+      this.emitrecetteSubject();
       console.log("Document data :", document.data());
     }
     else{
@@ -117,14 +144,6 @@ export class FicheTechniqueService {
       .catch(err => {
         console.log(err.message);
       })
-   /* const document = await getDoc(docRef);
-    if(document.exists()){
-      console.log("Document data :", document.data());
-    }
-    else{
-      console.log("Document not exists");
-      alert("La recette " + name + " n'existe pas !");
-    }*/
   }
 
   saveFichesTechniques(fiche){
@@ -133,7 +152,12 @@ export class FicheTechniqueService {
     addDoc(colRef, {
       author : fiche.author,
       name: fiche.name,
-      desc: fiche.desc
+      desc: fiche.desc,
+      category : fiche.category,
+      listTitresEtapes : fiche.listTitresEtapes,
+      listDureesEtapes : fiche.listDureesEtapes,
+      listIngEtapes : fiche.listIngEtapes,
+      nbIngredientsByStep : fiche.nbIngredientsByStep
     })
       .then(() => {
         console.log("success!")

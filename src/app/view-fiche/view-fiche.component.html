@@ -44,18 +44,16 @@
   <ng-container *ngFor="let step of Steps; let i=index;">
   <tr *ngFor="  let ing of step.listeIng   ">
 
+ <!-- TODO faire en sorte de faire apparaitre les étapes même si elles ne possèdent aucun ingrédients-->
 
-
-    <td  >{{ing.name}}</td>
+    <td>{{ing.name}}</td>
     <td>{{ing.unit}}</td>
     <td>{{ing.name}}</td>
     <td>{{ing.unitprice}}</td>
 
     <td>{{i+1}}</td>
-    <td >{{step.titreEtape}}</td>
+    <td>{{step.titreEtape}}</td>
     <td>{{step.duree}}</td>
-
-
 
 
   </tr>

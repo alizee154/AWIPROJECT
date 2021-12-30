@@ -25,10 +25,12 @@ export class ViewFicheComponent implements OnInit {
   desc : string = 'desc';
   listTitresEtapes = ['a'];
   listDureesEtapes = ['x'];
-  listIngEtapes = ['paprika'];
+  listIngEtapes = [];
   Ing : Ingredient[] = [];
   Steps : Etape [] = [];
   etape : Etape = {titreEtape : '',listeIng : [],duree : ''};
+  recetteSubscription : Subscription;
+  recettes = [];
 
 
   recette :any;
@@ -40,24 +42,38 @@ export class ViewFicheComponent implements OnInit {
   ngOnInit(): void {
 
     const id = this.route.snapshot.params['id'];
+    this.ft.getFicheByID(id).then(() => {
+      console.log("Ca marche")
+    });
+    this.recetteSubscription = this.ft.recetteSubject.subscribe(
+      (recettes :FicheTechnique[]) => {this.recettes = recettes;}
+    );
+    this.ft.emitrecetteSubject();
+    console.log(this.recettes);
+    console.log(this.ft.getFicheByID(id));
     this.name = this.ft.getRecetteById(id).name;
     this.author = this.ft.getRecetteById(id).author;
     console.log(this.author);
     this.desc = this.ft.getRecetteById(id).desc;
     console.log(id);
-    this.listTitresEtapes = ['a']/*this.ft.getRecetteById(id).listTitresEtapes;*/
-    this.listDureesEtapes = ['x']/* this.ft.getRecetteById(id).listDureesEtapes;*/
-    this.listIngEtapes = ['paprika']/*this.ft.getRecetteById(id).listIngEtapes;*/
+    this.listTitresEtapes = this.ft.getRecetteById(id).listTitresEtapes;
+    this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
+    this.listIngEtapes = this.ft.getRecetteById(id).listIngEtapes;
     console.log(this.listIngEtapes);
     console.log(this.listTitresEtapes);
     console.log(this.listDureesEtapes);
     console.log(this.name);
     let i=0;
 
-    for (var char of this.listIngEtapes){
-      this.Ing[i] = this.ins.getIngredientByName(char);
+    /*for (var char of this.listIngEtapes){
+      console.log(this.ins.getIngredientByName(char));
+      this.ins.getIngredientByName(char).then(r => {
+        console.log(this.Ing);
+      })
+      console.log(this.ins.getIngredientNoBackByName(char));
+      this.Ing[i] = this.ins.getIngredientNoBackByName(char);
       i++;
-    }
+    }*/
     this.nbIngredientsByStep = this.ft.getRecetteById(id).nbIngredientsByStep;
     for (let index in this.nbIngredientsByStep){
 
@@ -86,7 +102,7 @@ export class ViewFicheComponent implements OnInit {
       while(this.newNbIngredientsByStep[index]>0){
 
 
-        this.listIng.push(this.Ing[j]);
+        this.listIng.push(this.listIngEtapes[j]);
         j ++;
         this.newNbIngredientsByStep[index]--;
 
