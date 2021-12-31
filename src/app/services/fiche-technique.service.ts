@@ -16,7 +16,7 @@ export class FicheTechniqueService {
   private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
   tab : number[] = [];
   //ventes : Vente[] = [{name : 'nouilles',nbPlat:'3'}];
-  ventes : Vente[] = [];
+  ventes : Vente = {name :'', nbPlat: ''};
   private recettas : FicheTechnique[] = [
     {
       id : 'e',
@@ -99,12 +99,12 @@ export class FicheTechniqueService {
     this.tab = tab;
   }
   addVente(vente: Vente) {
-    this.ventes = [];
-    this.ventes.push(vente);
+    this.ventes = {name :'', nbPlat: ''};
+    this.ventes = vente;
     this.emitrecetteSubject();
     console.log(this.ventes);
   }
-  fichesVendues: FicheTechnique [] = [{
+  fichesVendues: FicheTechnique  = {
     id : 'e',
     name:'moule',
     author:'ee',
@@ -116,8 +116,8 @@ export class FicheTechniqueService {
     listQuantityIngredients : []
 
 
-  }];
-  nbFichesVendues : String [] = [];
+  };
+  nbFichesVendues : String  = '';
   ingToDecrease : String[] = [];
   ingNameToDecrease : String[] = [];
   quantityToDecrease : number[] = [];
@@ -127,34 +127,42 @@ export class FicheTechniqueService {
     this.ingNameToDecrease = [];
     this.ingToDecrease = [];
     this.quantityToDecrease = [];
-    this.nbFichesVendues = [];
-    this.fichesVendues = [];
-    for(let index in this.ventes){
-       this.fichesVendues.push(this.getRecetteByname(this.ventes[index].name));
-       this.nbFichesVendues.push(this.ventes[index].nbPlat);//mettre le meme nombre pour tous les ingredients d'une meme etape
+    this.nbFichesVendues = '';
+    this.fichesVendues = {id : 'e',
+      name:'',
+      author:'',
+      desc:'',
+      listTitresEtapes:[],
+      listDureesEtapes:[],
+      listIngEtapes : [],
+      nbIngredientsByStep : [],
+      listQuantityIngredients : []};
+
+
+       this.fichesVendues = this.getRecetteByname(this.ventes.name);
+       this.nbFichesVendues = this.ventes.nbPlat;//mettre le meme nombre pour tous les ingredients d'une meme etape
 
 
 
-    }
+
     console.log(this.nbFichesVendues);
     console.log(this.fichesVendues + "hey");
-    for(let index in this.fichesVendues){
-      console.log(this.fichesVendues);
+
       /*for(let i in this.fichesVendues[index].nbIngredientsByStep){
 
 
       }*/
 
-      for(let i in  this.fichesVendues[index].listIngEtapes){
-        console.log(this.fichesVendues[index].listIngEtapes[i]);
-        this.ingNameToDecrease.push(this.fichesVendues[index].listIngEtapes[i]);
-        console.log(this.fichesVendues[index].listQuantityIngredients[i]);
-        console.log(this.nbFichesVendues[0]);// 0 car il faut que je remette les ventes a vide car une vente a la fois
+      for(let i in  this.fichesVendues.listIngEtapes){
+        console.log(this.fichesVendues.listIngEtapes[i]);
+        this.ingNameToDecrease.push(this.fichesVendues.listIngEtapes[i]);
+        console.log(this.fichesVendues.listQuantityIngredients[i]);
+        console.log(this.nbFichesVendues);// 0 car il faut que je remette les ventes a vide car une vente a la fois
 
         //this.quantityPeringredient.push(this.fichesVendues[index].listQuantityIngredients[i]);
-        var y: number = +this.nbFichesVendues[0];
+        var y: number = +this.nbFichesVendues;
         console.log(y);
-        var somme : number = y*this.fichesVendues[index].listQuantityIngredients[i];
+        var somme : number = y*this.fichesVendues.listQuantityIngredients[i];
         console.log(somme);
         this.quantityToDecrease.push(somme);
         console.log(this.ingNameToDecrease);
@@ -164,7 +172,7 @@ export class FicheTechniqueService {
 
       }
 
-    }
+
 
 
 
