@@ -99,6 +99,7 @@ export class FicheTechniqueService {
     this.tab = tab;
   }
   addVente(vente: Vente) {
+    this.ventes = [];
     this.ventes.push(vente);
     this.emitrecetteSubject();
     console.log(this.ventes);
@@ -120,19 +121,45 @@ export class FicheTechniqueService {
   ingToDecrease : String[] = [];
   ingNameToDecrease : String[] = [];
   quantityToDecrease : number[] = [];
+  //quantityPeringredient : number[] = [];
 
   recupIngTodecrease(){ //on recupere les fiches techniques vendues
+    this.ingNameToDecrease = [];
+    this.ingToDecrease = [];
+    this.quantityToDecrease = [];
+    this.nbFichesVendues = [];
+    this.fichesVendues = [];
     for(let index in this.ventes){
        this.fichesVendues.push(this.getRecetteByname(this.ventes[index].name));
-       //this.nbFichesVendues.push(this.ventes[index].nbPlat);//mettre le meme nombre pour tous les ingredients d'une meme etape
+       this.nbFichesVendues.push(this.ventes[index].nbPlat);//mettre le meme nombre pour tous les ingredients d'une meme etape
+
+
 
     }
+    console.log(this.nbFichesVendues);
     console.log(this.fichesVendues + "hey");
     for(let index in this.fichesVendues){
       console.log(this.fichesVendues);
-      for(var ing of this.fichesVendues[index].listIngEtapes){
-        this.ingNameToDecrease.push(ing);
+      /*for(let i in this.fichesVendues[index].nbIngredientsByStep){
+
+
+      }*/
+
+      for(let i in  this.fichesVendues[index].listIngEtapes){
+        console.log(this.fichesVendues[index].listIngEtapes[i]);
+        this.ingNameToDecrease.push(this.fichesVendues[index].listIngEtapes[i]);
+        console.log(this.fichesVendues[index].listQuantityIngredients[i]);
+        console.log(this.nbFichesVendues[0]);// 0 car il faut que je remette les ventes a vide car une vente a la fois
+
+        //this.quantityPeringredient.push(this.fichesVendues[index].listQuantityIngredients[i]);
+        var y: number = +this.nbFichesVendues[0];
+        console.log(y);
+        var somme : number = y*this.fichesVendues[index].listQuantityIngredients[i];
+        console.log(somme);
+        this.quantityToDecrease.push(somme);
         console.log(this.ingNameToDecrease);
+        console.log(this.quantityToDecrease);
+
 
 
       }

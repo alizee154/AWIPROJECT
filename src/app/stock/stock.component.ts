@@ -19,7 +19,7 @@ export class StockComponent implements OnInit {
   stockForm : FormGroup;
   IngToDecrease : Ingredient[] = [];
   IngnameToDecrease : String[] = [];
-  quantityToDecrease : String[] = [];
+  quantityToDecrease : number[] = [];
   constructor(private ft:FicheTechniqueService, private formBuilder : FormBuilder,private router: Router,private ins:IngredientService) { }
 
   ngOnInit(): void {
@@ -50,6 +50,7 @@ export class StockComponent implements OnInit {
     this.ft.addVente(newVente);
     this.ft.recupIngTodecrease();
     this.IngnameToDecrease = this.ft.ingNameToDecrease;
+    this.quantityToDecrease = this.ft.quantityToDecrease;
     console.log(this.IngnameToDecrease);
 
     let i = 0;
@@ -62,8 +63,8 @@ export class StockComponent implements OnInit {
 
 
     }
-    this.ins.addIngToDecrease(this.IngToDecrease);
-    console.log(this.IngToDecrease);
+    this.ins.addIngToDecrease(this.IngToDecrease,this.quantityToDecrease);
+    console.log(this.IngToDecrease);//remettre le vecteur ingredients a 0 (peut etre pas dans ce component)
 
     //this.ft.addTab(this.nbIngByStep);
     console.log(newVente);

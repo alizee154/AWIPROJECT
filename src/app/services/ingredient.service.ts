@@ -13,6 +13,7 @@ export class IngredientService {
 
   ventes : Vente[] = [{name : 'nouilles',nbPlat:'3'}];
   ingToDecrease : Ingredient[];
+  quantToDecrease : number[];
   private ing = [];
   ingredientSubject = new Subject<any[]>()
   ingSubject = new Subject<any[]>();
@@ -85,8 +86,32 @@ export class IngredientService {
     );
     return ingredient;
   }
-  addIngToDecrease(ingredients : Ingredient[]){
+  returnPostionIndexToDecrease(ingredient : Ingredient){
+    for (let index in this.ingToDecrease){
+      if (this.ingToDecrease[index] == ingredient){
+        return index;
+
+      }
+
+    }
+    return 0;
+
+  }
+  addIngToDecrease(ingredients : Ingredient[], quantities : number[]){
     this.ingToDecrease = ingredients;
+    this.quantToDecrease = quantities;
+
+    for(var ing of this.ingToDecrease) {
+      for(var ings of this.ingredients){
+        if(ings == ing){
+          var s = this.returnPostionIndexToDecrease(ing);
+          ings.stocks = ings.stocks - this.quantToDecrease[s];
+        }
+      }
+      this.getIngredientByName(ing.name);
+
+      //this.ingredients[index].stocks = this.ingredients[index].stocks - this.
+    }
 
   }
 
