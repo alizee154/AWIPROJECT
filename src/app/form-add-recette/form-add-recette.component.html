@@ -54,6 +54,14 @@
 
           <input type="text" id="title" class="form-control"  [formControlName]="i">
         </div>
+        <div formArrayName="descs" class="form-group" *ngFor=" let descr of descs.controls; let r=index "[id]="r" >
+
+          <label for="descs" >
+            {{'Description de l\'étape ' + r}}
+          </label>
+
+          <input type="text" id="descs" class="form-control"  [formControlName]="r">
+        </div>
 
         <div formArrayName="times">
         <div class="form-group" *ngFor=" let time of times.controls; let m=index "[id]="m" >

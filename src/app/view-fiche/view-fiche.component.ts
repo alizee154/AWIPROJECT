@@ -24,11 +24,13 @@ export class ViewFicheComponent implements OnInit {
   author : string = 'author';
   desc : string = 'desc';
   listTitresEtapes = [];
+  listDescEtapes = [];
+
   listDureesEtapes = [];
   listIngEtapes = [];
   Ing : Ingredient[] = [];
   Steps : Etape [] = [];
-  etape : Etape = {titreEtape : '',listeIng : [],duree : '',listeQuantity : []};
+  etape : Etape = {titreEtape : '',descEtape : '',listeIng : [],duree : '',listeQuantity : []};
   listQuantityIngredients = [];
   coutMatiere = 0;
   coutPersonnel = 0;
@@ -53,6 +55,7 @@ export class ViewFicheComponent implements OnInit {
     this.author = this.ft.getRecetteById(id).author;
     this.desc = this.ft.getRecetteById(id).desc;
     this.listTitresEtapes = this.ft.getRecetteById(id).listTitresEtapes;
+    this.listDescEtapes = this.ft.getRecetteById(id).listDescEtapes;
     this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
     this.listIngEtapes = this.ft.getRecetteById(id).listIngEtapes;
     let i=0;
@@ -116,6 +119,7 @@ export class ViewFicheComponent implements OnInit {
 
       const newStep = new Etape(
         this.listTitresEtapes[index],
+        this.listDescEtapes[index],
         this.listIng,
         this.listDureesEtapes[index],
         this.listQuantity

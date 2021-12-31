@@ -60,8 +60,10 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       id:'',
       name:'',
       author:'',
+
       desc:'',
       titles:this.formBuilder.array([]),
+      descs :this.formBuilder.array([]),
       times:this.formBuilder.array([]),
 
       ings :this.formBuilder.array([]),
@@ -72,6 +74,10 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
   }
   public get times() : FormArray {
     return this.recetteForm.get('times') as FormArray;
+
+  }
+  public get descs() : FormArray {
+    return this.recetteForm.get('descs') as FormArray;
 
   }
   public get quantity() : FormArray {
@@ -95,6 +101,8 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
 step : boolean = false;
   public addSteps(): void{
     this.titles.push(new FormControl());
+    this.descs.push(new FormControl());
+
     this.times.push(new FormControl());
     this.step = true;
     this.addIngs();
@@ -126,6 +134,7 @@ step : boolean = false;
       formValue['author'],
       formValue['desc'],
       formValue['titles'],
+      formValue['descs'],
       formValue['times'],
       formValue['ings'],
       this.nbIngByStep,

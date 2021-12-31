@@ -6,8 +6,10 @@ export class FicheTechnique{
     public name: string;
     public author: string;
     public desc: string;
-    public listDureesEtapes: [];
+
     public listTitresEtapes : [];
+    public listDescEtapes : [];
+    public listDureesEtapes: [];
     public listIngEtapes : [];
     public nbIngredientsByStep : number [];
     public listQuantityIngredients : number [];
@@ -19,8 +21,10 @@ export class FicheTechnique{
         id: string,
         name: string,
         author: string,
+
         desc: string,
         listTitresEtapes : [],
+        listDescEtapes : [],
         listDureesEtapes: [],
         listIngEtapes : [],
         nbIngredientsByStep : number [],
@@ -32,6 +36,7 @@ export class FicheTechnique{
         this.author = author;
         this.desc = desc;
         this.listTitresEtapes = listTitresEtapes;
+        this.listDescEtapes  = listDescEtapes;
         this.listDureesEtapes = listDureesEtapes;
         this.listIngEtapes = listIngEtapes;
         this.nbIngredientsByStep = nbIngredientsByStep;
