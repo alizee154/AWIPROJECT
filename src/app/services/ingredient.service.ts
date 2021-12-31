@@ -11,7 +11,7 @@ import {Vente} from "../models/vente";
 })
 export class IngredientService {
 
-  ventes : Vente[] = [{name : 'nouilles',nbPlat:'3'}];
+  ventes : Vente = {name : 'nouilles',nbPlat:'3'};
   ingToDecrease : Ingredient[];
   quantToDecrease : number[];
   private ing = [];
@@ -110,7 +110,6 @@ export class IngredientService {
       }
       this.getIngredientByName(ing.name);
 
-      //this.ingredients[index].stocks = this.ingredients[index].stocks - this.
     }
 
   }
@@ -153,7 +152,7 @@ export class IngredientService {
     return ingredient;
   }
   addVente(vente: Vente) {
-    this.ventes.push(vente);
+    this.ventes = vente;
     this.emitingSubject();
     console.log(this.ventes);
   }
