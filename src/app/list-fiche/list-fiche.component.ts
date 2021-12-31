@@ -6,6 +6,8 @@ import {FicheTechnique} from "../models/fiche-technique";
 import {FormControl, NgForm, Validators} from "@angular/forms";
 import {Categorie} from "../models/category";
 import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {IngredientService} from "../services/ingredient.service";
+import {Ingredient} from "../models/ingredient";
 
 @Component({
   selector: 'app-list-fiche',
@@ -24,9 +26,11 @@ export class ListFicheComponent implements OnInit, OnDestroy {
   selectedCategory: string;
   myControl = new FormControl();
   recettesObs = of([]);
+  ingObs = of([]);
   searchModel = '';
+  searchModel2 = '';
 
-  constructor(private ft: FicheTechniqueService,private router: Router) { }
+  constructor(private ft: FicheTechniqueService,private router: Router, private ing : IngredientService) { }
 
   performFilter(recettesObs){
     console.log(recettesObs);
@@ -36,11 +40,20 @@ export class ListFicheComponent implements OnInit, OnDestroy {
     })
   }
 
+  performFilterByIng(recettesObs){
+    console.log(recettesObs);
+    return recettesObs.filter((x) => {
+      //filter by what prop you want
+      return x.name.toLowerCase().startsWith(this.searchModel2.trim().toLowerCase())
+    })
+  }
+
   ngOnInit(): void {
 
     this.ft.getAllCategories();
     console.log('biufezgou');
     this.ft.getAllFichesTechniques();
+    this.ing.getAllIngredients();
     console.log('huifezfb');
     this.filterRecettes();
     //console.log(this.filterRecettes());
@@ -60,10 +73,16 @@ export class ListFicheComponent implements OnInit, OnDestroy {
   }
 
   filterRecettes(){
-    console.log()
     this.recettesObs = this.ft.fetchRecettes().pipe(
       debounceTime(300),
       map((data) => this.performFilter(data))
+    )
+  }
+
+  filterIng(){
+    this.ingObs = this.ing.fetchIng().pipe(
+      debounceTime(300),
+      map((data) => this.performFilterByIng(data))
     )
   }
 
@@ -99,11 +118,22 @@ export class ListFicheComponent implements OnInit, OnDestroy {
     if(event.isUserInput){
       console.log(recette.name);
       this.ft.getFichesByName(recette.name).then(r => {
-        this.router.navigate(['/view-fiche'])
+        this.router.navigate(['fiche-technique/'+ recette.id])
           .catch(err => console.error(err));
         console.log("success!")
       }).catch(err => console.error(err));
       console.log(recette.name);
+    }
+  }
+
+  onResearchIng(ing : Ingredient, event : any){
+    if(event.isUserInput){
+      console.log(ing.name);
+      console.log(ing);
+      this.ft.getFichesByIngredient(ing).then(r => {
+        console.log("success!")
+      }).catch(err => console.error(err));
+      console.log(ing.name);
     }
   }
 

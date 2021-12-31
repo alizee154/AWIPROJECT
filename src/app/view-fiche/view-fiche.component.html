@@ -1,13 +1,4 @@
-<aside class=""fd><form>
-  <div>
-    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-      <input type="text" id="maRecherche" name="q"
-             placeholder="Rechercher une recette" ngModel>
-      <button type="submit">Rechercher</button>
-    </form>
-
-  </div>
-</form>
+<aside class=""fd>
 <input type="button" value="Download PDF" class="btn btn-danger" (click)="SavePDF()">
 <input type="button" value="Delete" class="btn btn-danger" (click)="deleteFiche()">
 <div class="container" id="content" #content>
@@ -16,16 +7,17 @@
   <h3 >{{name}}</h3>
   <h4 >{{author}}</h4>
   <h5>{{desc}}</h5>
-  <div class="form-group">
-    <label for="nbcouverts">Nombre de couverts : </label>
-    <select class="form-control" id="nbcouverts">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-  </div>
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <label for="nbcouverts">Nombre de couverts : </label>
+      <select class="form-control" id="nbcouverts" [(ngModel)]="selectedCouvert" [ngModelOptions]="{standalone: true}">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+      <button type="submit" class="btn btn-primary manage">Rechercher</button>
+  </form>
 </header>
 
 <table class="table">
@@ -48,7 +40,7 @@
 
     <td>{{ing.name}}</td>
     <td>{{ing.unit}}</td>
-    <td>{{step.listeQuantity[j]}}</td>
+    <td>{{step.listeQuantity[j]*selectedCouvertNumber}}</td>
     <td>{{ing.unitprice}}</td>
 
     <td>{{i+1}}</td>
@@ -95,6 +87,8 @@
   </tbody>
 </table>
 
+ <!-- <div *ngFor="let ing of step.listeIng ;let j =index;  "></div>-->
+
 <p>Coût matière : cout total des ingredients de la fiche + cout assaisonnement ( en euro ou 5% du cout matiere) </p>
 <p>Coût de production :  somme cout matiere (et eventuellement cout charges)</p>
 <p>Coût de production par portion: </p>
@@ -106,4 +100,5 @@
 <p>Bénéfice par portion : </p>
 <p>Seuil de rentabilité : </p>
 </div>
+  <input type="button" value="Sauvegarder le nombre de couverts" class="btn btn-danger" (click)="saveFiche()">
 </aside>

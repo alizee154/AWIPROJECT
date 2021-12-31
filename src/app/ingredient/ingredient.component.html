@@ -2,23 +2,24 @@
 <table class="table">
   <thead>
   <tr>
-    <th scope="col"> Id  </th>
     <th scope="col">Nom ing</th>
     <th scope="col">Unité de mesure</th>
-    <th scope="col">Quantité</th>
+    <th scope="col">Quantité en stock</th>
     <th scope="col">Prix par unité</th>
+    <th scope="col">Catégorie</th>
     <th scope="col">Allergène</th>
 
   </tr>
   </thead>
   <tbody>
   <tr>
-    <th scope="row">{{ id }} </th>
-    <td>{{ getName() }} </td>
+    <th scope="row">{{ getName() }} </th>
     <td>{{ unit}} </td>
     <td>{{ quantity }} </td>
     <td>{{ unitprice }} </td>
+    <td>{{ category }} </td>
     <td>{{ allergene }} </td>
+    <td><input type="button" value="Delete" class="btn btn-danger" (click)="deleteIng(id)" routerLink="ingredient"></td>
 
   </tr>
 

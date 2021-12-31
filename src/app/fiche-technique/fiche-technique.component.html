@@ -2,7 +2,6 @@
 <table class="table">
   <thead>
   <tr>
-    <th scope="col"> Id  </th>
     <th scope="col">Nom du plat</th>
     <th scope="col">Auteur</th>
     <th scope="col">Description</th>
@@ -10,8 +9,7 @@
   </thead>
   <tbody>
   <tr>
-    <th scope="row">{{ id }} </th>
-    <td>{{ getName() }} </td>
+    <th scope="row">{{ getName() }} </th>
     <td>{{ author }}</td>
     <td>{{ desc }}</td>
     <a [routerLink]="[id]" >Consulter</a>

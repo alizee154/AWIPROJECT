@@ -30,6 +30,8 @@ export class ListIngredientComponent implements OnInit {
 
 
 
+
+
   onForm(){
     this.router.navigate(['formIng']);
   }

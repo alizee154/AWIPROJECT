@@ -34,7 +34,7 @@ export class FicheTechnique{
         this.listDureesEtapes = listDureesEtapes;
         this.listIngEtapes = listIngEtapes;
         this.nbIngredientsByStep = nbIngredientsByStep;
-    this.listQuantityIngredients = listQuantityIngredients;
+        this.listQuantityIngredients = listQuantityIngredients;
         this.category = category;
 
     }

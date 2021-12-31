@@ -1,5 +1,4 @@
 <h2>Consulter la liste des ingrédients</h2>
-<button type="button" class="btn btn-danger">Rechercher un ingrédient</button>
 <button type="button" class="btn btn-danger" (click)="onForm()" >Ajouter un ingrédient</button>
 <div class="container">
   <div class="row">
@@ -12,10 +11,12 @@
                               [unit]="ingredient.unit"
                               [quantity]="ingredient.quantity"
                               [unitprice]="ingredient.unitprice"
+                              [category]="ingredient.category"
                               [allergene]="ingredient.allergene"
 
-        ></app-ingredient>
 
+        >
+        </app-ingredient>
       </ul>
 
     </div>

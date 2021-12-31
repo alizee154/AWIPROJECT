@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection} from '@angular/fire/compat/firestore';
 import { FicheTechnique } from '../models/fiche-technique';
-import {of, Subject, tap} from "rxjs";
+import {Observable, of, Subject, tap} from "rxjs";
 import {NgForm} from "@angular/forms";
 import {
   addDoc,
@@ -12,10 +12,11 @@ import {
   getDoc,
   getDocs,
   getFirestore,
-  query,
+  query, updateDoc,
   where
 } from "@angular/fire/firestore";
 import {Categorie} from "../models/category";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,7 @@ export class FicheTechniqueService {
   private recettesCategory = [];
   private category = [];
   nbSubject = new Subject<any[]>();
+  private http: HttpClient;
 
 
 
@@ -118,6 +120,7 @@ export class FicheTechniqueService {
     const docRef = doc(db, "ficheTechnique", id);
     const document = await getDoc(docRef);
     if(document.exists()){
+      this.recettes.splice(0, this.recettes.length);
       this.recettes.push({...document.data(), id: document.id})
       this.emitrecetteSubject();
       console.log("Document data :", document.data());
@@ -146,6 +149,29 @@ export class FicheTechniqueService {
       })
   }
 
+  async getFichesByIngredient(ing){
+    const db = getFirestore();
+    console.log(ing);
+    const colRef = collection(db, 'ficheTechnique');
+    console.log(colRef);
+    const q = query(colRef, where("listIngEtapes", 'array-contains', ing));
+    this.recettes.splice(0, this.recettes.length);
+    await getDocs(q).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        this.recettes.push({...doc.data(), id: doc.id})
+        this.emitrecetteSubject();
+        console.log(doc.id, " => ", doc.data());
+      })
+      if(this.recettes.length === 0){
+        this.emitrecetteSubjectCategory();
+      }
+      console.log(this.recettes);
+    })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
   saveFichesTechniques(fiche){
     const db = getFirestore();
     const colRef = collection(db, 'ficheTechnique');
@@ -157,12 +183,23 @@ export class FicheTechniqueService {
       listTitresEtapes : fiche.listTitresEtapes,
       listDureesEtapes : fiche.listDureesEtapes,
       listIngEtapes : fiche.listIngEtapes,
+      listQuantityIngredients : fiche.listQuantityIngredients,
       nbIngredientsByStep : fiche.nbIngredientsByStep
     })
       .then(() => {
         console.log("success!")
       })
       .catch(err => console.error(err))
+  }
+  async updateFicheWithCouvert(id, quantity) {
+    const db = getFirestore();
+    const docRef = doc(db, "ficheTechnique", id);
+    await updateDoc(docRef, {
+      listQuantityIngredients : quantity
+    })
+      .then(r => {
+        console.log('réussi');
+      })
   }
 
   deleteFicheTechnique(id) {
@@ -245,6 +282,16 @@ export class FicheTechniqueService {
         tap(r => this.r = r)
       )
     }
+  }
+
+  searchByName(name) : Observable<FicheTechnique[]>{
+    const filter = `{"where":{"name":{"like":"%${name}%"}}}`;
+    const params = new HttpParams().set('filter', filter);
+    console.log(filter);
+    console.log(params);
+    console.log(this.http.get<FicheTechnique[]>('http://localhost:4200/fiche-technique', {params}));
+    return this.http.get<FicheTechnique[]>('http://localhost:4200/fiche-technique', {params});
+
   }
 
 

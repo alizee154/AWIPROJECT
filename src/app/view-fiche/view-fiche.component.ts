@@ -31,40 +31,60 @@ export class ViewFicheComponent implements OnInit {
   etape : Etape = {titreEtape : '',listeIng : [],duree : '',listeQuantity : []};
   listQuantityIngredients = [];
   recetteSubscription : Subscription;
-  recettes = [];
+  recettes : FicheTechnique[];
+  selectedCouvert: string;
+  selectedCouvertNumber = 1;
+
 
 
   recette :any;
   @ViewChild('content') content:ElementRef;
   researchForm : FormGroup;
 
-  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute, private ins: IngredientService) { }
+  constructor(private ft: FicheTechniqueService,private router: Router, private route : ActivatedRoute, private ins: IngredientService) {
+    const id = this.route.snapshot.params['id'];
+  }
 
   ngOnInit(): void {
+   // this.router.navigate(['fiche-technique/'])
 
     const id = this.route.snapshot.params['id'];
+    console.log(id);
     this.ft.getFicheByID(id).then(() => {
-      console.log("Ca marche")
+      console.log("bhfigez");
+      this.recetteSubscription = this.ft.recetteSubject.subscribe(
+        (recettes : FicheTechnique[]) => {this.recettes = recettes;}
+      )
+      console.log(this.recettes);
+      this.name = this.recettes[0].name;
+      console.log(this.name);
+      this.author = this.recettes[0].author;
+      console.log(this.author);
+      this.desc = this.recettes[0].desc;
+      this.listTitresEtapes = this.recettes[0].listTitresEtapes;
+      this.listDureesEtapes = this.recettes[0].listDureesEtapes;
+      this.listIngEtapes = this.recettes[0].listIngEtapes;
+      console.log(this.listIngEtapes);
+      console.log(this.listTitresEtapes);
+      console.log(this.listDureesEtapes);
+      this.nbIngredientsByStep = this.recettes[0].nbIngredientsByStep;
+      for (let index in this.nbIngredientsByStep){
+
+        if(index != '0'){
+          this.newNbIngredientsByStep.push(this.nbIngredientsByStep[index]);
+        }
+
+      }
+      console.log(this.recettes[0].listQuantityIngredients);
+      this.listQuantityIngredients = this.recettes[0].listQuantityIngredients;
+      console.log(this.newNbIngredientsByStep);
+      console.log(this.nbIngredientsByStep );
+      this.initSteps()
     });
     this.recetteSubscription = this.ft.recetteSubject.subscribe(
-      (recettes :FicheTechnique[]) => {this.recettes = recettes;}
-    );
-    this.ft.emitrecetteSubject();
-    console.log(this.recettes);
-    console.log(this.ft.getFicheByID(id));
-    this.name = this.ft.getRecetteById(id).name;
-    this.author = this.ft.getRecetteById(id).author;
-    console.log(this.author);
-    this.desc = this.ft.getRecetteById(id).desc;
-    console.log(id);
-    this.listTitresEtapes = this.ft.getRecetteById(id).listTitresEtapes;
-    this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
-    this.listIngEtapes = this.ft.getRecetteById(id).listIngEtapes;
-    console.log(this.listIngEtapes);
-    console.log(this.listTitresEtapes);
-    console.log(this.listDureesEtapes);
-    console.log(this.name);
-    let i=0;
+      (recettes : FicheTechnique[]) => {this.recettes = recettes;})
+
+    //this.router.navigate(['fiche-technique/'+ id])
 
     /*for (var char of this.listIngEtapes){
       console.log(this.ins.getIngredientByName(char));
@@ -75,18 +95,9 @@ export class ViewFicheComponent implements OnInit {
       this.Ing[i] = this.ins.getIngredientNoBackByName(char);
       i++;
     }*/
-    this.nbIngredientsByStep = this.ft.getRecetteById(id).nbIngredientsByStep;
-    for (let index in this.nbIngredientsByStep){
 
-      if(index != '0'){
-        this.newNbIngredientsByStep.push(this.nbIngredientsByStep[index]);
-      }
 
-    }
-    this.listQuantityIngredients = this.ft.getRecetteById(id).listQuantityIngredients;
-    console.log(this.newNbIngredientsByStep);
-    console.log(this.nbIngredientsByStep );
-    this.initSteps()
+
 
 
 
@@ -107,7 +118,9 @@ export class ViewFicheComponent implements OnInit {
 
 
         this.listIng.push(this.listIngEtapes[j]);
+        console.log(this.listQuantityIngredients);
         this.listQuantity.push(this.listQuantityIngredients[j]);
+        console.log(this.listQuantity);
         j ++;
         this.newNbIngredientsByStep[index]--;
 
@@ -159,13 +172,49 @@ export class ViewFicheComponent implements OnInit {
 
   }
 
+  public saveFiche(){
+    const id = this.route.snapshot.params['id'];
+    console.log(this.recettes[0]);
+    console.log(this.recettes[0].listQuantityIngredients);
+    console.log(this.selectedCouvertNumber);
+    for (let i in this.listQuantityIngredients) {
+      this.recettes[0].listQuantityIngredients[i] = this.recettes[0].listQuantityIngredients[i]*this.selectedCouvertNumber;
+
+    }
+    console.log(this.recettes[0].listQuantityIngredients);
+    this.ft.updateFicheWithCouvert(id, this.recettes[0].listQuantityIngredients).then(r => {
+      console.log("change on the db");
+    })
+  }
+
   public onSubmit(form: NgForm){
-    const id = form.value['q'];
-    this.ft.getFicheByID(id).then(r => {
-      console.log("success!")
-      this.router.navigate(['/fiche-technique/'+id]).catch(err => console.error(err));
-    }).catch(err => console.error(err));
+    this.selectedCouvertNumber = parseInt(this.selectedCouvert);
+
+
+
+   /* console.log(this.selectedCouvert);
+    let x = parseInt(this.selectedCouvert);
+    console.log(x);
+    console.log(this.listQuantity);
+    console.log(this.listQuantityIngredients);
+    const id = this.route.snapshot.params['id'];
     console.log(id);
+    let list = [];
+    let val;
+    for (let i in this.listQuantityIngredients) {
+      console.log(this.listQuantityIngredients[i]);
+      val = this.listQuantityIngredients[i]
+      list[i] = val * x;
+      //this.recettes[0].listQuantityIngredients[i] = list[i];
+      console.log(this.listQuantityIngredients[i]);
+      console.log(this.recettes[0].listQuantityIngredients);
+      this.listQuantity =[1];
+    }
+    console.log(this.recettes);
+    /*this.ft.updateFicheWithCouvert(id, this.recettes[0].listQuantityIngredients).then(r => {
+          console.log("clem")
+      this.ngOnInit();
+      });*/
 
   }
 

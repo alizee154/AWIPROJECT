@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat/firestore";
 import {FicheTechnique} from "../models/fiche-technique";
-import {Subject} from "rxjs";
+import {of, Subject, tap} from "rxjs";
 import {NgForm} from "@angular/forms";
-import {addDoc, collection, doc, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
+import {addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
 import {Ingredient} from "../models/ingredient";
+import {Categorie} from "../models/category";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,11 @@ export class IngredientService {
 
   ingSubject = new Subject<any[]>();
   ingredientSubject = new Subject<any[]>()
+  categorySubject = new Subject<Categorie[]>();
   private ingredients = [];
   private ing = [];
+  private i = [];
+  private category = [];
  ingredient = {
     id:'5',
     name: 'riz cantonais',
@@ -66,6 +70,7 @@ export class IngredientService {
         console.log(doc.id, " => ", doc.data());
       });
     }
+
    /* const q = query(colRef, where("name", "==", name));
     this.ing.splice(0, this.ing.length);
     const querySnapshot = await getDocs(q);
@@ -87,6 +92,41 @@ export class IngredientService {
       })*/
   }
 
+  async getIngByName(name) {
+    const db = getFirestore();
+    const colRef = collection(db, 'ficheTechnique');
+    const q = query(colRef, where("name", "==", name));
+    this.ingredients.splice(0, this.ingredients.length);
+    await getDocs(q).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        this.ingredients.push({...doc.data(), id: doc.id})
+        this.emitingSubject();
+        console.log(doc.id, " => ", doc.data());
+      })
+      console.log(this.ingredients);
+    })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
+  async getAllCategories() {
+    this.category.splice(0, this.category.length);
+    const db = getFirestore();
+    const colRef = collection(db, 'categorieIng');
+    await getDocs(colRef)
+      .then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.category.push({...doc.data(), id: doc.id})
+          this.emitCategorySubject();
+        })
+        console.log(this.category);
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
   /*addIngredientsInStep(id){
     const db = getFirestore();
     const docRef = collection(db, "étapes/" + id);
@@ -94,7 +134,6 @@ export class IngredientService {
   }*/
 
   saveIngrédients(ing){
-    console.log("bguifez")
     const db = getFirestore();
     const colRef = collection(db, 'ingredients');
     addDoc(colRef, {
@@ -102,9 +141,30 @@ export class IngredientService {
       unit : ing.unit,
       quantity : ing.quantity,
       unitprice : ing.unitprice,
-      allergene : false
-    }).then(() => {console.log("bhfezv")})
+      category : ing.category,
+      allergene : ing.allergene
+    })
       .catch(err => console.error(err))
+  }
+
+  updateIngrédient(quantity){
+    const db = getFirestore();
+    const colRef = collection(db, 'ingredients');
+    addDoc(colRef, {
+      quantity: quantity
+    }).then(r =>{
+      console.log('réussi');
+    })
+  }
+
+  deleteIngredient(id) {
+    const db = getFirestore();
+    //const colRef = collection(db, 'ficheTechnique');
+    deleteDoc(doc(db, "ingredients", id))
+      .then(() => {
+        console.log("success!")
+      })
+      .catch(err => console.error(err));
   }
 
   /*emitUsers() {
@@ -127,6 +187,10 @@ export class IngredientService {
     this.ingredientSubject.next(this.ing.slice());
   }
 
+  emitCategorySubject() {
+    this.categorySubject.next(this.category.slice());
+  }
+
 
   getIngredientNoBackByName(name : string){
     const ingredient = this.ingredients.find(
@@ -138,18 +202,34 @@ export class IngredientService {
     return ingredient;
   }
 
+  fetchIng(){
+    if(this.i && this.i.length){
+      console.log('1');
+      console.log(this.i.length);
+      return of(this.i)
+    }
+    else{
+      console.log('2');
+      console.log(this.ingredients);
+      return of(this.ingredients).pipe(
+        tap(i => this.i = i)
+      )
+    }
+  }
+
   /*addRecette(recette: FicheTechnique) {
     this.ficheTechnicas.push(recette);
     this.emitUsers();
   }*/
 
-  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, allergene: string) {
+  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, category : string, allergene: string) {
     const ingredientObject = {
       id: '0',
       name: '',
       unit: '',
       quantity: 0,
       unitprice:0,
+      category: '',
       allergene: ''
     };
     ingredientObject.id = id;
@@ -157,6 +237,7 @@ export class IngredientService {
     ingredientObject.unit = unit;
     ingredientObject.quantity = quantity;
     ingredientObject.unitprice = unitprice;
+    ingredientObject.category = category;
     ingredientObject.allergene = allergene;
 
 

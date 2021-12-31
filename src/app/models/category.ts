@@ -1,5 +1,3 @@
-
-
 export class Categorie{
   public category : string;
 

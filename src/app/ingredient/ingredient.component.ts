@@ -18,7 +18,7 @@ export class IngredientComponent implements OnInit {
   @Input() unit : string = 'Alizée';
   @Input() quantity : string = 'pate chocolat';
   @Input() unitprice : string = 'pate chocolat';
-
+  @Input() category : string = 'patisserie';
   @Input() allergene : string = 'oui';
 
 
@@ -33,8 +33,16 @@ export class IngredientComponent implements OnInit {
     return this.name;
   }
 
+  public deleteIng(id){
+    this.ing.deleteIngredient(id);
+    this.router.navigate(['/ingredient']).catch(err => console.error(err));
+    this.ing.getAllIngredients();
+
+  }
+
 
   ngOnInit() {
+
 
   }
   onView(){

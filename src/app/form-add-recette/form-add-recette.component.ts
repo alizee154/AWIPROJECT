@@ -85,7 +85,6 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       quantity: this.formBuilder.array([])
 
     })
-
   }
   public get times() : FormArray {
     return this.recetteForm.get('times') as FormArray;
@@ -162,8 +161,8 @@ step : boolean = false;
           formValue['times'],
           this.ing,
           this.nbIngByStep,
-          formValue['category'],
-          formValue['quantity']
+          formValue['quantity'],
+          formValue['category']
         );
         console.log(newRecette);
         this.ft.saveFichesTechniques(newRecette);

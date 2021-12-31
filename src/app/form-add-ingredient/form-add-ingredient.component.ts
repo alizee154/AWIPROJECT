@@ -5,6 +5,8 @@ import {FicheTechniqueService} from "../services/fiche-technique.service";
 import {Router} from "@angular/router";
 import {Ingredient} from "../models/ingredient";
 import {IngredientService} from "../services/ingredient.service";
+import {Categorie} from "../models/category";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-form-add-ingredient',
@@ -17,10 +19,18 @@ export class FormAddIngredientComponent implements OnInit {
   nameControl : FormControl;
   authorControl : FormControl;
   ingredientForm : FormGroup;
+  categories : any[];
+  selectedCategory: string;
+  categorySubscription : Subscription;
+
 
   constructor(private formBuilder: FormBuilder,private ing:IngredientService,private router: Router) { }
 
   ngOnInit() {
+    this.ing.getAllCategories();
+    this.categorySubscription = this.ing.categorySubject.subscribe(
+      (categories : Categorie[]) => {this.categories = categories}
+    );
     //this.initForm();
   }
 
@@ -36,11 +46,12 @@ export class FormAddIngredientComponent implements OnInit {
   }*/
 
   onSubmit(form: NgForm) {
-   const name = form.value['name'];
+    const name = form.value['name'];
     const unit = form.value['unit'];
     const id = form.value['id'];
     const quantity = form.value['quantity'];
     const unitprice = form.value['unitprice'];
+    const category = this.selectedCategory;
     const allergene = form.value['allergene'];
 
     //const formValue = this.ingredientForm.value;
@@ -50,6 +61,7 @@ export class FormAddIngredientComponent implements OnInit {
       unit,
       quantity,
       unitprice,
+      category,
       allergene
       /*formValue['id'],
       formValue['name'],
