@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Ingredient} from "../models/ingredient";
 import {FicheTechnique} from "../models/fiche-technique";
 import {Subscription} from "rxjs";
@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup, NgForm} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Vente} from "../models/vente";
 import {IngredientService} from "../services/ingredient.service";
+import jsPDF from "jspdf";
 
 @Component({
   selector: 'app-stock',
@@ -14,6 +15,7 @@ import {IngredientService} from "../services/ingredient.service";
   styleUrls: ['./stock.component.css']
 })
 export class StockComponent implements OnInit {
+  @ViewChild('content') content:ElementRef;
   recettes : FicheTechnique[];
   recetteSubscription : Subscription;
   stockForm : FormGroup;
@@ -38,9 +40,28 @@ export class StockComponent implements OnInit {
     })
 
   }
+  recetteToShow : FicheTechnique = {
+    id : '',
+    name:'',
+    author:'',
+    desc:'',
+    listTitresEtapes:[],
+    listDescEtapes:[],
+    listDureesEtapes:[],
+    listIngEtapes : [],
+    nbIngredientsByStep : [],
+    listQuantityIngredients : []
+
+
+  };
   onSubmitForm(){
 
     const formValue = this.stockForm.value;
+    const recetteToShowConstante = formValue['nameRecette'];
+    this.recetteToShow = this.ft.getRecetteByname(recetteToShowConstante);
+    console.log("coucu");
+    console.log(this.recetteToShow);
+    console.log("heee");
     const newVente = new Vente(
       formValue['nameRecette'],
       formValue['nbplats'],
@@ -71,6 +92,31 @@ export class StockComponent implements OnInit {
     this.router.navigate(['/stock']);
 
   }
+
+  public SavePDF():void{
+    let content=this.content.nativeElement;
+    // @ts-ignore
+    let doc = new jsPDF();
+    let _elementHandlers =
+      {
+        '#editor':function(element,renderer){
+          return true;
+        }
+      };
+    doc.html(content.innerHTML,{
+      callback: function nn  (doc) {
+        doc.save();
+      }
+
+
+
+    });
+
+
+    //doc.save('test.pdf');
+
+  }
+
 
 
 }

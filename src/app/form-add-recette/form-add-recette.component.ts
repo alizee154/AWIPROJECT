@@ -24,6 +24,13 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
 
   ingredients : Ingredient[];
   ingSubscription : Subscription;
+  public id: string;
+  public name: string;
+  public unit: string;
+  public stocks: number;
+  public unitprice: number;
+  public allergene : string;
+  ingNul : Ingredient = {id :'',name:'',unit:'',stocks:0,unitprice:0,allergene:''};
 
   recetteSubscription : Subscription;
   nameControl : FormControl;

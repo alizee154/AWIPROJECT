@@ -1,7 +1,6 @@
 <h2>Gérer les stocks</h2>
 <h3>Enregistrer une vente</h3>
-<button type="button" class="btn btn-danger">Enregister une vente </button>
-<button type="button" class="btn btn-danger">Imprimer une étiquette </button>
+<h4>Attention pour enregistrer la vente lorsque vous imprimez une étiquette n'oubliez pas d'appuyer sur enregister la vente</h4>
 
 <form [formGroup]="stockForm" (ngSubmit)="onSubmitForm()">
 
@@ -21,11 +20,15 @@
   <button type="submit" class="btn btn-danger">Ajouter la vente</button>
 
 </form>
+<button type="button" class="btn btn-danger" (click)="SavePDF()" >Imprimer une étiquette </button>
 
-<h3>Imprimer une étiquette</h3>
+<div class="container" id="content" #content>
+  <p>Merci d'avoir acheté notre {{recetteToShow.name}}</p>
+  <p>Voici la liste des ingrédients que contient ce plat : </p>
+  <p *ngFor="let ing of recetteToShow.listIngEtapes">{{ing}}</p>
 
+</div>
 
-<button type="submit" class="btn btn-danger">Imprimer</button>
 
 
 
