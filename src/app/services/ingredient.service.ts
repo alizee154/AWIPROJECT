@@ -3,7 +3,17 @@ import {AngularFirestore, AngularFirestoreCollection} from "@angular/fire/compat
 import {FicheTechnique} from "../models/fiche-technique";
 import {of, Subject, tap} from "rxjs";
 import {NgForm} from "@angular/forms";
-import {addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+  updateDoc,
+  where
+} from "@angular/fire/firestore";
 import {Ingredient} from "../models/ingredient";
 import {Categorie} from "../models/category";
 import {Vente} from "../models/vente";
@@ -15,7 +25,7 @@ export class IngredientService {
 
   ventes : Vente = {name : 'nouilles',nbPlat:'3'};
   ingToDecrease : Ingredient[];
-  quantToDecrease : number[];
+  quantToDecrease : number;
   private ing = [];
   ingredientSubject = new Subject<any[]>()
   ingSubject = new Subject<any[]>();
@@ -59,7 +69,7 @@ export class IngredientService {
   }
 
 
-    async getIngredientByName(name) {
+    async getIngredientByNameAddRecette(name) {
     const db = getFirestore();
     console.log(name);
     const colRef = collection(db, 'ingredients');
@@ -74,26 +84,6 @@ export class IngredientService {
         console.log(doc.id, " => ", doc.data());
       });
     }
-
-   /* const q = query(colRef, where("name", "==", name));
-    this.ing.splice(0, this.ing.length);
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      this.ing.push({...doc.data(), id: doc.id})
-      this.emitingIngSubject();
-      console.log(doc.id, " => ", doc.data());
-    });
-    /*await getDocs(q).then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        this.ing.push({...doc.data(), id: doc.id})
-        this.emitingIngSubject();
-        console.log(doc.id, " => ", doc.data());
-      })
-      console.log(this.ing);
-    })
-      .catch(err => {
-        console.log(err.message);
-      })*/
   }
 
   async getIngByName(name) {
@@ -112,6 +102,29 @@ export class IngredientService {
       .catch(err => {
         console.log(err.message);
       })
+  }
+
+  async getIngByNameStocks(name) {
+    const db = getFirestore();
+    const colRef = collection(db, 'ingredients');
+    console.log(name);
+    this.ingredients.splice(0, this.ingredients.length);
+
+      const q = query(colRef, where("name", "==", name));
+      await getDocs(q).then((snapshot) => {
+        snapshot.docs.forEach((doc) => {
+          this.ingredients.splice(0, this.ingredients.length);
+          this.ingredients.push({...doc.data(), id: doc.id})
+          this.emitingSubject();
+          console.log(doc.id, " => ", doc.data());
+          console.log(this.ingredients);
+        })
+        console.log(this.ingredients);
+      })
+        .catch(err => {
+          console.log(err.message);
+        })
+
   }
 
   async getAllCategories() {
@@ -137,13 +150,25 @@ export class IngredientService {
     const newDoc = push()
   }*/
 
+  async updateIngStocks(id, stocks) {
+    const db = getFirestore();
+    console.log(id);
+    const docRef = doc(db, "ingredients", id);
+    await updateDoc(docRef, {
+      stocks : stocks
+    })
+      .then(r => {
+        console.log('réussi');
+      })
+  }
+
   saveIngrédients(ing){
     const db = getFirestore();
     const colRef = collection(db, 'ingredients');
     addDoc(colRef, {
       name : ing.name,
       unit : ing.unit,
-      quantity : ing.quantity,
+      stocks : ing.stocks,
       unitprice : ing.unitprice,
       category : ing.category,
       allergene : ing.allergene
@@ -184,7 +209,7 @@ export class IngredientService {
 
   }
 
-  newEmitIngSubjetc(){
+  newEmitingSubject(){
     this.ingDecreaseSubject.next(this.ingToDecrease.slice());
 
   }
@@ -221,20 +246,29 @@ export class IngredientService {
     return 0;
 
   }
-  addIngToDecrease(ingredients : Ingredient[], quantities : number[]){
+  addIngToDecrease(ingredients : Ingredient[], quantity : number){
     this.ingToDecrease = ingredients;
-    this.quantToDecrease = quantities;
+    console.log(this.ingToDecrease);
+    this.quantToDecrease = quantity;
+    console.log(this.quantToDecrease);
+    ingredients[0].stocks = ingredients[0].stocks - this.quantToDecrease;
+    console.log(ingredients[0].stocks);
 
+/*
     for(var ing of this.ingToDecrease) {
       for(var ings of this.ingredients){
         if(ings == ing){
+          console.log("je suis arrivé ici");
+          console.log(ings);
           var s = this.returnPostionIndexToDecrease(ing);
+          console.log(s);
+          console.log(ings.stocks);
           ings.stocks = ings.stocks - this.quantToDecrease[s];
+          console.log(ings.stocks);
         }
       }
-      this.getIngredientByName(ing.name);
 
-    }
+    }*/
 
   }
 

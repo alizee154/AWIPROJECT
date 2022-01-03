@@ -30,10 +30,10 @@ export class ListIngredientComponent implements OnInit {
     this.ing.emitingSubject();
     console.log("salut")
 
-    this.ingDecreaseSubscription = this.ing.ingDecreaseSubject.subscribe((ingredients :any[]) => {this.ingredientsToDecrease = ingredients;});
+   //this.ingDecreaseSubscription = this.ing.ingDecreaseSubject.subscribe((ingredients :any[]) => {this.ingredientsToDecrease = ingredients;});
 
-    this.ing.newEmitIngSubjetc();
-    console.log(this.ingredientsToDecrease);
+    //this.ing.newEmitingSubject();
+    //console.log(this.ingredientsToDecrease);
 
 
     //this.ingredientsToDecrease = this.ing.ingToDecrease;

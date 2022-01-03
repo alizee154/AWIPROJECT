@@ -162,7 +162,7 @@ step : boolean = false;
         tab.push(formValue['ings'][i]);
       }
       console.log(tab);
-      this.ins.getIngredientByName(tab).then(r => {
+      this.ins.getIngredientByNameAddRecette(tab).then(r => {
         this.ingSubscription = this.ins.ingredientSubject.subscribe((ing :Ingredient[]) => {this.ing = ing;});
         this.ins.emitingIngSubject();
         console.log(this.ing);
@@ -176,6 +176,7 @@ step : boolean = false;
           formValue['descs'],
           formValue['times'],
           this.ing,
+          formValue['ings'],
           this.nbIngByStep,
           formValue['quantity'],
           formValue['category']

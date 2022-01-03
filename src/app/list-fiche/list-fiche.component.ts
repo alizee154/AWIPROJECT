@@ -130,7 +130,7 @@ export class ListFicheComponent implements OnInit, OnDestroy {
     if(event.isUserInput){
       console.log(ing.name);
       console.log(ing);
-      this.ft.getFichesByIngredient(ing).then(r => {
+      this.ft.getFichesByIngredient(ing.name).then(r => {
         console.log("success!")
       }).catch(err => console.error(err));
       console.log(ing.name);

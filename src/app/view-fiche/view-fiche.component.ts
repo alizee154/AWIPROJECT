@@ -218,7 +218,6 @@ export class ViewFicheComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     this.ft.deleteFicheTechnique(id);
     this.router.navigate(['/fiche-technique']).catch(err => console.error(err));
-
   }
 
   public saveFiche() {

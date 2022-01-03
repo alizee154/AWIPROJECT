@@ -27,26 +27,26 @@ import {Vente} from "../models/vente";
 export class FicheTechniqueService {
   private path = '/fiche-technique/';
   private ficheTechniqueStore: AngularFirestore;
-  private ficheTechniqueCollection : AngularFirestoreCollection<FicheTechnique>;
-  tab : number[] = [];
+  private ficheTechniqueCollection: AngularFirestoreCollection<FicheTechnique>;
+  tab: number[] = [];
   recetteSubject = new Subject<FicheTechnique[]>();
   categorySubject = new Subject<Categorie[]>();
   ingSubject = new Subject<any[]>();
-  private recettes = [];
+  recettes = [];
   private r = [];
   private recettesCategory = [];
   private category = [];
   nbSubject = new Subject<any[]>();
   private http: HttpClient;
-  ventes : Vente = {name :'', nbPlat: ''};
+  ventes: Vente = {name: '', nbPlat: ''};
 
 
-
-  constructor(private db: AngularFirestore){
+  constructor(private db: AngularFirestore) {
     this.listMessage = [];
     this.ficheTechniqueStore = db;
     this.ficheTechniqueCollection = db.collection(this.path);
   }
+
   public listMessage: string[];
 
   getAllFichesTechniques() {
@@ -71,10 +71,9 @@ export class FicheTechniqueService {
     const colRef = collection(db, 'ficheTechnique')
     const docRef = doc(colRef, id, 'étapes')
     const document = await getDoc(docRef);
-    if(document.exists()){
+    if (document.exists()) {
       console.log("Document data :", document.data());
-    }
-    else{
+    } else {
       console.log("Document not exists");
       alert("L'étape " + id + " n'existe pas !");
     }
@@ -109,7 +108,7 @@ export class FicheTechniqueService {
         this.emitrecetteSubjectCategory();
         console.log(doc.id, " => ", doc.data());
       })
-      if(this.recettesCategory.length === 0){
+      if (this.recettesCategory.length === 0) {
         this.emitrecetteSubjectCategory();
       }
       console.log(this.recettesCategory);
@@ -123,13 +122,12 @@ export class FicheTechniqueService {
     const db = getFirestore();
     const docRef = doc(db, "ficheTechnique", id);
     const document = await getDoc(docRef);
-    if(document.exists()){
+    if (document.exists()) {
       this.recettes.splice(0, this.recettes.length);
       this.recettes.push({...document.data(), id: document.id})
       this.emitrecetteSubject();
       console.log("Document data :", document.data());
-    }
-    else{
+    } else {
       console.log("Document not exists");
       alert("La recette " + id + " n'existe pas !");
     }
@@ -153,12 +151,12 @@ export class FicheTechniqueService {
       })
   }
 
-  async getFichesByIngredient(ing){
+  async getFichesByIngredient(ing) {
     const db = getFirestore();
     console.log(ing);
     const colRef = collection(db, 'ficheTechnique');
     console.log(colRef);
-    const q = query(colRef, where("listIngEtapes", 'array-contains', ing));
+    const q = query(colRef, where("listNameIng", 'array-contains', ing));
     this.recettes.splice(0, this.recettes.length);
     await getDocs(q).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -166,7 +164,7 @@ export class FicheTechniqueService {
         this.emitrecetteSubject();
         console.log(doc.id, " => ", doc.data());
       })
-      if(this.recettes.length === 0){
+      if (this.recettes.length === 0) {
         this.emitrecetteSubjectCategory();
       }
       console.log(this.recettes);
@@ -176,30 +174,33 @@ export class FicheTechniqueService {
       })
   }
 
-  saveFichesTechniques(fiche){
+  saveFichesTechniques(fiche) {
     const db = getFirestore();
     const colRef = collection(db, 'ficheTechnique');
     addDoc(colRef, {
-      author : fiche.author,
+      author: fiche.author,
       name: fiche.name,
       desc: fiche.desc,
-      category : fiche.category,
-      listTitresEtapes : fiche.listTitresEtapes,
-      listDureesEtapes : fiche.listDureesEtapes,
-      listIngEtapes : fiche.listIngEtapes,
-      listQuantityIngredients : fiche.listQuantityIngredients,
-      nbIngredientsByStep : fiche.nbIngredientsByStep
+      category: fiche.category,
+      listTitresEtapes: fiche.listTitresEtapes,
+      listDescEtapes : fiche.listDescEtapes,
+      listDureesEtapes: fiche.listDureesEtapes,
+      listIngEtapes: fiche.listIngEtapes,
+      listNameIng: fiche.listNameIng,
+      listQuantityIngredients: fiche.listQuantityIngredients,
+      nbIngredientsByStep: fiche.nbIngredientsByStep
     })
       .then(() => {
         console.log("success!")
       })
       .catch(err => console.error(err))
   }
+
   async updateFicheWithCouvert(id, quantity) {
     const db = getFirestore();
     const docRef = doc(db, "ficheTechnique", id);
     await updateDoc(docRef, {
-      listQuantityIngredients : quantity
+      listQuantityIngredients: quantity
     })
       .then(r => {
         console.log('réussi');
@@ -208,7 +209,6 @@ export class FicheTechniqueService {
 
   deleteFicheTechnique(id) {
     const db = getFirestore();
-    //const colRef = collection(db, 'ficheTechnique');
     deleteDoc(doc(db, "ficheTechnique", id))
       .then(() => {
         console.log("success!")
@@ -223,6 +223,7 @@ export class FicheTechniqueService {
     const author = form.value['author'];
     const desc = form.value['desc'];
   }
+
   emitrecetteSubject() {
     this.recetteSubject.next(this.recettes.slice());
   }
@@ -240,87 +241,91 @@ export class FicheTechniqueService {
     this.recettes.push(recette);
     this.emitrecetteSubject();
   }
-  addTab(tab : number[]){
+
+  addTab(tab: number[]) {
     this.tab = tab;
   }
+
   addVente(vente: Vente) {
-    this.ventes = {name :'', nbPlat: ''};
+    this.ventes = {name: '', nbPlat: ''};
     this.ventes = vente;
     this.emitrecetteSubject();
     console.log(this.ventes);
   }
-  fichesVendues: FicheTechnique  = {
-    id : 'e',
-    name:'moule',
-    author:'ee',
-    desc:'hey',
-    listTitresEtapes:[],
-    listDescEtapes:[],
-    listDureesEtapes:[],
-    listIngEtapes : [],
-    nbIngredientsByStep : [],
-    listQuantityIngredients : []
+
+  fichesVendues: FicheTechnique = {
+    id: 'e',
+    name: 'moule',
+    author: 'ee',
+    desc: 'hey',
+    listTitresEtapes: [],
+    listDescEtapes: [],
+    listDureesEtapes: [],
+    listIngEtapes: [],
+    listNameIng: [],
+    nbIngredientsByStep: [],
+    listQuantityIngredients: [],
+    category: ''
 
 
   };
-  nbFichesVendues : String  = '';
-  ingToDecrease : String[] = [];
-  ingNameToDecrease : String[] = [];
-  quantityToDecrease : number[] = [];
+  nbFichesVendues: String = '';
+  ingToDecrease: String[] = [];
+  ingNameToDecrease: String[] = [];
+  quantityToDecrease: number[] = [];
+
   //quantityPeringredient : number[] = [];
 
-  recupIngTodecrease(){ //on recupere les fiches techniques vendues
+  recupIngTodecrease() { //on recupere les fiches techniques vendues
     this.ingNameToDecrease = [];
     this.ingToDecrease = [];
     this.quantityToDecrease = [];
     this.nbFichesVendues = '';
-    this.fichesVendues = {id : 'e',
-      name:'',
-      author:'',
-      desc:'',
-      listTitresEtapes:[],
-      listDescEtapes:[],
-      listDureesEtapes:[],
-      listIngEtapes : [],
-      nbIngredientsByStep : [],
-      listQuantityIngredients : []};
+    this.fichesVendues = {
+      id: 'e',
+      name: '',
+      author: '',
+      desc: '',
+      listTitresEtapes: [],
+      listDescEtapes: [],
+      listDureesEtapes: [],
+      listIngEtapes: [],
+      listNameIng: [],
+      nbIngredientsByStep: [],
+      listQuantityIngredients: [],
+      category: ''
+    };
 
 
-       this.fichesVendues = this.getRecetteByname(this.ventes.name);
-       this.nbFichesVendues = this.ventes.nbPlat;//mettre le meme nombre pour tous les ingredients d'une meme etape
-
-
+    this.fichesVendues = this.getRecetteByname(this.ventes.name);
+    this.nbFichesVendues = this.ventes.nbPlat;//mettre le meme nombre pour tous les ingredients d'une meme etape
 
 
     console.log(this.nbFichesVendues);
-    console.log(this.fichesVendues + "hey");
+    console.log(this.fichesVendues);
 
-      /*for(let i in this.fichesVendues[index].nbIngredientsByStep){
-
-
-      }*/
-
-      for(let i in  this.fichesVendues.listIngEtapes){
-        console.log(this.fichesVendues.listIngEtapes[i]);
-        this.ingNameToDecrease.push(this.fichesVendues.listIngEtapes[i]);
-        console.log(this.fichesVendues.listQuantityIngredients[i]);
-        console.log(this.nbFichesVendues);// 0 car il faut que je remette les ventes a vide car une vente a la fois
-
-        //this.quantityPeringredient.push(this.fichesVendues[index].listQuantityIngredients[i]);
-        var y: number = +this.nbFichesVendues;
-        console.log(y);
-        var somme : number = y*this.fichesVendues.listQuantityIngredients[i];
-        console.log(somme);
-        this.quantityToDecrease.push(somme);
-        console.log(this.ingNameToDecrease);
-        console.log(this.quantityToDecrease);
+    /*for(let i in this.fichesVendues[index].nbIngredientsByStep){
 
 
+    }*/
 
-      }
+    for (let i in this.fichesVendues.listIngEtapes) {
+      console.log(this.fichesVendues.listIngEtapes[i]);
+      this.ingNameToDecrease.push(this.fichesVendues.listIngEtapes[i].name);
+      console.log(this.fichesVendues.listQuantityIngredients[i]);
+      console.log(this.nbFichesVendues);// 0 car il faut que je remette les ventes a vide car une vente a la fois
+
+      //this.quantityPeringredient.push(this.fichesVendues[index].listQuantityIngredients[i]);
+      var y: number = +this.nbFichesVendues;
+      console.log(y);
+      var somme: number = y * this.fichesVendues.listQuantityIngredients[i];
+      console.log(somme);
+      this.quantityToDecrease.push(somme);
+      console.log(this.ingNameToDecrease);
+      console.log(this.quantityToDecrease);
 
 
-
+    }
 
 
   }
@@ -344,32 +349,31 @@ export class FicheTechniqueService {
   }*/
 
 
-  getRecetteById(id : string){
+  getRecetteById(id: string) {
     const recette = this.recettes.find(
       (recetteObject) => {
         return recetteObject.id === id;
-    }
+      }
     );
     return recette;
   }
 
-  getRecetteByname(name : String ){
+  getRecetteByname(name: String) {
     const recette = this.recettes.find(
       (recetteObject) => {
-        return recetteObject.name=== name;
+        return recetteObject.name === name;
       }
     );
     return recette;
 
   }
 
-  fetchRecettes(){
-    if(this.r && this.r.length){
+  fetchRecettes() {
+    if (this.r && this.r.length) {
       console.log('1');
       console.log(this.r.length);
       return of(this.r)
-    }
-    else{
+    } else {
       console.log('2');
       console.log(this.recettes);
       return of(this.recettes).pipe(
@@ -378,7 +382,7 @@ export class FicheTechniqueService {
     }
   }
 
-  searchByName(name) : Observable<FicheTechnique[]>{
+  searchByName(name): Observable<FicheTechnique[]> {
     const filter = `{"where":{"name":{"like":"%${name}%"}}}`;
     const params = new HttpParams().set('filter', filter);
     console.log(filter);
@@ -387,5 +391,5 @@ export class FicheTechniqueService {
     return this.http.get<FicheTechnique[]>('http://localhost:4200/fiche-technique', {params});
 
 
-
+  }
 }
