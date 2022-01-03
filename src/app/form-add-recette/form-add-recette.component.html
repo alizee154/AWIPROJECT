@@ -17,13 +17,13 @@
         </div>
         <div class="form-group">
           <label for="name">
-            Nom du plat :
+            Nom du plat*:
           </label>
           <input type="text" id="name" class="form-control" formControlName="name">
         </div>
         <div class="form-group">
           <label for="author">
-            Auteur :
+            Auteur*:
           </label>
           <input type="text" id="author" class="form-control"  formControlName="author">
         </div>
@@ -47,6 +47,14 @@
 
           <input type="text" id="title" class="form-control"  [formControlName]="i">
         </div>
+        <div formArrayName="descs" class="form-group" *ngFor=" let descr of descs.controls; let r=index "[id]="r" >
+
+          <label for="descs" >
+            {{'Description de l\'étape ' + r}}
+          </label>
+
+          <input type="text" id="descs" class="form-control"  [formControlName]="r">
+        </div>
 
         <div formArrayName="times">
         <div class="form-group" *ngFor=" let time of times.controls; let m=index "[id]="m" >
@@ -62,6 +70,7 @@
             <label [attr.for]="j">{{'Ingrédient ' + j}} </label>
             <select class="form-control" [id]="j"  [formControlName]="j">
               <option [ngValue]="null">Select Option</option>
+              <option [ngValue]="ingNul">Pas d'ingrédients</option>
               <option *ngFor="let ingredient of ingredients" >{{ingredient.name}}</option>
 
 
@@ -76,8 +85,6 @@
               <input type="text" id="quantity" class="form-control" [formControlName]="t">
             </div>
           </div>
-
-
 
 
 

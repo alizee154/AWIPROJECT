@@ -6,6 +6,7 @@
     <th scope="col">Unité de mesure</th>
     <th scope="col">Quantité en stock</th>
     <th scope="col">Prix par unité</th>
+    <th scope="col">Valeur du stock</th>
     <th scope="col">Catégorie</th>
     <th scope="col">Allergène</th>
 
@@ -15,8 +16,9 @@
   <tr>
     <th scope="row">{{ getName() }} </th>
     <td>{{ unit}} </td>
-    <td>{{ quantity }} </td>
+    <td>{{ stocks }} </td>
     <td>{{ unitprice }} </td>
+    <td>{{ stocks * unitprice }} </td>
     <td>{{ category }} </td>
     <td>{{ allergene }} </td>
     <td>

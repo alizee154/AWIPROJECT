@@ -16,15 +16,14 @@ export class IngredientComponent implements OnInit {
   @Input() id : string = '1';
   @Input() name : string = 'r';
   @Input() unit : string = 'Alizée';
-  @Input() quantity : string = 'pate chocolat';
-  @Input() unitprice : string = 'pate chocolat';
   @Input() category : string = 'patisserie';
+  @Input() stocks : number = 0;
+  @Input() unitprice : number = 0;
+
   @Input() allergene : string = 'oui';
 
 
-  ingredients: Ingredient[] = [
-
-  ];
+  ingredients: Ingredient[] = [];
   ingSubscription : Subscription;
 
 

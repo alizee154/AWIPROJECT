@@ -2,7 +2,7 @@ export class Ingredient{
   public id: string;
   public name: string;
   public unit: string;
-  public quantity: number;
+  public stocks: number;
   public unitprice: number;
   public category: string;
   public allergene : string;
@@ -13,7 +13,7 @@ export class Ingredient{
     id: string,
     name: string,
     unit: string,
-    quantity: number,
+    stocks: number,
     unitprice: number,
     category: string,
     allergene: string
@@ -22,7 +22,7 @@ export class Ingredient{
     this.id = id;
     this.name = name;
     this.unit = unit;
-    this.quantity = quantity;
+    this.stocks = stocks;
     this.unitprice = unitprice;
     this.category = category;
     this.allergene = allergene;

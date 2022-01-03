@@ -15,10 +15,14 @@ export class ListIngredientComponent implements OnInit {
 
   ingOne = 'beurre';
   ingTwo = 'chocolat';
+  ingDecreaseSubscription : Subscription;
   ingSubscription : Subscription;
   ingredients :any[];
+  ventes: any[];
+  recetteSubscription : Subscription;
+  ingredientsToDecrease : Ingredient[];
 
-  constructor(private ing: IngredientService,private router: Router) { }
+  constructor(private ing: IngredientService,private router: Router,private ft: FicheTechniqueService) { }
 
   ngOnInit(): void {
     this.ingSubscription = this.ing.ingSubject.subscribe((ingredients :any[]) => {this.ingredients = ingredients;});
@@ -26,9 +30,16 @@ export class ListIngredientComponent implements OnInit {
     this.ing.emitingSubject();
     console.log("salut")
 
+    this.ingDecreaseSubscription = this.ing.ingDecreaseSubject.subscribe((ingredients :any[]) => {this.ingredientsToDecrease = ingredients;});
+
+    this.ing.newEmitIngSubjetc();
+    console.log(this.ingredientsToDecrease);
+
+
+    //this.ingredientsToDecrease = this.ing.ingToDecrease;
+
+
   }
-
-
 
 
 

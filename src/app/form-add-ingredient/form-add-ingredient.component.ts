@@ -49,7 +49,7 @@ export class FormAddIngredientComponent implements OnInit {
     const name = form.value['name'];
     const unit = form.value['unit'];
     const id = form.value['id'];
-    const quantity = form.value['quantity'];
+    const stocks = form.value['stocks'];
     const unitprice = form.value['unitprice'];
     const category = this.selectedCategory;
     const allergene = form.value['allergene'];
@@ -59,7 +59,7 @@ export class FormAddIngredientComponent implements OnInit {
       id,
       name,
       unit,
-      quantity,
+      stocks,
       unitprice,
       category,
       allergene

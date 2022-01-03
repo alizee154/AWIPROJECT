@@ -17,6 +17,9 @@ import {
 } from "@angular/fire/firestore";
 import {Categorie} from "../models/category";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {Ingredient} from "../models/ingredient";
+import {Etape} from "../models/etape";
+import {Vente} from "../models/vente";
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +38,7 @@ export class FicheTechniqueService {
   private category = [];
   nbSubject = new Subject<any[]>();
   private http: HttpClient;
+  ventes : Vente = {name :'', nbPlat: ''};
 
 
 
@@ -239,6 +243,87 @@ export class FicheTechniqueService {
   addTab(tab : number[]){
     this.tab = tab;
   }
+  addVente(vente: Vente) {
+    this.ventes = {name :'', nbPlat: ''};
+    this.ventes = vente;
+    this.emitrecetteSubject();
+    console.log(this.ventes);
+  }
+  fichesVendues: FicheTechnique  = {
+    id : 'e',
+    name:'moule',
+    author:'ee',
+    desc:'hey',
+    listTitresEtapes:[],
+    listDescEtapes:[],
+    listDureesEtapes:[],
+    listIngEtapes : [],
+    nbIngredientsByStep : [],
+    listQuantityIngredients : []
+
+
+  };
+  nbFichesVendues : String  = '';
+  ingToDecrease : String[] = [];
+  ingNameToDecrease : String[] = [];
+  quantityToDecrease : number[] = [];
+  //quantityPeringredient : number[] = [];
+
+  recupIngTodecrease(){ //on recupere les fiches techniques vendues
+    this.ingNameToDecrease = [];
+    this.ingToDecrease = [];
+    this.quantityToDecrease = [];
+    this.nbFichesVendues = '';
+    this.fichesVendues = {id : 'e',
+      name:'',
+      author:'',
+      desc:'',
+      listTitresEtapes:[],
+      listDescEtapes:[],
+      listDureesEtapes:[],
+      listIngEtapes : [],
+      nbIngredientsByStep : [],
+      listQuantityIngredients : []};
+
+
+       this.fichesVendues = this.getRecetteByname(this.ventes.name);
+       this.nbFichesVendues = this.ventes.nbPlat;//mettre le meme nombre pour tous les ingredients d'une meme etape
+
+
+
+
+    console.log(this.nbFichesVendues);
+    console.log(this.fichesVendues + "hey");
+
+      /*for(let i in this.fichesVendues[index].nbIngredientsByStep){
+
+
+      }*/
+
+      for(let i in  this.fichesVendues.listIngEtapes){
+        console.log(this.fichesVendues.listIngEtapes[i]);
+        this.ingNameToDecrease.push(this.fichesVendues.listIngEtapes[i]);
+        console.log(this.fichesVendues.listQuantityIngredients[i]);
+        console.log(this.nbFichesVendues);// 0 car il faut que je remette les ventes a vide car une vente a la fois
+
+        //this.quantityPeringredient.push(this.fichesVendues[index].listQuantityIngredients[i]);
+        var y: number = +this.nbFichesVendues;
+        console.log(y);
+        var somme : number = y*this.fichesVendues.listQuantityIngredients[i];
+        console.log(somme);
+        this.quantityToDecrease.push(somme);
+        console.log(this.ingNameToDecrease);
+        console.log(this.quantityToDecrease);
+
+
+
+      }
+
+
+
+
+
+  }
 
   /*addRecette(id : string, desc : string,name: string, author: string, listEtape : Etape[]) {
     const recetteObject = {
@@ -259,7 +344,6 @@ export class FicheTechniqueService {
   }*/
 
 
-
   getRecetteById(id : string){
     const recette = this.recettes.find(
       (recetteObject) => {
@@ -267,6 +351,16 @@ export class FicheTechniqueService {
     }
     );
     return recette;
+  }
+
+  getRecetteByname(name : String ){
+    const recette = this.recettes.find(
+      (recetteObject) => {
+        return recetteObject.name=== name;
+      }
+    );
+    return recette;
+
   }
 
   fetchRecettes(){
@@ -292,7 +386,6 @@ export class FicheTechniqueService {
     console.log(this.http.get<FicheTechnique[]>('http://localhost:4200/fiche-technique', {params}));
     return this.http.get<FicheTechnique[]>('http://localhost:4200/fiche-technique', {params});
 
-  }
 
 
 }

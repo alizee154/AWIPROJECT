@@ -1,17 +1,35 @@
 <h2>Gérer les stocks</h2>
 <h3>Enregistrer une vente</h3>
-<form>
+<h4>Attention pour enregistrer la vente lorsque vous imprimez une étiquette n'oubliez pas d'appuyer sur enregister la vente</h4>
 
+<form [formGroup]="stockForm" (ngSubmit)="onSubmitForm()">
 
-  <div class="row">
-    <div class="col">
-      <label for="typeplat">Type de plat vendu :  </label>
-      <input type="text" class="form-control" id ="typeplat" placeholder="Enter type">
-    </div>
-    <div class="col">
-      <label for="nbplats">Nombre de plats vendus : </label>
-      <input type="text" class="form-control" id ="nbplats" placeholder="Enter nb">
-    </div>
+  <div class="form-group">
+    <select class="form-control"  formControlName="nameRecette">
+      <option [ngValue]="null">Nom du plat</option>
+      <option *ngFor="let recette of recettes"> {{recette.name}}</option>
+    </select>
   </div>
-  <button type="submit" class="btn btn-danger">Ajouter</button>
+
+
+    <div class="form-group">
+      <label for="nbplats">Nombre de plats vendus : </label>
+      <input type="text" id ="nbplats" class="form-control"  formControlName="nbplats">
+    </div>
+
+  <button type="submit" class="btn btn-danger">Ajouter la vente</button>
+
 </form>
+<button type="button" class="btn btn-danger" (click)="SavePDF()" >Imprimer une étiquette </button>
+
+<div class="container" id="content" #content>
+  <p>Merci d'avoir acheté notre {{recetteToShow.name}}</p>
+  <p>Voici la liste des ingrédients que contient ce plat : </p>
+  <p *ngFor="let ing of recetteToShow.listIngEtapes">{{ing}}</p>
+
+</div>
+
+
+
+
+

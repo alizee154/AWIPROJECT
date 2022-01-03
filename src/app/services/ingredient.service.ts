@@ -6,25 +6,29 @@ import {NgForm} from "@angular/forms";
 import {addDoc, collection, deleteDoc, doc, getDocs, getFirestore, query, where} from "@angular/fire/firestore";
 import {Ingredient} from "../models/ingredient";
 import {Categorie} from "../models/category";
+import {Vente} from "../models/vente";
 
 @Injectable({
   providedIn: 'root'
 })
 export class IngredientService {
 
-
-  ingSubject = new Subject<any[]>();
+  ventes : Vente = {name : 'nouilles',nbPlat:'3'};
+  ingToDecrease : Ingredient[];
+  quantToDecrease : number[];
+  private ing = [];
   ingredientSubject = new Subject<any[]>()
+  ingSubject = new Subject<any[]>();
+  ingDecreaseSubject = new Subject<any[]>();
   categorySubject = new Subject<Categorie[]>();
   private ingredients = [];
-  private ing = [];
   private i = [];
   private category = [];
  ingredient = {
     id:'5',
     name: 'riz cantonais',
    unit:'goug',
-   quantity:3,
+   stocks:3,
    unitprice:2,
    allergene:'oui'
   };
@@ -174,9 +178,14 @@ export class IngredientService {
     const id = form.value['id'];
     const name = form.value['name'];
     const unit = form.value['unit'];
-    const quantity = form.value['quantity'];
+    const stocks = form.value['stocks'];
     const unitprice = form.value['unitprice'];
     const allergene = form.value['allergene'];
+
+  }
+
+  newEmitIngSubjetc(){
+    this.ingDecreaseSubject.next(this.ingToDecrease.slice());
 
   }
   emitingSubject() {
@@ -201,6 +210,34 @@ export class IngredientService {
     console.log(this.ingredients);
     return ingredient;
   }
+  returnPostionIndexToDecrease(ingredient : Ingredient){
+    for (let index in this.ingToDecrease){
+      if (this.ingToDecrease[index] == ingredient){
+        return index;
+
+      }
+
+    }
+    return 0;
+
+  }
+  addIngToDecrease(ingredients : Ingredient[], quantities : number[]){
+    this.ingToDecrease = ingredients;
+    this.quantToDecrease = quantities;
+
+    for(var ing of this.ingToDecrease) {
+      for(var ings of this.ingredients){
+        if(ings == ing){
+          var s = this.returnPostionIndexToDecrease(ing);
+          ings.stocks = ings.stocks - this.quantToDecrease[s];
+        }
+      }
+      this.getIngredientByName(ing.name);
+
+    }
+
+  }
+
 
   fetchIng(){
     if(this.i && this.i.length){
@@ -222,12 +259,12 @@ export class IngredientService {
     this.emitUsers();
   }*/
 
-  addIng(id : string, name: string, unit: string, quantity: number, unitprice: number, category : string, allergene: string) {
+  addIng(id : string, name: string, unit: string, stocks: number, unitprice: number,category : string, allergene: string) {
     const ingredientObject = {
       id: '0',
       name: '',
       unit: '',
-      quantity: 0,
+      stocks: 0,
       unitprice:0,
       category: '',
       allergene: ''
@@ -235,7 +272,7 @@ export class IngredientService {
     ingredientObject.id = id;
     ingredientObject.name = name;
     ingredientObject.unit = unit;
-    ingredientObject.quantity = quantity;
+    ingredientObject.stocks = stocks;
     ingredientObject.unitprice = unitprice;
     ingredientObject.category = category;
     ingredientObject.allergene = allergene;
@@ -246,4 +283,6 @@ export class IngredientService {
     this.ingredients.push(ingredientObject);
     this.emitingSubject();
   }
+
+
 }
