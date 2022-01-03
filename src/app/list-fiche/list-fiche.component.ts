@@ -140,7 +140,7 @@ export class ListFicheComponent implements OnInit, OnDestroy {
 
   public onClick(){
     console.log(this.selectedCategory);
-    if(this.selectedCategory === 'Toutes catégories'){
+    if(this.selectedCategory === 'Toutes categories'){
       this.ft.getAllFichesTechniques();
     }
     else{
