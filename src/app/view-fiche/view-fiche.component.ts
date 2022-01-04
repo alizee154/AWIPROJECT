@@ -8,6 +8,7 @@ import {IngredientService} from "../services/ingredient.service";
 import {Ingredient} from "../models/ingredient";
 import {Subscription} from "rxjs";
 import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -16,6 +17,7 @@ import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./view-fiche.component.css']
 })
 export class ViewFicheComponent implements OnInit {
+  @ViewChild('htmlData') htmlData:ElementRef;
   @Input() ficheTechnique : FicheTechnique;
   nbIngredientsByStep  : number[]= [] ;
   newNbIngredientsByStep  : number[]= [] ;
@@ -35,6 +37,7 @@ export class ViewFicheComponent implements OnInit {
   coutMatiere = 0;
   coutPersonnel = 0;
   coutFluide = 0;
+  prixVente = 0;
   listNombre = [];
   nbCouverts = 1;
   //couvertForm :  FormGroup;
@@ -172,12 +175,41 @@ public calculCoutPersonnel(){
     return this.coutFluide * 2;
 
 
+
   }
+  //voir pour tous les couts pour nbcouverts
+
+  public calculPrixVente(){
+    //voir pour si on calcule coutcharges
+    this.prixVente = (this.coutFluide + this.coutMatiere + this.coutPersonnel)*1.5;
+  }
+  public openPDF():void {
+    let DATA = document.getElementById('htmldata');
+
+    html2canvas(DATA).then(canvas => {
+
+      let fileWidth = 208;
+      let fileHeight = canvas.height * fileWidth / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png')
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+
+      PDF.save('angular-demo.pdf');
+
+    });
+  }
+
 
   public SavePDF():void{
     let content=this.content.nativeElement;
     // @ts-ignore
-    let doc = new jsPDF();
+    let doc = new jsPDF('p', 'mm', 'a4');
+
+    /*doc.text(content, 20, 20);
+    doc.addPage();
+    doc.text('Do you like that?', 20, 20);*/
+
     let _elementHandlers =
       {
         '#editor':function(element,renderer){

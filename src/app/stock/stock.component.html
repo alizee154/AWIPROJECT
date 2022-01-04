@@ -20,15 +20,15 @@
   <button type="submit" class="btn btn-danger">Ajouter la vente</button>
 
 </form>
-<button type="button" class="btn btn-danger" (click)="SavePDF()" >Imprimer une étiquette </button>
-
+<button type="button" class="btn btn-danger" (click)="openPDF()" >Imprimer une étiquette </button>
+<div id="htmldata">
 <div class="container" id="content" #content>
   <p>Merci d'avoir acheté notre {{recetteToShow.name}}</p>
   <p>Voici la liste des ingrédients que contient ce plat : </p>
   <p *ngFor="let ing of recetteToShow.listIngEtapes">{{ing}}</p>
 
 </div>
-
+</div>
 
 
 

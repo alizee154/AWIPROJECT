@@ -1,13 +1,13 @@
 <aside class=""fd><form>
-  <div>
+  <div >
     <input type="search" id="maRecherche" name="q"
            placeholder="Rechercher une recette">
     <button>Rechercher</button>
   </div>
 </form>
-<input type="button" value="Download PDF" class="btn btn-danger" (click)="SavePDF()">
+<input type="button" value="Download PDF" class="btn btn-danger" (click)="openPDF()">
 <div class="container" id="content" #content>
-
+  <div id="htmldata">
 <header class="centre" >
   <h3 >{{name}}</h3>
   <h4 >{{author}}</h4>
@@ -91,6 +91,7 @@
 
   </tbody>
 </table>
+
 <h2>Synthèse</h2>
   <h3>Ingrédients utilisés dans cette fiche technique</h3>
   <div *ngFor="let ing of Ing; let i =index;">{{ing.name }} -- cout brut : {{ing.unitprice * listQuantity[i]}} </div>
@@ -102,9 +103,10 @@
 
 <p>Coût des charges : cout de personnel + cout des fluides {{coutFluide + coutPersonnel}} euros</p>
 
-<p>Prix de vente : </p>
-<p>Prix de vente par portion : </p>
-<p>Bénéfice par portion : </p>
-<p>Seuil de rentabilité : </p>
+<p>Prix de vente :{{calculPrixVente()}} </p>
+<p>Prix de vente par portion : {{prixVente/nbCouverts}} </p>
+<p>Bénéfice par portion :{{0.9*(prixVente/nbCouverts) - (coutFluide + coutPersonnel + coutMatiere)/nbCouverts}} </p>
+<p>Seuil de rentabilité :{{(coutFluide + coutPersonnel + coutMatiere)/(0.9*(prixVente/nbCouverts))}} </p>
+</div>
 </div>
 </aside>
