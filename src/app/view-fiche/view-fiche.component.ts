@@ -139,8 +139,11 @@ export class ViewFicheComponent implements OnInit {
   public calculCoutMatiere(){
     //somme de tous les ingredients + 5% du cout matiere
     for (let index in this.Ing){
+      if (this.Ing[index]!= null){
+        this.coutMatiere += this.Ing[index].unitprice * this.listQuantityIngredients[index] / 1000;
 
-      this.coutMatiere += this.Ing[index].unitprice * this.listQuantityIngredients[index] / 1000;
+      }
+
 
 
     }

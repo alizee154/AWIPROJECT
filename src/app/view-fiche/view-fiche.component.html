@@ -36,7 +36,7 @@
   </tr>
   </thead>
   <tbody>
-  <ng-container *ngFor="let step of Steps; let i=index;">
+  <ng-container *ngFor="let step of Steps; let i=index; ">
   <tr *ngFor="  let ing of step.listeIng ;let j =index;  ">
 
 
@@ -46,9 +46,9 @@
     <td>{{step.listeQuantity[j]}}</td>
     <td>{{ing.unitprice}}</td>
 
-    <td>{{i+1}}</td>
-    <td ><b><u>{{step.titreEtape }} </u></b><br> {{step.descEtape }}</td>
-    <td>{{step.duree}}</td>
+    <td *ngIf="j==0" >{{i+1}}</td>
+    <td *ngIf="j==0"><b><u>{{step.titreEtape }} </u></b><br> {{step.descEtape }}</td>
+    <td *ngIf="j==0">{{step.duree}}</td>
 
 
 
