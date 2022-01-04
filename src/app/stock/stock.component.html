@@ -20,7 +20,7 @@
   <button type="submit" class="btn btn-danger">Ajouter la vente</button>
 
 </form>
-<button type="button" class="btn btn-danger" (click)="openPDF()" >Imprimer une étiquette </button>
+<button type="button" class="btn btn-danger" (click)="show()" (click)="openPDF()"  >Imprimer une étiquette </button>
 <div id="htmldata">
 <div class="container" id="content" #content>
   <p>Merci d'avoir acheté notre {{recetteToShow.name}}</p>

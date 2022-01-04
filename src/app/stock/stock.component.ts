@@ -55,6 +55,11 @@ export class StockComponent implements OnInit {
 
 
   };
+  show(){
+    const formValue = this.stockForm.value;
+    const recetteToShowConstante = formValue['nameRecette'];
+    this.recetteToShow = this.ft.getRecetteByname(recetteToShowConstante);
+  }
   onSubmitForm(){
 
     const formValue = this.stockForm.value;
