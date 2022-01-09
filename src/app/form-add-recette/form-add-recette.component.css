@@ -58,3 +58,14 @@
 
 
 }
+.input-group .form-control.addon-inline {
+  border-right: none;
+  padding-right: 5px;
+}
+
+.input-group-addon.addon-inline {
+  background: #fff;
+  color: #999;
+  border-left: none;
+  padding-left: 0;
+}

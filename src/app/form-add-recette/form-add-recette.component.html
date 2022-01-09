@@ -61,11 +61,15 @@
         </div>
 
         <div formArrayName="times">
-        <div class="form-group" class="step"  *ngFor=" let time of times.controls; let m=index "[id]="m" >
+        <div class="  mb-3 step"  *ngFor=" let time of times.controls; let m=index "[id]="m" >
           <label for="time">
             {{'Temps nécessaire de l\'etape ' }}{{m+1}}
           </label>
-          <input type="text" id="time" class="form-control" [formControlName]="m">
+        <div class="input-group">
+          <input  type="text" id="time" class="form-control " [formControlName]="m">
+          <span class="input-group-text">minutes</span>
+        </div>
+
         </div>
         </div>
 
@@ -86,7 +90,11 @@
               <label for="quantity">
                 Quantité :
               </label>
-              <input type="text" id="quantity" class="form-control" [formControlName]="t">
+              <div class="input-group">
+                <input type="text" id="quantity" class="form-control" [formControlName]="t">
+                <span class="input-group-text">grammes</span>
+              </div>
+
             </div>
           </div>
 

@@ -1,10 +1,20 @@
-<h2>Consulter la liste des ingrédients</h2>
-<button type="button" class="btn btn-danger" (click)="onForm()" >Ajouter un ingrédient</button>
-<button type="button" class="btn-danger">Rechercher un ingrédient</button>
+<h2 class="dispo2">Consulter la liste des ingrédients</h2>
+
+<form (ngSubmit)="onClick()" class="form-inline dispo2">
+  <div class="input-group">
+    <select class="form-control mat-select-placeholder" data-live-search="true" [(ngModel)]="selectedCategory" name="categories"  >
+      <option [ngValue]="'Toutes categories'">Toutes catégories</option>
+      <option type="submit" *ngFor="let cat of categories" (selectionchange)="onClick()">{{cat.name}}</option>
+    </select>
+    <button type="submit" class="btn btn-outline-secondary manage">Rechercher</button>
+  </div>
+
+</form>
+<button type="button" class="btn btn-success dispo2" (click)="onForm()" >Ajouter un ingrédient</button>
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <h2>Mes Ingrédients</h2>
+      <h2 class="dispo2">Mes Ingrédients</h2>
       <ul class="list-group">
         <app-ingredient  *ngFor="let ingredient of ingredients"
                               [id]="ingredient.id"

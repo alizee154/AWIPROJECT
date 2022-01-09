@@ -27,13 +27,16 @@ export class IngredientService {
   ingToDecrease : Ingredient[];
   quantToDecrease : number;
   private ing = [];
+  recetteSubject = new Subject<FicheTechnique[]>();
   ingredientSubject = new Subject<any[]>()
   ingSubject = new Subject<any[]>();
   ingDecreaseSubject = new Subject<any[]>();
   categorySubject = new Subject<Categorie[]>();
   private ingredients = [];
+  private ingCategory = [];
   private i = [];
   private category = [];
+
  ingredient = {
     id:'5',
     name: 'riz cantonais',
@@ -144,6 +147,27 @@ export class IngredientService {
       })
   }
 
+  async getIngByCategory(category) {
+    this.ingCategory.splice(0, this.ingCategory.length);
+    const db = getFirestore();
+    const colRef = collection(db, 'ingredients');
+    const q = query(colRef, where("category", "==", category));
+    await getDocs(q).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        this.ingCategory.push({...doc.data(), id: doc.id})
+        this.emitIngSubjectCategory();
+        console.log(doc.id, " => ", doc.data());
+      })
+      if (this.ingCategory.length === 0) {
+        this.emitIngSubjectCategory();
+      }
+      console.log(this.category);
+    })
+      .catch(err => {
+        console.log(err.message);
+      })
+  }
+
   /*addIngredientsInStep(id){
     const db = getFirestore();
     const docRef = collection(db, "étapes/" + id);
@@ -223,6 +247,10 @@ export class IngredientService {
 
   emitCategorySubject() {
     this.categorySubject.next(this.category.slice());
+  }
+
+  emitIngSubjectCategory() {
+    this.ingSubject.next(this.ingCategory.slice());
   }
 
 

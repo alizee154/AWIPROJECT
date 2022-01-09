@@ -18,30 +18,15 @@
 
   </tbody>
 </table>-->
-<div class ="rectangle">
 
-    <ul>
-      <img class="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLSL3F7mL2wXFrT5LA_SLZJ3t3LbL4vWOM-w&usqp=CAU"/>
-    </ul>
-
-    <ul class="center">
-      {{ id }}
-    </ul>
-    <ul class="name" class="center">
-      {{ getName()}}
-    </ul>
-    <ul class="center">
-      Fait par {{ author}}
-    </ul>
-    <ul class="center">
-      {{ desc}}
-    </ul>
-    <ul class="h">
-      <a [routerLink]="[id]">Consulter</a>
-    </ul>
-
-
-
+<div class="card" style="width: 18rem; border-radius: 7px">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLSL3F7mL2wXFrT5LA_SLZJ3t3LbL4vWOM-w&usqp=CAU" class="card-img-top" alt="Image" >
+  <div class="card-body">
+    <h2 class="card-title" style="font-weight: bold"> {{getName()}}</h2>
+    <p class="card-text">Fait par {{author}}</p>
+    <p class="card-text">{{desc}}</p>
+    <a [routerLink]="[id]" class="btn btn-outline-secondary">Consulter</a>
+  </div>
 </div>
 
 

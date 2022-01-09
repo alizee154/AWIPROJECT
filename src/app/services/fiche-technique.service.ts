@@ -49,7 +49,7 @@ export class FicheTechniqueService {
 
   public listMessage: string[];
 
-  getAllFichesTechniques() {
+  async getAllFichesTechniques() {
     this.recettes.splice(0, this.recettes.length);
     const db = getFirestore();
     const colRef = collection(db, 'ficheTechnique');

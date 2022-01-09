@@ -5,15 +5,36 @@
   background-color: #FAF7F7;
 }
 .btn-danger {
-  border-radius: 3rem;
   background-color: #E66464;
   display : inline-block;
-  margin-left: 45%;
+ margin: auto;
+  margin-top : 5%;
   margin-bottom : 5%;
 
+}
+.dispo{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.btn-outline-secondary{
+  display : inline-block;
+  margin: auto;
+  margin-top : 5%;
+  margin-bottom : 5%;
 }
 .taille{
   display : inline-block;
   margin-right: 5%;
   width: 15%;
 }
+input{
+  margin: 10px;
+  margin: auto;
+}
+
+.centre2{
+  margin-right: 300px;
+}
+
+
