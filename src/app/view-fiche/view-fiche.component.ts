@@ -7,7 +7,7 @@ import {Etape} from "../models/etape";
 import {IngredientService} from "../services/ingredient.service";
 import {Ingredient} from "../models/ingredient";
 import {Subscription} from "rxjs";
-import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
+import {Form, FormArray, FormBuilder, FormGroup, NgForm} from "@angular/forms";
 import html2canvas from 'html2canvas';
 import {Vente} from "../models/vente";
 
