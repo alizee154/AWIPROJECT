@@ -6,6 +6,17 @@
   margin-bottom : 5%;
 
 }
+.btn-success{
+  display : inline-block;
+  margin-left:45%;
+  margin-bottom : 2%;
+
+}
+.plus{
+  display : inline-block;
+  margin-left:43%;
+
+}
 .form-group{
   width:30%;
   margin-left : 35%;
@@ -44,6 +55,7 @@ html {
 
 .u-clearfix {
   *zoom: 1;
+  display: inline-block;
 }
 
 .subtle {
@@ -54,6 +66,7 @@ html {
   margin: 25px auto 0;
   position: relative;
   width: 692px;
+  margin-left: 27%;
 }
 
 .card {
@@ -63,6 +76,7 @@ html {
   box-shadow: 0 0 5px rgba(75, 75, 75, .07);
   z-index: 1;
 }
+
 
 .card-body {
   display: inline-block;
@@ -135,7 +149,9 @@ html {
 }
 
 .card-media {
+
   float: right;
+  width : 30%;
 }
 
 .card-shadow {

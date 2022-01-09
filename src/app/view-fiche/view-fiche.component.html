@@ -4,8 +4,8 @@
 <div class="container" id="content" #content>
   <div id="htmldata">
 <header  class="dispo centre" >
-  <h3 >{{name}}</h3>
-  <h4 >{{author}}</h4>
+  <h3 class="gros">{{name}}</h3>
+  <h4 >Réalisé par {{author}}</h4>
   <h5>{{desc}}</h5>
 
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
@@ -95,8 +95,12 @@
   </tbody>
 </table>
 
-<h2>Synthèse</h2>
-  <h3>Ingrédients utilisés dans cette fiche technique</h3>
+<h1>Synthèse</h1>
+    <h2>Ingrédients utilisés dans cette fiche technique</h2>
+    <div *ngFor="let ing of listIngEtapes; let i =index;">{{ing.name }} -- cout brut : {{ing.unitprice * listQuantityIngredients[i]}} euros</div>
+    <br>
+    <h2>Indiquez vos paramètres pour le calcul des coûts</h2>
+
     <form [formGroup]="tauxForm" (ngSubmit)="onSubmitForm()">
 
       <div class="form-group taille" >
@@ -118,7 +122,6 @@
       <button type="submit" class="btn btn-outline-secondary">Calculer avec les nouveaux coefficients</button>
 
     </form>
-  <div *ngFor="let ing of listIngEtapes; let i =index;">{{ing.name }} -- cout brut : {{ing.unitprice * listQuantityIngredients[i]}} </div>
     <div>
 
 
@@ -133,24 +136,26 @@
 
     </div>
     <div *ngIf="sh == 1" >
-<p>Coût matière : {{coutMatiere}} euros</p>
-  <p>Coût du personnel : {{calculCoutPersonnel()}} euros</p>
-  <p>Coût des fluides :  {{calculCoutFluide()}} euros</p>
-<p>Coût de production :   {{calculCoutFluide() + calculCoutPersonnel() + coutMatiere}} euros</p>
-<p>Coût de production par portion: {{(calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/selectedCouvertNumber}} euros</p>
+<h3>Coûts</h3>
+<li>Coût matière : {{coutMatiere}} euros</li>
+  <li>Coût du personnel : {{calculCoutPersonnel()}} euros</li>
+  <li>Coût des fluides :  {{calculCoutFluide()}} euros</li>
+<li>Coût de production :   {{calculCoutFluide() + calculCoutPersonnel() + coutMatiere}} euros</li>
+<li>Coût de production par portion: {{(calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/selectedCouvertNumber}} euros</li>
 
-<p>Coût des charges :  {{calculCoutFluide() + coutPersonnel}} euros</p>
-
-<p>Prix de vente :{{calculPrixVente()}} euros</p>
-<p>Prix de vente par portion : {{calculPrixVente()/selectedCouvertNumber}} euros</p>
-<p>Bénéfice par portion :{{0.9*(calculPrixVente()/selectedCouvertNumber) - (calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/selectedCouvertNumber}} euros</p>
-<p>Seuil de rentabilité :{{(calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/(0.9*(calculPrixVente()/selectedCouvertNumber))}} euros</p>
+<li>Coût des charges :  {{calculCoutFluide() + coutPersonnel}} euros</li>
+      <br>
+      <h3>Prix de vente et Bénéfice</h3>
+<li>Prix de vente :{{calculPrixVente()}} euros</li>
+<li>Prix de vente par portion : {{calculPrixVente()/selectedCouvertNumber}} euros</li>
+<li>Bénéfice par portion :{{0.9*(calculPrixVente()/selectedCouvertNumber) - (calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/selectedCouvertNumber}} euros</li>
+<li>Seuil de rentabilité :{{(calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/(0.9*(calculPrixVente()/selectedCouvertNumber))}} euros</li>
     </div>
 </div>
 </div>
   <div class="input-group">
-    <input type="button" value="Sauvegarder le nombre de couverts" class="btn btn-danger" (click)="saveFiche()">
-    <input type="button" value="Download PDF" class="btn btn-danger" (click)="openPDF()">
+    <input type="button" value="Sauvegarder le nombre de couverts" class="btn btn-success" (click)="saveFiche()">
+    <input type="button" value="Download PDF" class="btn btn-success" (click)="openPDF()">
     <input type="button" value="Delete" class="btn btn-danger" (click)="deleteFiche()">
   </div>
 

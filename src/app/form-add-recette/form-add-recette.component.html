@@ -3,10 +3,10 @@
 
 
 <div class="row">
-  <div class="col-sm-8 col-sm-offset-2">
+  <div class="col-sm-8 col-sm-offset-2" >
     <!--<form (ngSubmit)="onSubmit(f)"  #f="ngForm">-->
       <form [formGroup]="recetteForm" (ngSubmit)="onSubmitForm()">
-        <div class="form-group">
+        <div class="form-group" class="haut">
           <label for="category">
             Catégorie :
           </label>
@@ -15,19 +15,19 @@
             <option type="submit" *ngFor="let cat of categories" >{{cat.category}}</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" class="haut">
           <label for="name">
             Nom du plat*:
           </label>
           <input type="text" id="name" class="form-control" formControlName="name">
-        </div>
-        <div class="form-group">
+        </div >
+        <div class="form-group" class="haut">
           <label for="author">
             Auteur*:
           </label>
           <input type="text" id="author" class="form-control"  formControlName="author">
         </div>
-        <div class="form-group">
+        <div class="form-group " class="haut">
           <label for="desc">
             Description :
           </label>
@@ -38,7 +38,7 @@
 
 
 
-<div formArrayName="titles" class="right">
+<div formArrayName="titles" >
         <div  class="form-group" class="step"  *ngFor=" let title of titles.controls; let i=index "[id]="i" >
 
           <label for="title" >
@@ -49,7 +49,7 @@
         </div>
 </div>
 
-        <div formArrayName="descs" class="right">
+        <div formArrayName="descs" >
         <div  class="form-group" class="step"  *ngFor=" let descr of descs.controls; let r=index "[id]="r" >
 
           <label for="descs" >
@@ -73,8 +73,8 @@
         </div>
         </div>
 
-        <div formArrayName="ings" class="lie">
-          <div class="form-group" class="step" *ngFor=" let ing of ings.controls; let j=index">
+        <div formArrayName="ings" class="lie" >
+          <div class="form-group"   *ngFor=" let ing of ings.controls; let j=index">
             <label [attr.for]="j">{{'Ingrédient ' }}{{j+1}} </label>
             <select class="form-control" [id]="j"  [formControlName]="j">
               <option [ngValue]="null">Select Option</option>
@@ -85,8 +85,8 @@
             </select>
           </div>
         </div>
-            <div formArrayName="quantity" class="lie">
-            <div class="form-group"  class="step" *ngFor=" let quantit of quantity.controls; let t=index "[id]="t">
+            <div formArrayName="quantity" class="lie"  >
+            <div class="form-group"   *ngFor=" let quantit of quantity.controls; let t=index "[id]="t">
               <label for="quantity">
                 Quantité :
               </label>
@@ -102,16 +102,11 @@
 
 
 
-        <div style="text-align:center">
-          <div [innerHtml]='msg' *ngIf="msg" style="color: red;"></div>
-          <div ><img [src]="url" *ngIf="url"></div>
-          <p>
-            <input type="file" (change)="selectFile($event)" name="url">
-          </p>
-        </div>
-      <button class="btn btn-danger" type ="button" (click)="addIngs() ">+   Ajouter un ingrédient</button>
-      <button class="btn btn-danger" type ="button" (click)="addSteps()" >+   Ajouter une étape</button>
-      <button class="btn btn-dark" type="submit">Enregistrer la fiche </button>
+
+
+      <button class="btn btn-success" type ="button" (click)="addIngs() ">+   Ajouter un ingrédient</button>
+      <button class="btn btn-success" type ="button" (click)="addSteps()" >+   Ajouter une étape</button>
+      <button class="btn btn-success" type="submit"  [disabled]="recetteForm.invalid">Enregistrer la fiche </button>
 
     </form>
   </div>

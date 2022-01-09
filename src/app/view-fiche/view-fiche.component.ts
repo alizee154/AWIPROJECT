@@ -60,7 +60,7 @@ export class ViewFicheComponent implements OnInit {
   //couvertForm :  FormGroup;
   coutMatiere = 1;
 
-
+  recettas : FicheTechnique[];
   recette: any;
   @ViewChild('content') content: ElementRef;
   researchForm: FormGroup;
@@ -71,7 +71,7 @@ export class ViewFicheComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.router.navigate(['fiche-technique/'])
+    //this.router.navigate(['fiche-technique/'])
 
 
     const id = this.route.snapshot.params['id'];

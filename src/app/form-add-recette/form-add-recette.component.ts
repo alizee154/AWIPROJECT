@@ -81,15 +81,15 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
     this.ins.getAllIngredients();
     this.recetteForm = this.formBuilder.group({
       id:'',
-      name:'',
-      author:'',
-      desc:'',
+      name:  ['', Validators.required],
+      author: ['', Validators.required],
+      desc: ['', Validators.required],
       titles:this.formBuilder.array([]),
       descs :this.formBuilder.array([]),
       times:this.formBuilder.array([]),
 
       ings :this.formBuilder.array([]),
-      category: '',
+      category:  ['', Validators.required],
       quantity: this.formBuilder.array([])
 
     })

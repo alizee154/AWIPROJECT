@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FicheTechniqueService} from "../services/fiche-technique.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router,Routes} from "@angular/router";
 import {FicheTechnique} from "../models/fiche-technique";
 import {Subscription} from "rxjs";
 
@@ -11,6 +11,8 @@ import {Subscription} from "rxjs";
   styleUrls: ['./accueil.component.css']
 })
 export class AccueilComponent implements OnInit {
+  @Output() public selectedRecette = new EventEmitter<FicheTechnique>();
+  @Input() id : string;
 
   constructor(private ft: FicheTechniqueService,private router: Router)  {
 
@@ -39,8 +41,8 @@ export class AccueilComponent implements OnInit {
   onForm(){
     this.router.navigate(['formRecette']);
   }
-  @Output() public selectedRecette = new EventEmitter<FicheTechnique>();
-  @Input() id : string;
+
+  recettes :any[];
 
   recettas : FicheTechnique[];
   recetteSubscription : Subscription;
@@ -50,7 +52,7 @@ export class AccueilComponent implements OnInit {
   {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
-  recettes :any[];
+
   i: number
   j: number;
   k: number;

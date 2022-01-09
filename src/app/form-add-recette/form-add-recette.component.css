@@ -1,9 +1,25 @@
 .step{
-  display: block;
+  display : inline-block;
+
+
+  width:30%;
+  margin-right: 2%;
+}
+.haut{
+  width: 100%;
+  position: center;
+
+
 }
 .lie{
   display : inline-block;
   margin-right : 5%;
+
+  width : 30%;
+
+}
+.j{
+  margin-top: 5%;
   width : 30%;
 }
 .btn-danger {
@@ -68,4 +84,10 @@
   color: #999;
   border-left: none;
   padding-left: 0;
+}
+.btn-success{
+  margin-left : 10%;
+  display : inline-block;
+  margin-top: 10%;
+  margin-bottom: 5%;
 }

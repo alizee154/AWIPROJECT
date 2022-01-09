@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { FicheTechniqueComponent } from './fiche-technique/fiche-technique.component';
 import {RouterModule, Routes} from '@angular/router';
+
 import { FormAddRecetteComponent } from './form-add-recette/form-add-recette.component';
 import { IngredientComponent } from './ingredient/ingredient.component';
 import { StockComponent } from './stock/stock.component';
