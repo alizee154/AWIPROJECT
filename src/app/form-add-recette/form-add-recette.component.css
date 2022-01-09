@@ -1,3 +1,60 @@
 .step{
-  display: inline-block;
+  display: block;
+}
+.lie{
+  display : inline-block;
+  margin-right : 5%;
+  width : 30%;
+}
+.btn-danger {
+  border-radius: 3rem;
+  background-color: #E66464;
+  margin-left : 5%;
+  margin-right : 5%;
+
+}
+
+.right{
+  float: left;
+}
+.btn-dark{
+  border-radius: 3rem;
+  background-color: black;
+  color:white;
+  margin-left : 5%;
+  margin-right : 5%;
+
+}
+
+
+.entete{
+
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 10%;
+  border-width:2px 2px 2px 2px;
+  border-radius : 3em;
+  border-style:solid solid;
+  border-color: white;
+
+}
+
+#container{
+  background-image: linear-gradient(to top, rgba(205, 156, 242, 0.40) 0%, rgba(246, 255, 255, 0.71) 100%);
+  box-shadow: 0 15px 30px 1px rgba(128, 128, 128, 0.31);
+  text-align: center;
+  border-radius: 5px;
+  margin: 3em auto;
+  background: rgba(255, 255, 255, 0.95);
+  height: 300px;
+  width: 480px;
+  padding: 1em;
+
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+
+
 }

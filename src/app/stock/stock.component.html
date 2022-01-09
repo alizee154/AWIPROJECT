@@ -1,6 +1,6 @@
-<h2>Gérer les stocks</h2>
-<h3>Enregistrer une vente</h3>
-<h4>Attention pour enregistrer la vente lorsque vous imprimez une étiquette n'oubliez pas d'appuyer sur enregister la vente</h4>
+<h2 class="texte">Gérer les stocks</h2>
+<h3 class="texte">Enregistrer une vente</h3>
+<h5 class="texte">Attention pour enregistrer la vente lorsque vous imprimez une étiquette n'oubliez pas d'appuyer sur enregister la vente sauf si vous ne souhaitez pas baisser vos stocks</h5>
 
 <form [formGroup]="stockForm" (ngSubmit)="onSubmitForm()">
 
@@ -17,10 +17,10 @@
       <input type="text" id ="nbplats" class="form-control"  formControlName="nbplats">
     </div>
 
-  <button type="submit" class="btn btn-danger">Ajouter la vente</button>
+  <button type="submit" class="btn-danger">Ajouter la vente</button>
 
 </form>
-<button type="button" class="btn btn-danger" (click)="show()" (click)="openPDF()"  >Imprimer une étiquette </button>
+<button type="button" class="btn-danger" (click)="show()" (click)="openPDF()"  >Imprimer une étiquette </button>
 <div id="htmldata">
 <div class="container" id="content" #content>
   <p>Merci d'avoir acheté notre {{recetteToShow.name}}</p>

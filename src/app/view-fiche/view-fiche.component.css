@@ -4,3 +4,16 @@
 .fd{
   background-color: #FAF7F7;
 }
+.btn-danger {
+  border-radius: 3rem;
+  background-color: #E66464;
+  display : inline-block;
+  margin-left: 45%;
+  margin-bottom : 5%;
+
+}
+.taille{
+  display : inline-block;
+  margin-right: 5%;
+  width: 15%;
+}

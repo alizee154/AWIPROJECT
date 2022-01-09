@@ -12,7 +12,7 @@ import {Etape} from "../models/etape";
 })
 export class FicheTechniqueComponent implements OnInit {
   @Input() id : string = '1';
-  @Input() name : string ;
+  @Input() name : string ='nouille';
   @Input() author : string = 'Alizée';
   @Input() desc : string = 'pate chocolat';
 

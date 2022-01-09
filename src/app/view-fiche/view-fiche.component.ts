@@ -9,6 +9,7 @@ import {Ingredient} from "../models/ingredient";
 import {Subscription} from "rxjs";
 import {Form, FormArray, FormBuilder, FormGroup} from "@angular/forms";
 import html2canvas from 'html2canvas';
+import {Vente} from "../models/vente";
 
 
 @Component({
@@ -17,6 +18,9 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./view-fiche.component.css']
 })
 export class ViewFicheComponent implements OnInit {
+  sh: any;
+  isChecked: boolean = true;
+
   @ViewChild('htmlData') htmlData:ElementRef;
   @Input() ficheTechnique : FicheTechnique;
   nbIngredientsByStep  : number[]= [] ;
@@ -27,6 +31,7 @@ export class ViewFicheComponent implements OnInit {
   desc : string = 'desc';
   listTitresEtapes = [];
   listDescEtapes = [];
+  tauxForm : FormGroup;
 
   listDureesEtapes = [];
   listIngEtapes = [];
@@ -40,6 +45,10 @@ export class ViewFicheComponent implements OnInit {
   prixVente = 0;
   listNombre = [];
   nbCouverts = 1;
+  tauxPrixVente = 1;
+  tauxCoutPersonnel=1;
+  tauxCoutFluide=1;
+  sanscouts = false;
   //couvertForm :  FormGroup;
 
 
@@ -53,6 +62,7 @@ export class ViewFicheComponent implements OnInit {
 
   ngOnInit(): void {
 
+
     const id = this.route.snapshot.params['id'];
     this.name = this.ft.getRecetteById(id).name;
     this.author = this.ft.getRecetteById(id).author;
@@ -62,7 +72,7 @@ export class ViewFicheComponent implements OnInit {
     this.listDureesEtapes = this.ft.getRecetteById(id).listDureesEtapes;
     this.listIngEtapes = this.ft.getRecetteById(id).listIngEtapes;
     let i=0;
-
+    this.initForm();
     for (var char of this.listIngEtapes){
       this.Ing[i] = this.ins.getIngredientByName(char);
       i++;
@@ -91,6 +101,16 @@ export class ViewFicheComponent implements OnInit {
 
 
 
+
+  }
+  initForm(){
+    this.tauxForm = this.formBuilder.group({
+      prixvente:1,
+      personnel:1,
+      fluides:1,
+      sanscouts:false
+
+    })
 
   }
  /* public addCouvert(){
@@ -135,6 +155,20 @@ export class ViewFicheComponent implements OnInit {
     console.log(this.Steps);
 
   }
+  onSubmitForm(){
+
+    const formValue = this.tauxForm.value;
+
+
+    this.tauxPrixVente = formValue['prixvente'];
+    this.tauxCoutFluide = formValue['fluides'];
+    this.tauxCoutPersonnel = formValue['personnel'];
+    this.sanscouts = formValue['sanscouts'];
+    console.log(this.tauxPrixVente);
+
+
+
+  }
 
   public calculCoutMatiere(){
     //somme de tous les ingredients + 5% du cout matiere
@@ -161,7 +195,7 @@ public calculCoutPersonnel(){
 
 
   }
-  return this.coutPersonnel * 16,74;
+  return this.coutPersonnel * this.tauxCoutPersonnel;
 
 
 }
@@ -175,7 +209,7 @@ public calculCoutPersonnel(){
 
 
     }
-    return this.coutFluide * 2;
+    return this.coutFluide * this.tauxCoutFluide;
 
 
 
@@ -184,7 +218,7 @@ public calculCoutPersonnel(){
 
   public calculPrixVente(){
     //voir pour si on calcule coutcharges
-    this.prixVente = (this.coutFluide + this.coutMatiere + this.coutPersonnel)*1.5;
+    this.prixVente = (this.coutFluide + this.coutMatiere + this.coutPersonnel)*this.tauxPrixVente;
   }
   public openPDF():void {
     let DATA = document.getElementById('htmldata');

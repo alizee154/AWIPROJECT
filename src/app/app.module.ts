@@ -24,6 +24,7 @@ import { ListIngredientComponent } from './list-ingredient/list-ingredient.compo
 import { ViewFicheComponent } from './view-fiche/view-fiche.component';
 import { FormAddIngredientComponent } from './form-add-ingredient/form-add-ingredient.component';
 import { FormAddEtapeComponent } from './form-add-etape/form-add-etape.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   { path: '', component: AccueilComponent },
@@ -64,7 +65,8 @@ const appRoutes: Routes = [
     provideFirestore(() => getFirestore()),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    BrowserAnimationsModule
 
   ],
   providers: [FicheTechniqueService],
