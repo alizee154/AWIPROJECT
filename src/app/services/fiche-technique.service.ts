@@ -31,7 +31,10 @@ export class FicheTechniqueService {
   tab: number[] = [];
   recetteSubject = new Subject<FicheTechnique[]>();
   categorySubject = new Subject<Categorie[]>();
+  tauxSubject = new Subject<number[]>();
+   compteur = 0;
   ingSubject = new Subject<any[]>();
+  taux = [];
   recettes = [];
   private r = [];
   private recettesCategory = [];
@@ -227,6 +230,9 @@ export class FicheTechniqueService {
   emitrecetteSubject() {
     this.recetteSubject.next(this.recettes.slice());
   }
+  emittauxSubject() {
+    this.tauxSubject.next(this.taux.slice());
+  }
 
   emitrecetteSubjectCategory() {
     this.recetteSubject.next(this.recettesCategory.slice());
@@ -240,6 +246,18 @@ export class FicheTechniqueService {
   addRecette(recette: FicheTechnique) {
     this.recettes.push(recette);
     this.emitrecetteSubject();
+  }
+
+  addTaux(taux: number) {
+
+    if(this.compteur == 3){
+      this.compteur =0;
+      this.taux = [];
+
+    }
+    this.compteur ++;
+    this.taux.push(taux);
+    this.emittauxSubject();
   }
 
   addTab(tab: number[]) {

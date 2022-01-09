@@ -151,8 +151,7 @@ step : boolean = false;
   onSubmitForm(){
     this.nbIngByStep.push(this.somme);
     const formValue = this.recetteForm.value;
-    console.log(this.selectedCategory);
-    console.log(formValue['category']);
+
     if(formValue['category'] === undefined){
       alert("Veuillez choisir une catégorie");
     }

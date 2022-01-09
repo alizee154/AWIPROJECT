@@ -119,7 +119,7 @@
       <button type="submit" class="btn-danger">Calculer avec les nouveaux coefficients</button>
 
     </form>
-  <div *ngFor="let ing of Ing; let i =index;">{{ing.name }} -- cout brut : {{ing.unitprice * listQuantity[i]}} </div>
+  <div *ngFor="let ing of listIngEtapes; let i =index;">{{ing.name }} -- cout brut : {{ing.unitprice * listQuantityIngredients[i]}} </div>
     <div>
 
 
@@ -134,18 +134,18 @@
 
     </div>
     <div *ngIf="sh == 1" >
-<p>Coût matière : cout total des ingredients de la fiche + cout assaisonnement ( en euro ou 5% du cout matiere) {{calculCoutMatiere()}} euros</p>
-  <p>Coût du personnel : cout horaire moyen + temps pour realiser le plat  {{calculCoutPersonnel()}} euros</p>
-  <p>Coût des fluides : calcule a partir d'un coup horaire forfaitaire {{calculCoutFluide()}} euros</p>
-<p>Coût de production :  somme cout matiere (et eventuellement cout charges) {{coutFluide + coutPersonnel + coutMatiere}} euros</p>
-<p>Coût de production par portion: {{(coutFluide + coutPersonnel + coutMatiere)/nbCouverts}} euros</p>
+<p>Coût matière : {{coutMatiere}} euros</p>
+  <p>Coût du personnel : {{calculCoutPersonnel()}} euros</p>
+  <p>Coût des fluides :  {{calculCoutFluide()}} euros</p>
+<p>Coût de production :   {{calculCoutFluide() + calculCoutPersonnel() + coutMatiere}} euros</p>
+<p>Coût de production par portion: {{(calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/selectedCouvertNumber}} euros</p>
 
-<p>Coût des charges : cout de personnel + cout des fluides {{coutFluide + coutPersonnel}} euros</p>
+<p>Coût des charges :  {{calculCoutFluide() + coutPersonnel}} euros</p>
 
-<p>Prix de vente :{{calculPrixVente()}} </p>
-<p>Prix de vente par portion : {{prixVente/nbCouverts}} </p>
-<p>Bénéfice par portion :{{0.9*(prixVente/nbCouverts) - (coutFluide + coutPersonnel + coutMatiere)/nbCouverts}} </p>
-<p>Seuil de rentabilité :{{(coutFluide + coutPersonnel + coutMatiere)/(0.9*(prixVente/nbCouverts))}} </p>
+<p>Prix de vente :{{calculPrixVente()}} euros</p>
+<p>Prix de vente par portion : {{calculPrixVente()/selectedCouvertNumber}} euros</p>
+<p>Bénéfice par portion :{{0.9*(calculPrixVente()/selectedCouvertNumber) - (calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/selectedCouvertNumber}} euros</p>
+<p>Seuil de rentabilité :{{(calculCoutFluide() + calculCoutPersonnel() + coutMatiere)/(0.9*(calculPrixVente()/selectedCouvertNumber))}} euros</p>
     </div>
 </div>
 </div>

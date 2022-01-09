@@ -10,6 +10,7 @@ import {Subscription} from "rxjs";
 import {Form, FormArray, FormBuilder, FormGroup, NgForm} from "@angular/forms";
 import html2canvas from 'html2canvas';
 import {Vente} from "../models/vente";
+import {Categorie} from "../models/category";
 
 
 @Component({
@@ -32,6 +33,7 @@ export class ViewFicheComponent implements OnInit {
   listTitresEtapes = [];
   listDescEtapes = [];
   tauxForm : FormGroup;
+  tauxSubscription : Subscription;
 
   listDureesEtapes = [];
   listIngEtapes = [];
@@ -44,17 +46,19 @@ export class ViewFicheComponent implements OnInit {
   selectedCouvert: string;
   selectedCouvertNumber = 1;
 
-  coutMatiere = 0;
   coutPersonnel = 0;
   coutFluide = 0;
   prixVente = 0;
   listNombre = [];
   nbCouverts = 1;
-  tauxPrixVente = 1;
-  tauxCoutPersonnel=1;
-  tauxCoutFluide=1;
+  taux = [1,1,1];
+  tauxPrixVente = this.taux[0];
+  tauxCoutPersonnel = this.taux[1];
+  tauxCoutFluide = this.taux[2];
   sanscouts = false;
+
   //couvertForm :  FormGroup;
+  coutMatiere = 1;
 
 
   recette: any;
@@ -89,7 +93,8 @@ export class ViewFicheComponent implements OnInit {
       this.listDescEtapes = this.ft.recettes[0].listDescEtapes;
       this.listDureesEtapes = this.recettes[0].listDureesEtapes;
       this.listIngEtapes = this.recettes[0].listIngEtapes;
-      this.initForm();
+
+
       console.log(this.listIngEtapes);
       console.log(this.listTitresEtapes);
       console.log(this.listDureesEtapes);
@@ -106,11 +111,19 @@ export class ViewFicheComponent implements OnInit {
       console.log(this.newNbIngredientsByStep);
       console.log(this.nbIngredientsByStep);
       this.initSteps()
+      this.coutMatiere = this.calculCoutMatiere();
+      this.coutPersonnel = this.calculCoutPersonnel();
+      this.coutFluide = this.calculCoutFluide();
+      this.prixVente = this.calculPrixVente();
+
+
     });
     this.recetteSubscription = this.ft.recetteSubject.subscribe(
       (recettes: FicheTechnique[]) => {
         this.recettes = recettes;
       })
+
+    this.initForm();
 
     //this.router.navigate(['fiche-technique/'+ id])
 
@@ -124,14 +137,16 @@ export class ViewFicheComponent implements OnInit {
       i++;
     }*/
 
-
   }
   initForm(){
+    this.tauxSubscription = this.ft.tauxSubject.subscribe(
+      (taux : []) => {this.taux = taux}
+    );
     this.tauxForm = this.formBuilder.group({
       prixvente:1,
       personnel:1,
-      fluides:1,
-      sanscouts:false
+      fluides:1
+
 
     })
 
@@ -174,60 +189,90 @@ export class ViewFicheComponent implements OnInit {
 
   }
   onSubmitForm(){
+    this.taux = [];
 
     const formValue = this.tauxForm.value;
 
+    const newtaux1 =
+      formValue['prixvente'];
+    const newtaux2 =
+      formValue['fluides']
 
-    this.tauxPrixVente = formValue['prixvente'];
-    this.tauxCoutFluide = formValue['fluides'];
-    this.tauxCoutPersonnel = formValue['personnel'];
-    this.sanscouts = formValue['sanscouts'];
+    ;
+    const newtaux3 =
+      formValue['personnel']
+
+    ;
+
+    this.ft.addTaux(newtaux1);
+    this.ft.addTaux(newtaux2);
+    this.ft.addTaux(newtaux3);
+    console.log(this.taux);
+    this.tauxPrixVente = newtaux1;
+    this.tauxCoutFluide = newtaux2;
+    this.tauxCoutPersonnel = newtaux3;
+
     console.log(this.tauxPrixVente);
+    this.calculPrixVente();
+    this.calculCoutFluide();
+    this.calculCoutPersonnel();
+
+
+
 
 
 
   }
 
-  public calculCoutMatiere(){
-    //somme de tous les ingredients + 5% du cout matiere
-    for (let index in this.Ing){
-      if (this.Ing[index]!= null){
-        this.coutMatiere += this.Ing[index].unitprice * this.listQuantityIngredients[index] / 1000;
+  calculCoutMatiere(){
+    console.log(this.taux);
+    console.log("hry");
+    let somme  = 0;
+    console.log(this.listIngEtapes);
+    console.log(this.listQuantityIngredients);
 
-      }
+    for (let index in this.listIngEtapes){
+      console.log(index);
+      if (this.listIngEtapes[index]!= null){
+        console.log("hjk");
+        console.log(index);
+        console.log(this.listIngEtapes[index].unitprice);
+        console.log(this.listQuantityIngredients[index]);
+        somme += this.listIngEtapes[index].unitprice * this.listQuantityIngredients[index] ;
+        console.log(somme);
+
+     }
 
 
 
     }
-    this.coutMatiere+= 0.05* this.coutMatiere;
-    return this.coutMatiere ;
+    somme =  1.05* somme;
+    return somme ;
 
 
 }
 public calculCoutPersonnel(){
-    //on fixe le cout horaire moyen à 16,74
+  let somme  = 0;
+
   for (let index in this.listDureesEtapes){
 
-    this.coutPersonnel += this.listDureesEtapes[index] / 60;
+    somme += this.listDureesEtapes[index] / 60;
 
 
 
   }
-  return this.coutPersonnel * this.tauxCoutPersonnel;
+  return somme * this.tauxCoutPersonnel;
 
 
 }
   public calculCoutFluide(){
-    //on fixe le cout horaire forfaitaire à 2 (revoir avec un vrai taux)
-
+    let somme  = 0;
     for (let index in this.listDureesEtapes){
 
-      this.coutFluide += this.listDureesEtapes[index] / 60;
-
-
+      somme += this.listDureesEtapes[index] / 60;
 
     }
-    return this.coutFluide * this.tauxCoutFluide;
+    return somme * this.tauxCoutFluide;
 
 
 
@@ -236,7 +281,10 @@ public calculCoutPersonnel(){
 
   public calculPrixVente(){
     //voir pour si on calcule coutcharges
-    this.prixVente = (this.coutFluide + this.coutMatiere + this.coutPersonnel)*this.tauxPrixVente;
+    let somme = 0;
+    somme = (this.coutFluide + this.coutMatiere + this.coutPersonnel)*this.tauxPrixVente;
+
+    return somme;
   }
   public openPDF():void {
     let DATA = document.getElementById('htmldata');
