@@ -22,14 +22,37 @@
 </form>
 <button type="button" class="btn-danger" (click)="show()" (click)="openPDF()"  >Imprimer une étiquette </button>
 <div id="htmldata">
-<div class="container" id="content" #content>
-  <p>Merci d'avoir acheté notre {{recetteToShow.name}}</p>
-  <p>Voici la liste des ingrédients que contient ce plat : </p>
-  <p *ngFor="let ing of recetteToShow.listIngEtapes">{{ing.name}}</p>
+
+  <div class="card-container">
+    <div class="card u-clearfix">
+      <div class="card-body">
+        <span class="card-number card-circle subtle">1</span>
+        <span class="card-author subtle">Merci d'avoir acheté notre</span>
+        <h2 class="card-title">{{recetteToShow.name}}</h2>
+        <span class="card-description subtle" >Ce plat contient : <br></span>
+
+        <span class="card-description subtle" *ngFor="let ing of recetteToShow.listIngEtapes">{{ing.name}}, <br></span>
+        <div class="card-read">Read</div>
+        <span class="card-tag card-circle subtle">C</span>
+        <span class="card-tag card-circle subtle">&</span>
+        <span class="card-tag card-circle subtle">A</span>
+
+
+      </div>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpgEd70pkQF340C6VHv-niojEt4k0ZVEvL-g&usqp=CAU" alt="" class="card-media" />
+    </div>
+    <div class="card-shadow"></div>
+    <p></p>
+
+
+  </div>
+  <p>
+
+  </p>
+  <p> </p>
 
 </div>
-</div>
-
+<p> </p>
 
 
 
