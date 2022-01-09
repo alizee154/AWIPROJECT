@@ -63,7 +63,7 @@
         <div formArrayName="times">
         <div class="form-group" class="step"  *ngFor=" let time of times.controls; let m=index "[id]="m" >
           <label for="time">
-            {{'Temps nécessaire de l\'etape ' }}{{m+1}}
+            {{'Temps nécessaire de l\'etape ' }}{{m+1}} (en minutes)
           </label>
           <input type="text" id="time" class="form-control" [formControlName]="m">
         </div>
