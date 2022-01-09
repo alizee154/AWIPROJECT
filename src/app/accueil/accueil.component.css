@@ -14,7 +14,7 @@
 
 }
 .welcome{
-  margin-left: 20%;
+  margin-left: 10%;
 }
 body {
   float : left;
@@ -31,4 +31,7 @@ body {
   width:70%;
   height: 30%;
   margin-top: 5%;
+}
+.dispo{
+  margin: 20px;
 }

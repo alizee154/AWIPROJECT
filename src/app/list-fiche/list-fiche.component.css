@@ -13,3 +13,17 @@
   background-color: #E66464;
 
 }
+.dispo2{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+div{
+  align-items: center;
+  justify-content: center;
+}
+.dispo{
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}

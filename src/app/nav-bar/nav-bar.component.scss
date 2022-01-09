@@ -1,17 +1,36 @@
 
 .fond{
   background-color: #FAF7F7;
-  margin-right : 10%;
-  margin-left : 10%;
-  border-radius: 4rem;
+  margin-top: 10%;
+  margin-right : 5%;
+  margin-left : 5%;
+  border-radius: 8px;
 }
 .image{
 
-  width: 4%;
+  width: 10%;
 
+}
+.position{
+  border-style: solid;
+  margin-bottom: 20px;
+}
+.size{
+  size: 50px;
 }
 .right{
   float:right;
+}
+
+
+a{
+  color: black;
+  padding-left: 10%;
+  size: 50px;
+
+}
+a:hover{
+  color: black;
 }
 
 

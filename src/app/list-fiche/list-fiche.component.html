@@ -1,34 +1,28 @@
 <div>
-  <h2>Consulter la liste des plats</h2>
+  <h2 class="dispo2">Consulter la liste des plats</h2>
 
-  <!--<div>
 
-        <input type="text" placeholder="Rechercher par nom" matInput [matAutocomplete]="auto" (input)="filterRecettes()" [(ngModel)]="searchModel">
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="filterRecettes()">
-          <mat-option *ngFor="let recette of recettesObs | async" [value]="recette.name" (onSelectionChange)="onResearch(recette, $event)">
-            {{ recette.name }}
-          </mat-option>
-        </mat-autocomplete>
-      </div>-->
-<div>
+  <div class="mat-form-field-outline">
+    <input
+      type="search"
+      id="recette"
+      class="form-control dispo2"
+      autocomplete="off"
+      (keyup)="filterRecettes()"
+      [(ngModel)]="searchModel"
+      placeholder="Rechercher par nom"
+    >
+    <mat-option *ngFor="let recette of recettesObs | async" [value]="recette.name" (onSelectionChange)="onResearch(recette, $event)">
+      {{ recette.name }}
+    </mat-option>
+  </div>
+
+<div class="mat-form-field-outline">
   <input
-    type="text"
-    id="recette"
-    class="form-control"
-    (keyup)="filterRecettes()"
-    [(ngModel)]="searchModel"
-    placeholder="Rechercher par nom"
-  >
-  <mat-option *ngFor="let recette of recettesObs | async" [value]="recette.name" (onSelectionChange)="onResearch(recette, $event)">
-    {{ recette.name }}
-  </mat-option>
-</div>
-
-
-  <input
-    type="text"
+    type="search"
     id="ingredient"
-    class="form-control"
+    class="form-control dispo2"
+    autocomplete="off"
     (keyup)="filterIng()"
     [(ngModel)]="searchModel2"
     placeholder="Rechercher par ingrédient"
@@ -36,34 +30,30 @@
   <mat-option *ngFor="let ing of ingObs | async" [value]="ing.name" (onSelectionChange)="onResearchIng(ing, $event)">
     {{ ing.name }}
   </mat-option>
-
+</div>
 </div>
 
-<form (ngSubmit)="onClick()">
-  <select class="form-control" [(ngModel)]="selectedCategory" name="categories"  >
-    <option [ngValue]="'Toutes categories'">Toutes catégories</option>
-    <option type="submit" *ngFor="let cat of categories" >{{cat.category}}</option>
-  </select>
-  <button type="submit" class="btn btn-primary manage">Rechercher</button>
+<form (ngSubmit)="onClick()" class="form-inline dispo2">
+  <div class="input-group">
+    <select class="form-control mat-select-placeholder" data-live-search="true" [(ngModel)]="selectedCategory" name="categories"  >
+      <option [ngValue]="'Toutes categories'">Toutes catégories</option>
+      <option type="submit" *ngFor="let cat of categories" (selectionchange)="onClick()">{{cat.category}}</option>
+    </select>
+    <button type="submit" class="btn btn-outline-secondary manage">Rechercher</button>
+  </div>
+
 </form>
 
 
 
-<button type="button" class="btn btn-danger" (click)="onForm()">Ajouter une fiche technique</button>
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <h2>Mes fiches</h2>
-      <ul class="list-group">
-        <app-fiche-technique *ngFor="let recette of recettes"
+
+
+<button type="button" class="btn btn-success" (click)="onForm()">Ajouter une fiche technique</button>
+<div class="card-group">
+        <app-fiche-technique class="dispo" *ngFor="let recette of recettes"
                              [id]="recette.id"
                              [name]="recette.name"
                              [author]="recette.author"
                              [desc]="recette.desc" (click)="onView(recette)">
         </app-fiche-technique>
-
-      </ul>
-
-    </div>
-  </div>
 </div>

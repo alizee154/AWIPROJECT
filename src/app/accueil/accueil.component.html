@@ -1,4 +1,4 @@
-<aside class="aside">
+<!--<aside class="aside">
 
 
 <h2 class="welcome">Bienvenue</h2>
@@ -7,18 +7,67 @@
 </aside>
 <body class="body">
 <img class="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuLFYDS7H4GIwnzEpm29ikSnbqzhwiqKR6sQ&usqp=CAU" />
+
 </body>
 <footer class="footer">
   <h3>Mes dernières recettes</h3>
 
-    <app-fiche-technique  *ngFor="let recette of recettas"
+  <app-fiche-technique  *ngFor="let recette of recettas"
 
-                          [id]="recette.id"
-                          [name]="recette.name"
-                          [author]="recette.author"
-                          [desc]="recette.desc" (click)="onView(recette)"></app-fiche-technique>
+                        [id]="recette.id"
+                        [name]="recette.name"
+                        [author]="recette.author"
+                        [desc]="recette.desc" (click)="onView(recette)"></app-fiche-technique>
 
-</footer>
+</footer>-->
 
+<h2 class="welcome dispo">Bienvenue</h2>
+<p class="welcome">Créez et consultez vos propres recettes</p>
+<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" ></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" ></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" ></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="assets/images/carousel.jpg" class="d-block w-100" alt="Miam" class="d-block w-100">
+      <div class="carousel-caption d-none d-md-block">
+        <h5 >{{recettas[0].name}}</h5>
+        <p>{{recettas[0].desc}}</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="assets/images/carousel.jpg" class="d-block w-100" alt="oui" class="d-block w-100">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{recettas[1].name}}</h5>
+        <p>{{recettas[1].desc}}</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="assets/images/carousel.jpg" class="d-block w-100" alt="non" class="d-block w-100">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>{{recettas[2].name}}</h5>
+        <p>{{recettas[2].desc}}</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>
 
+<h3 class="dispo">Mes dernières recettes</h3>
 
+<div class="card-group">
+<app-fiche-technique class="dispo"  *ngFor="let recette of recettas"
+
+                      [id]="recette.id"
+                      [name]="recette.name"
+                      [author]="recette.author"
+                      [desc]="recette.desc" (click)="onView(recette)"></app-fiche-technique>
+</div>
+<!--<a href='https://fr.freepik.com/photos/fond'>Fond photo créé par valeria_aksakova - fr.freepik.com</a>-->
