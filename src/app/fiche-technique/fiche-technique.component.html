@@ -1,5 +1,5 @@
 
-<table class="table">
+<!--<table class="table">
   <thead>
   <tr>
     <th scope="col">Nom du plat</th>
@@ -17,7 +17,31 @@
 
 
   </tbody>
-</table>
+</table>-->
+<div class ="rectangle">
 
+    <ul>
+      <img class="image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLSL3F7mL2wXFrT5LA_SLZJ3t3LbL4vWOM-w&usqp=CAU"/>
+    </ul>
+
+    <ul class="center">
+      {{ id }}
+    </ul>
+    <ul class="name" class="center">
+      {{ getName()}}
+    </ul>
+    <ul class="center">
+      Fait par {{ author}}
+    </ul>
+    <ul class="center">
+      {{ desc}}
+    </ul>
+    <ul class="h">
+      <a [routerLink]="[id]">Consulter</a>
+    </ul>
+
+
+
+</div>
 
 

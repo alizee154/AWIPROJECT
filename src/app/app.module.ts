@@ -97,8 +97,7 @@ const appRoutes: Routes = [
     ListIngredientComponent,
     ViewFicheComponent,
     FormAddIngredientComponent,
-    FormAddEtapeComponent,
-
+    FormAddEtapeComponent
   ],
   imports: [
     BrowserModule,
@@ -155,6 +154,8 @@ const appRoutes: Routes = [
     MatTreeModule,
     PortalModule,
     ScrollingModule,
+    AngularFirestoreModule,
+    BrowserAnimationsModule
 
   ],
   providers: [FicheTechniqueService],

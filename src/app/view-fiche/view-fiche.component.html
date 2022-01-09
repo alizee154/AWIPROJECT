@@ -1,8 +1,15 @@
 <aside class=""fd>
-<input type="button" value="Download PDF" class="btn btn-danger" (click)="SavePDF()">
 <input type="button" value="Delete" class="btn btn-danger" (click)="deleteFiche()">
+<aside class=""fd><form>
+  <div >
+    <input type="search" id="maRecherche" name="q"
+           placeholder="Rechercher une recette">
+    <button>Rechercher</button>
+  </div>
+</form>
+<input type="button" value="Download PDF" class="btn btn-danger" (click)="openPDF()">
 <div class="container" id="content" #content>
-
+  <div id="htmldata">
 <header class="centre" >
   <h3 >{{name}}</h3>
   <h4 >{{author}}</h4>
@@ -33,7 +40,7 @@
   </tr>
   </thead>
   <tbody>
-  <ng-container *ngFor="let step of Steps; let i=index;">
+  <ng-container *ngFor="let step of Steps; let i=index; ">
   <tr *ngFor="  let ing of step.listeIng ;let j =index;  ">
 
  <!-- TODO faire en sorte de faire apparaitre les étapes même si elles ne possèdent aucun ingrédients-->
@@ -43,9 +50,9 @@
     <td>{{step.listeQuantity[j]*selectedCouvertNumber}}</td>
     <td>{{ing.unitprice}}</td>
 
-    <td>{{i+1}}</td>
-    <td ><b><u>{{step.titreEtape }} </u></b><br> {{step.descEtape }}</td>
-    <td>{{step.duree}}</td>
+    <td *ngIf="j==0" >{{i+1}}</td>
+    <td *ngIf="j==0"><b><u>{{step.titreEtape }} </u></b><br> {{step.descEtape }}</td>
+    <td *ngIf="j==0">{{step.duree}}</td>
 
 
 
@@ -88,9 +95,45 @@
 
   </tbody>
 </table>
+
 <h2>Synthèse</h2>
   <h3>Ingrédients utilisés dans cette fiche technique</h3>
+    <form [formGroup]="tauxForm" (ngSubmit)="onSubmitForm()">
+
+      <div class="form-group taille" >
+        <label for="prixvente">Coefficient prix de vente : </label>
+        <input type="text" id ="prixvente" class="form-control"  formControlName="prixvente">
+      </div>
+
+
+      <div class="form-group taille">
+        <label for="personnel">Coefficient coût personnel : </label>
+        <input type="text" id ="personnel" class="form-control"  formControlName="personnel">
+      </div>
+
+      <div class="form-group taille">
+        <label for="fluides">Coût horaires des fluides : </label>
+        <input type="text" id ="fluides" class="form-control"  formControlName="fluides">
+      </div>
+
+      <button type="submit" class="btn-danger">Calculer avec les nouveaux coefficients</button>
+
+    </form>
   <div *ngFor="let ing of Ing; let i =index;">{{ing.name }} -- cout brut : {{ing.unitprice * listQuantity[i]}} </div>
+    <div>
+
+
+      <label>
+        <input [value]="1" [(ngModel)]="sh" name="sh" type="radio" [checked]="isChecked" /> Afficher Avec les coûts
+      </label>
+
+      <label>
+        <input [value]="0" [(ngModel)]="sh" name="sh" type="radio" [checked]="!isChecked" /> Afficher sans les coûts
+      </label>
+
+
+    </div>
+    <div *ngIf="sh == 1" >
 <p>Coût matière : cout total des ingredients de la fiche + cout assaisonnement ( en euro ou 5% du cout matiere) {{calculCoutMatiere()}} euros</p>
   <p>Coût du personnel : cout horaire moyen + temps pour realiser le plat  {{calculCoutPersonnel()}} euros</p>
   <p>Coût des fluides : calcule a partir d'un coup horaire forfaitaire {{calculCoutFluide()}} euros</p>
@@ -99,10 +142,19 @@
 
 <p>Coût des charges : cout de personnel + cout des fluides {{coutFluide + coutPersonnel}} euros</p>
 
-<p>Prix de vente : </p>
-<p>Prix de vente par portion : </p>
-<p>Bénéfice par portion : </p>
-<p>Seuil de rentabilité : </p>
+<p>Prix de vente :{{calculPrixVente()}} </p>
+<p>Prix de vente par portion : {{prixVente/nbCouverts}} </p>
+<p>Bénéfice par portion :{{0.9*(prixVente/nbCouverts) - (coutFluide + coutPersonnel + coutMatiere)/nbCouverts}} </p>
+<p>Seuil de rentabilité :{{(coutFluide + coutPersonnel + coutMatiere)/(0.9*(prixVente/nbCouverts))}} </p>
+    </div>
+</div>
 </div>
   <input type="button" value="Sauvegarder le nombre de couverts" class="btn btn-danger" (click)="saveFiche()">
 </aside>
+
+
+
+
+
+
+

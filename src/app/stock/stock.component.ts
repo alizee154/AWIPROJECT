@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {Vente} from "../models/vente";
 import {IngredientService} from "../services/ingredient.service";
 import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 @Component({
   selector: 'app-stock',
@@ -58,6 +59,11 @@ export class StockComponent implements OnInit {
 
 
   };
+  show(){
+    const formValue = this.stockForm.value;
+    const recetteToShowConstante = formValue['nameRecette'];
+    this.recetteToShow = this.ft.getRecetteByname(recetteToShowConstante);
+  }
   onSubmitForm(){
 
     const formValue = this.stockForm.value;
@@ -144,6 +150,22 @@ export class StockComponent implements OnInit {
     console.log(newVente);
     this.router.navigate(['/stock']);*/
 
+  }
+  public openPDF():void {
+    let DATA = document.getElementById('htmldata');
+
+    html2canvas(DATA).then(canvas => {
+
+      let fileWidth = 208;
+      let fileHeight = canvas.height * fileWidth / canvas.width;
+      const FILEURI = canvas.toDataURL('image/png')
+      let PDF = new jsPDF('p', 'mm', 'a4');
+      let position = 0;
+      PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
+
+      PDF.save('angular-demo.pdf');
+
+    });
   }
 
   public SavePDF():void{

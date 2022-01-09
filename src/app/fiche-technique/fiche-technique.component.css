@@ -1,0 +1,30 @@
+.rectangle {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: block;
+
+  border-width:2px 2px 2px 2px;
+  border-style:solid solid;
+  border-color: black;
+  border-radius : 3em;
+  width: 20%;
+  height: 60%;
+
+}
+
+.name{
+  font-family: "Helvetica Neue Bold", Helvetica, Arial, sans-serif
+}
+.center{
+
+}
+.h{
+  color: black;
+}
+.image{
+  margin-left:10%;
+  width:50%;
+}
+a {
+  text-decoration: underline;
+  color: black;
+}

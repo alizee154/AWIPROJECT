@@ -38,36 +38,40 @@
 
 
 
-
-        <div formArrayName="titles" class="form-group" *ngFor=" let title of titles.controls; let i=index "[id]="i" >
+<div formArrayName="titles" class="right">
+        <div  class="form-group" class="step"  *ngFor=" let title of titles.controls; let i=index "[id]="i" >
 
           <label for="title" >
-            {{'Titre de l\'étape ' + i}}
+            {{'Titre de l\'étape ' }}{{i+1}}
           </label>
 
           <input type="text" id="title" class="form-control"  [formControlName]="i">
         </div>
-        <div formArrayName="descs" class="form-group" *ngFor=" let descr of descs.controls; let r=index "[id]="r" >
+</div>
+
+        <div formArrayName="descs" class="right">
+        <div  class="form-group" class="step"  *ngFor=" let descr of descs.controls; let r=index "[id]="r" >
 
           <label for="descs" >
-            {{'Description de l\'étape ' + r}}
+            {{'Description de l\'étape ' }}{{r+1}}
           </label>
 
           <input type="text" id="descs" class="form-control"  [formControlName]="r">
         </div>
+        </div>
 
         <div formArrayName="times">
-        <div class="form-group" *ngFor=" let time of times.controls; let m=index "[id]="m" >
+        <div class="form-group" class="step"  *ngFor=" let time of times.controls; let m=index "[id]="m" >
           <label for="time">
-            {{'Temps nécessaire de l\'etape ' + m}}
+            {{'Temps nécessaire de l\'etape ' }}{{m+1}}
           </label>
           <input type="text" id="time" class="form-control" [formControlName]="m">
         </div>
         </div>
 
-        <div formArrayName="ings">
-          <div class="form-group" *ngFor=" let ing of ings.controls; let j=index">
-            <label [attr.for]="j">{{'Ingrédient ' + j}} </label>
+        <div formArrayName="ings" class="lie">
+          <div class="form-group" class="step" *ngFor=" let ing of ings.controls; let j=index">
+            <label [attr.for]="j">{{'Ingrédient ' }}{{j+1}} </label>
             <select class="form-control" [id]="j"  [formControlName]="j">
               <option [ngValue]="null">Select Option</option>
               <option [ngValue]="ingNul">Pas d'ingrédients</option>
@@ -77,8 +81,8 @@
             </select>
           </div>
         </div>
-            <div formArrayName="quantity">
-            <div class="form-group" *ngFor=" let quantit of quantity.controls; let t=index "[id]="t">
+            <div formArrayName="quantity" class="lie">
+            <div class="form-group"  class="step" *ngFor=" let quantit of quantity.controls; let t=index "[id]="t">
               <label for="quantity">
                 Quantité :
               </label>
@@ -99,7 +103,7 @@
         </div>
       <button class="btn btn-danger" type ="button" (click)="addIngs() ">+   Ajouter un ingrédient</button>
       <button class="btn btn-danger" type ="button" (click)="addSteps()" >+   Ajouter une étape</button>
-      <button class="btn btn-dark" type="submit">Enregistrer</button>
+      <button class="btn btn-dark" type="submit">Enregistrer la fiche </button>
 
     </form>
   </div>

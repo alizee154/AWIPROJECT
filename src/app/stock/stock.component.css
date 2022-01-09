@@ -1,0 +1,20 @@
+.btn-danger {
+  border-radius: 3rem;
+  background-color: #E66464;
+  display : inline-block;
+  margin-left: 45%;
+  margin-bottom : 5%;
+
+}
+.form-group{
+  width:30%;
+  margin-left : 35%;
+  text-align:center;
+}
+.texte{
+  text-align:center;
+  font-family: "Helvetica Neue";
+
+
+
+}
