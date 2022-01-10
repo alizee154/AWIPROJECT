@@ -301,7 +301,7 @@ public calculCoutPersonnel(){
       let position = 0;
       PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
 
-      PDF.save('angular-demo.pdf');
+      PDF.save('MaFicheTechnique.pdf');
 
     });
   }
