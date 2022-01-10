@@ -78,7 +78,6 @@
             <label [attr.for]="j">{{'Ingrédient ' }}{{j+1}} </label>
             <select class="form-control" [id]="j"  [formControlName]="j">
               <option [ngValue]="null">Select Option</option>
-              <option [ngValue]="ingNul">Pas d'ingrédients</option>
               <option *ngFor="let ingredient of ingredients" >{{ingredient.name}}</option>
 
 

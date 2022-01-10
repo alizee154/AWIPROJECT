@@ -247,6 +247,7 @@ export class ViewFicheComponent implements OnInit {
 
     }
     somme =  1.05* somme;
+    somme = Number(somme.toFixed(2));
     return somme ;
 
 
@@ -261,6 +262,7 @@ public calculCoutPersonnel(){
 
 
   }
+  somme = Number(somme.toFixed(2));
   return somme * this.tauxCoutPersonnel;
 
 
@@ -272,6 +274,7 @@ public calculCoutPersonnel(){
       somme += this.listDureesEtapes[index] / 60;
 
     }
+    somme = Number(somme.toFixed(2));
     return somme * this.tauxCoutFluide;
 
 
@@ -283,7 +286,7 @@ public calculCoutPersonnel(){
     //voir pour si on calcule coutcharges
     let somme = 0;
     somme = (this.coutFluide + this.coutMatiere + this.coutPersonnel)*this.tauxPrixVente;
-
+    somme = Number(somme.toFixed(2));
     return somme;
   }
   public openPDF():void {

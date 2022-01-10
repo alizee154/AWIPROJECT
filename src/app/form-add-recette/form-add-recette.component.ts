@@ -84,7 +84,7 @@ export class FormAddRecetteComponent implements OnInit, OnDestroy {
       name:  ['', Validators.required],
       author: ['', Validators.required],
       desc: ['', Validators.required],
-      titles:this.formBuilder.array([]),
+      titles:this.formBuilder.array([],[Validators.required]),
       descs :this.formBuilder.array([]),
       times:this.formBuilder.array([]),
 
